@@ -1,0 +1,85 @@
+import { protectedProcedure, publicProcedure, router } from "@/lib/trpc";
+import { z } from "zod";
+import { question } from "@/db/schema/forum";
+import { db } from "@/db/index";
+import { and, eq, gte, lte } from "drizzle-orm";
+import { CreateQuestionSchema } from "@/lib/validation";
+
+export const questionRouter = router({
+  createQuestion: protectedProcedure
+    .input(CreateQuestionSchema.omit({ id: true, userId: true }))
+    .mutation(async ({ input, ctx }) => {
+      const userId = ctx.session.user.id;
+
+      const [newQuestion] = await db
+        .insert(question)
+        .values({
+          ...input,
+          userId: userId,
+        })
+        .returning();
+
+      return newQuestion;
+    }),
+  getQuestionById: publicProcedure
+    .input(z.object({ questionId: z.string() }))
+    .query(async ({ input }) => {
+      const { questionId } = input;
+
+      const foundQuestion = await db.query.question.findFirst({
+        where: eq(question.id, questionId),
+        with: {
+          user: true,
+          answer: {
+            user: true,
+          },
+        },
+      });
+
+      return foundQuestion;
+    }),
+  getQuestions: publicProcedure
+    .input(
+      z.object({
+        bookId: z.number(),
+        chapter: z.number().optional(),
+        verseStart: z.number().optional(),
+        verseEnd: z.number().optional(),
+      })
+    )
+    .query(async ({ input, ctx }) => {
+      const { bookId, chapter, verseStart, verseEnd } = input;
+
+      const where: any = { bookId };
+
+      if (chapter !== undefined) {
+        where.chapter = chapter;
+
+        if (verseStart !== undefined && verseEnd !== undefined) {
+          where.verseStart = { lte: verseEnd };
+          where.verseEnd = { gte: verseStart };
+        }
+      }
+      const filters = [
+        eq(question.bookId, bookId),
+        chapter ? eq(question.chapter, chapter) : undefined,
+        verseStart !== undefined && verseEnd !== undefined
+          ? and(
+              lte(question.verseStart, verseEnd),
+              gte(question.verseEnd, verseStart)
+            )
+          : undefined,
+      ].filter(Boolean);
+
+      const result = await db.query.question.findMany({
+        where: and(...filters),
+        with: {
+          user: true,
+        },
+      });
+
+      return result;
+    }),
+});
+
+export default questionRouter;
