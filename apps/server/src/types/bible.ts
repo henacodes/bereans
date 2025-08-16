@@ -14,8 +14,8 @@ export type SelectedPassage = {
   translation: string;
   bookId: number;
   chapter: number;
-  start: number;
-  end: number;
+  verseStart: number;
+  verseEnd: number;
   passage: Verse[];
 };
 

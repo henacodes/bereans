@@ -49,10 +49,13 @@ export default function ExcerptCard({
       setParams(newParams);
 
       try {
-        const res = passageMutation.mutate(newParams);
-        if (passageMutation.data) {
-          setPassage(passageMutation.data);
-        }
+        const data = await new Promise((resolve, reject) => {
+          passageMutation.mutate(newParams, {
+            onSuccess: resolve,
+            onError: reject,
+          });
+        });
+        setPassage(data);
       } catch (error) {
         console.log(error);
       } finally {
@@ -93,7 +96,7 @@ export default function ExcerptCard({
         />
         <Button disabled={loading} className=" my-2" onClick={handeRetry}>
           {" "}
-          {loading ? "Loading ..." : "Retry"}
+          {passageMutation.isPending ? "Loading ..." : "Retry"}
         </Button>
       </div>
     );

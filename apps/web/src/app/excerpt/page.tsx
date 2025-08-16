@@ -22,41 +22,29 @@ export default async function Passage({
 }: {
   searchParams: PassageSearchParams;
 }) {
-  const { bookId, verseEnd, verseStart, chapter, translation } =
-    await searchParams;
-  const params = {
-    bookId: parseInt(bookId),
-    verseEnd: parseInt(verseEnd),
-    verseStart: parseInt(verseStart),
-    chapter: parseInt(chapter),
-    translation,
-  };
+  const params = await searchParams;
+
   const passage = await fetchPassage(params);
-
-  /*   // Fetch questions from API
-  const questionsRes = await trpc.questions.getQuestions({
-    bookId: params.bookId,
-    chapter: params.chapter,
-    verseStart: params.verseStart,
-    verseEnd: params.verseEnd,
-  });
-
-  const questions = questionsRes; */
 
   return (
     <>
-      <div className="ml-64 p-8">
+      <div className=" p-8">
         <div className="max-w-4xl mx-auto">
           {/* Breadcrumb */}
           <div className="flex items-center gap-2 mb-6">
-            <Button
-              variant="ghost"
-              size="sm"
-              className="gap-2 text-slate-600 hover:text-slate-900"
+            <a
+              href={`/bible/${params.translation}/${params.bookId}/${params.chapter}`}
             >
-              <ArrowLeft className="h-4 w-4" />
-              Back to {getBibleBook(params.bookId)?.name} {params.chapter}
-            </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="gap-2 text-slate-600 hover:text-slate-900"
+              >
+                <ArrowLeft className="h-4 w-4" />
+                Back to {getBibleBook(parseInt(params.bookId))?.name}{" "}
+                {params.chapter}
+              </Button>
+            </a>
           </div>
 
           {/* Verse Context (Compact) */}
@@ -65,8 +53,8 @@ export default async function Passage({
               <div className="flex items-center gap-2 text-sm text-slate-600 mb-2">
                 <Book className="h-4 w-4" />
                 <span>
-                  {getBibleBook(params.bookId)?.name} {params.chapter}:
-                  {params.verseStart}
+                  {getBibleBook(parseInt(params.bookId))?.name} {params.chapter}
+                  :{params.verseStart}
                   {params.verseStart !== params.verseEnd &&
                     `-${params.verseEnd} `}
                 </span>

@@ -17,23 +17,19 @@ import { Button } from "@/components/ui/button";
 import { trpc } from "@/utils/trpc";
 import { useTRPCQuery } from "@/hooks/useTRPCQuery";
 import { SkeletonCard } from "../Skeleton";
+import type { PassageSearchParams } from "@/types/bible";
 
 export default function QuestionsList({
   bookId,
   chapter,
   verseStart,
   verseEnd,
-}: {
-  bookId: number;
-  chapter?: number;
-  verseStart?: number;
-  verseEnd?: number;
-}) {
+}: PassageSearchParams) {
   const questionsQuery = useTRPCQuery(trpc.question.getQuestions, {
-    bookId,
-    chapter: chapter,
-    verseStart: verseStart,
-    verseEnd: verseEnd,
+    bookId: parseInt(bookId),
+    chapter: parseInt(chapter),
+    verseStart: parseInt(verseStart),
+    verseEnd: parseInt(verseEnd),
   });
 
   if (questionsQuery.isPending) {
@@ -49,6 +45,13 @@ export default function QuestionsList({
   if (questionsQuery.isSuccess) {
     let questions = questionsQuery.data;
 
+    if (!questions.length) {
+      return (
+        <Badge className="m-2">
+          There are no questions associated with any verse from this passage
+        </Badge>
+      );
+    }
     return (
       <div className="  ">
         {questions.map((q) => (
@@ -75,7 +78,6 @@ export default function QuestionsList({
                     variant="ghost"
                     size="sm"
                     className="h-8 w-8 p-0 hover:bg-slate-100"
-                    // TODO: handle vote down
                   >
                     <ChevronDown className="h-4 w-4 text-slate-600" />
                   </Button>

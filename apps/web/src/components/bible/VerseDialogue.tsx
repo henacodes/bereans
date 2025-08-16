@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { MessageCircle, HelpCircle, ChevronRight } from "lucide-react";
 import { QuestionForm } from "../forum/QuestionForm";
+import { objToQueryString } from "@/lib/utils";
 
 export function VerseDialog() {
   const { selectedPassage, open, setOpen } = useVerseDialog();
@@ -24,12 +25,35 @@ export function VerseDialog() {
   const numQuestions = 3;
   const numComments = 7;
 
+  function toQueryString(obj: Record<string, any>, keys: string[]) {
+    const params = new URLSearchParams();
+
+    keys.forEach((key) => {
+      const value = obj[key];
+      if (value !== undefined && value !== null) {
+        params.append(key, value.toString());
+      }
+    });
+
+    return params.toString();
+  }
+
+  const queryString = objToQueryString(selectedPassage, [
+    "bookId",
+    "chapter",
+    "verseStart",
+    "verseEnd",
+    "translation",
+  ]);
+
+  console.log(queryString);
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="max-w-lg">
         <DialogHeader>
           <DialogTitle className="text-xl font-semibold">
-            Verses {selectedPassage?.start}–{selectedPassage?.end}
+            Verses {selectedPassage?.verseStart}–{selectedPassage?.verseEnd}
           </DialogTitle>
           <DialogDescription className="mt-2 text-base text-muted-foreground">
             {selectedPassage?.passage && (
@@ -60,9 +84,11 @@ export function VerseDialog() {
         </div>
 
         <div className="mt-6 flex justify-between">
-          <Button variant="secondary">
-            See More <ChevronRight />
-          </Button>
+          <a href={`/excerpt?${queryString}`}>
+            <Button variant="secondary">
+              Previous Questions <ChevronRight />
+            </Button>
+          </a>
           <DialogClose asChild>
             <Button variant="outline">Close</Button>
           </DialogClose>

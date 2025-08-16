@@ -47,8 +47,8 @@ export function VersesList({
       const selectedPassage = verses.slice(min - 1, max);
 
       setSelectedPassage({
-        start: min!,
-        end: max!,
+        verseStart: min!,
+        verseEnd: max!,
         passage: selectedPassage,
         translation,
         bookId,
@@ -94,7 +94,7 @@ export function VersesList({
           <p
             key={v.pk}
             className={
-              "cursor-pointer  " +
+              "cursor-pointer my-1 rounded transition  p-1   " +
               ((isSelected || v.verse == firstSelectedVerse) &&
                 " bg-primary/40  ")
             }

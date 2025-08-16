@@ -113,7 +113,7 @@ export default function ChapterSelector({
 
       <button
         type="submit"
-        className="ml-4 rounded bg-primary text-white px-4 py-2"
+        className="ml-4 rounded-md bg-primary text-secondary px-8 py-2 cursor-pointer   "
       >
         Go
       </button>

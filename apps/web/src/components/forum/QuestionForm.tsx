@@ -6,6 +6,7 @@ import { getBibleBook } from "@/data/bible";
 
 import { trpc } from "@/utils/trpc";
 import { useTRPCMutation } from "@/hooks/useTRPCMutation";
+import { Button } from "../ui/button";
 
 export function QuestionForm() {
   const [title, setTitle] = useState("");
@@ -16,8 +17,8 @@ export function QuestionForm() {
 
   const bookId = selectedPassage?.bookId;
   const chapter = selectedPassage?.chapter;
-  const verseStart = selectedPassage?.start;
-  const verseEnd = selectedPassage?.end;
+  const verseStart = selectedPassage?.verseStart;
+  const verseEnd = selectedPassage?.verseEnd;
   const translation = selectedPassage?.translation;
 
   const questionMutation = useTRPCMutation(trpc.question.createQuestion);
@@ -37,14 +38,26 @@ export function QuestionForm() {
       translation: translation,
     };
 
-    questionMutation.mutate({
-      text,
-      title,
-      bookId: bookId!,
-      chapter: chapter!,
-      verseStart: verseStart!,
-      verseEnd: verseEnd!,
-    });
+    const resetState = () => {
+      setTitle("");
+      setText("");
+    };
+
+    questionMutation.mutate(
+      {
+        text,
+        title,
+        bookId: bookId!,
+        chapter: chapter!,
+        verseStart: verseStart!,
+        verseEnd: verseEnd!,
+      },
+      {
+        onSuccess() {
+          resetState();
+        },
+      }
+    );
   };
 
   return (
@@ -79,12 +92,9 @@ export function QuestionForm() {
 
       {error && <p className="text-red-500">{error}</p>}
 
-      <button
-        type="submit"
-        className="bg-primary  text-white px-4 py-2 rounded"
-      >
-        {loading ? "Posting..." : "Post Question"}
-      </button>
+      <Button type="submit" variant="default">
+        {questionMutation.isPending ? "Posting..." : "Post Question"}
+      </Button>
     </form>
   );
 }
