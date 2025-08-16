@@ -9,26 +9,67 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Calendar, ChevronUp, ChevronDown } from "lucide-react";
 
 import { formatDistanceToNow } from "date-fns";
+import { SkeletonCard } from "../Skeleton";
+import AlertCard from "../Alert";
+import { AnswerForm } from "./AnswerForm";
+import { useQuestionDetail } from "@/stores/useQuestionDetail";
+import { useEffect, useState } from "react";
 
 export default function QuestionDetails({
   questionId,
 }: {
   questionId: string;
 }) {
+  const { setQuestion } = useQuestionDetail();
+
+  const [state, setState] = useState<any>();
+
   const questionQuery = useTRPCQuery(trpc.question.getQuestionById, {
     questionId,
   });
 
-  if (questionQuery.isLoading) return <p>Loading question...</p>;
-  if (questionQuery.isError) return <p>Error: {questionQuery.error.message}</p>;
+  useEffect(() => {
+    if (!questionQuery.data) return; // ✅ condition INSIDE the hook
+
+    setQuestion({
+      ...questionQuery.data,
+      createdAt: new Date(questionQuery.data.createdAt),
+      updatedAt: new Date(questionQuery.data.updatedAt),
+    });
+  }, [questionQuery.data, setQuestion]);
+
+  if (questionQuery.isLoading)
+    return (
+      <>
+        <SkeletonCard /> <SkeletonCard />
+      </>
+    );
+  if (questionQuery.isError) {
+    console.log(questionQuery.error);
+    return (
+      <AlertCard
+        variant="destructive"
+        title={"Failed to Fetch"}
+        description={questionQuery.error.message}
+      />
+    );
+  }
   if (!questionQuery.data) return <p>Question not found</p>;
 
-  const { title, text, user, createdAt, answers, upvotes, downvotes } =
-    questionQuery.data;
+  const {
+    title,
+    text,
+    user,
+    createdAt,
+    answers,
+    upvotes,
+    downvotes,
+    updatedAt,
+  } = questionQuery.data;
 
   return (
     <div className="space-y-8">
-      <Card className="mb-8 border-slate-200 shadow-sm">
+      <Card className="mb-8 border-primary shadow-sm">
         <CardHeader className="pb-4 flex flex-col gap-4">
           <div className="flex items-center   w-full i ">
             <div className="flex flex-col items-center gap-1  mr-6 ">
@@ -144,7 +185,7 @@ export default function QuestionDetails({
                         </div>
                         <div className="flex items-center gap-1 text-sm text-slate-500">
                           <Calendar className="h-3 w-3" />
-                          {formatDistanceToNow(new Date(answer.createdAt))}
+                          {/*  {formatDistanceToNow(new Date(answer.createdAt))} */}
                         </div>
                       </div>
                     </div>
@@ -155,6 +196,7 @@ export default function QuestionDetails({
           ))}
         </div>
       </div>
+      <AnswerForm questionId={questionId} />
     </div>
   );
 }

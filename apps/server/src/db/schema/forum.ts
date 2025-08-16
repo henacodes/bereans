@@ -1,6 +1,7 @@
 import { sqliteTable, text, integer } from "drizzle-orm/sqlite-core";
 import { user } from "./auth";
 import { sql } from "drizzle-orm";
+import { relations } from "drizzle-orm";
 
 export const question = sqliteTable("question", {
   id: text("id")
@@ -30,6 +31,14 @@ export const question = sqliteTable("question", {
   downvotes: integer("downvotes").default(0).notNull(),
 });
 
+export const questionRelations = relations(question, ({ one, many }) => ({
+  user: one(user, {
+    fields: [question.userId],
+    references: [user.id],
+  }),
+  answers: many(answer),
+}));
+
 export const answer = sqliteTable("answer", {
   id: text("id")
     .primaryKey()
@@ -56,3 +65,14 @@ export const answer = sqliteTable("answer", {
   upvotes: integer("upvotes").default(0).notNull(),
   downvotes: integer("downvotes").default(0).notNull(),
 });
+
+export const answerRelations = relations(answer, ({ one }) => ({
+  user: one(user, {
+    fields: [answer.userId],
+    references: [user.id],
+  }),
+  question: one(question, {
+    fields: [answer.questionId],
+    references: [question.id],
+  }),
+}));

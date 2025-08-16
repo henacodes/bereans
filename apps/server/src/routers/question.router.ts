@@ -5,6 +5,12 @@ import { db } from "@/db/index";
 import { and, eq, gte, lte } from "drizzle-orm";
 import { CreateQuestionSchema } from "@/lib/validation";
 
+const selectedUserColumns = {
+  id: true,
+  name: true,
+  image: true,
+};
+
 export const questionRouter = router({
   createQuestion: protectedProcedure
     .input(CreateQuestionSchema.omit({ id: true, userId: true }))
@@ -30,18 +36,39 @@ export const questionRouter = router({
     .input(z.object({ questionId: z.string() }))
     .query(async ({ input }) => {
       const { questionId } = input;
-
-      const foundQuestion = await db.query.question.findFirst({
-        where: eq(question.id, questionId),
-        with: {
-          user: true,
-          answer: {
-            user: true,
+      try {
+        const foundQuestion = await db.query.question.findFirst({
+          where: eq(question.id, questionId),
+          with: {
+            user: {
+              columns: {
+                name: true,
+                image: true,
+              },
+            },
+            answers: {
+              columns: {
+                id: true,
+                text: true,
+              },
+              with: {
+                user: {
+                  columns: {
+                    name: true,
+                    image: true,
+                  },
+                },
+              },
+            },
           },
-        },
-      });
+        });
 
-      return foundQuestion;
+        return foundQuestion;
+      } catch (error) {
+        console.log("dbbbbbbbb error", error);
+
+        throw new Error("Internal Server Error");
+      }
     }),
   getQuestions: publicProcedure
     .input(

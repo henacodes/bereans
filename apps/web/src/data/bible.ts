@@ -1,4 +1,4 @@
-import { BibleBook } from "@/types/bible";
+import type { BibleBook } from "@/types/bible";
 
 export const bibleBooks: BibleBook[] = [
   { bookId: 1, name: "Genesis", chapters: 50 },
@@ -86,3 +86,5 @@ export const supportedTranslations = [
 export function getBibleBook(bookId: number) {
   return bibleBooks.filter((b) => b.bookId == bookId)[0];
 }
+
+export const defaultTranslation = "ESV";
