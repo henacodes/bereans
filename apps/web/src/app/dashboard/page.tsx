@@ -1,6 +1,6 @@
-"use client"
+"use client";
 import { authClient } from "@/lib/auth-client";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import { trpc } from "@/utils/trpc";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -10,6 +10,9 @@ export default function Dashboard() {
   const { data: session, isPending } = authClient.useSession();
 
   const privateData = useQuery(trpc.privateData.queryOptions());
+  const mutation = useMutation(trpc.answer.createAnswer.mutationOptions());
+
+  // mutation.mutate({ up })
 
   useEffect(() => {
     if (!session && !isPending) {
