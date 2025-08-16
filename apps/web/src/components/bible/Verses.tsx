@@ -1,7 +1,7 @@
 "use client";
 
 import { useVerseDialog } from "@/stores/useVerseDialog";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 type Verse = {
   pk: number;

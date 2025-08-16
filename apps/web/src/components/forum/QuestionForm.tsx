@@ -37,22 +37,14 @@ export function QuestionForm() {
       translation: translation,
     };
 
-    const res = questionMutation.mutate(
-      {
-        text,
-        title,
-        bookId: bookId!,
-        chapter: chapter!,
-        verseStart: verseStart!,
-        verseEnd: verseEnd!,
-      },
-      {
-        onSuccess: (data) => {
-          console.log("SUCCESS");
-          console.log(data);
-        },
-      }
-    );
+    questionMutation.mutate({
+      text,
+      title,
+      bookId: bookId!,
+      chapter: chapter!,
+      verseStart: verseStart!,
+      verseEnd: verseEnd!,
+    });
   };
 
   return (

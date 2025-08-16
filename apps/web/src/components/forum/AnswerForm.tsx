@@ -5,38 +5,39 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
+import { trpc } from "@/utils/trpc";
+import { useTRPCMutation } from "@/hooks/useTRPCMutation";
 
 export function AnswerForm({ questionId }: { questionId: string }) {
   const [answer, setAnswer] = useState("");
 
+  const [loading, setLoading] = useState(false);
+  const answerMutation = useTRPCMutation(trpc.answer.createAnswer);
+
   const submitAnswer = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log("asnwerinnnnn");
+
     const body = {
       questionId,
       text: answer,
     };
-    try {
-      const res = await fetch("/api/answer", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      });
 
-      const data = await res.json();
-
-      if (!res.ok) {
-        alert(data?.error || "Something went wrong");
-      } else {
-        // Optionally close modal or redirect
-        alert("Question posted!");
-
-        setAnswer("");
-      }
-    } catch (error) {
-      console.log(error);
-    }
+    answerMutation.mutate(body);
   };
+
+  if (answerMutation.isPending) {
+    console.log("Pendinnnnnnnnnnnng");
+  }
+
+  if (answerMutation.isSuccess) {
+    console.log("SUCESSSSSSSSSSSS");
+    console.log(answerMutation.data);
+  }
+
+  if (answerMutation.isError) {
+    console.log("errrorrrr");
+  }
 
   return (
     <Card className="border-slate-200 shadow-sm">

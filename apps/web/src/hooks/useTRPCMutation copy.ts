@@ -20,9 +20,25 @@ type InferMutOutput<F> = F extends () => UseMutationOptions<
 
 export function useTRPCMutation<
   P extends { mutationOptions: () => UseMutationOptions<any, any, any, any> }
->(proc: P) {
+>(
+  proc: P,
+  options?: Partial<
+    UseMutationOptions<
+      InferMutOutput<P["mutationOptions"]>,
+      unknown,
+      InferMutInput<P["mutationOptions"]>
+    >
+  >
+) {
   type I = InferMutInput<P["mutationOptions"]>;
   type O = InferMutOutput<P["mutationOptions"]>;
-  // You still get full TS inference for input/output here:
-  return useMutation<O, unknown, I>(proc.mutationOptions());
+
+  const mutationOpts = proc.mutationOptions();
+  const mergedOptions = { ...mutationOpts, ...options } as UseMutationOptions<
+    O,
+    unknown,
+    I
+  >;
+
+  return useMutation<O, unknown, I>(mergedOptions);
 }
