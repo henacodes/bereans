@@ -3,28 +3,12 @@
 import { useTRPCQuery } from "@/hooks/useTRPCQuery";
 import { trpc } from "@/utils/trpc";
 
-import { fetchPassage } from "@/lib/passage";
-import { notFound } from "next/navigation";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
-import {
-  ArrowLeft,
-  Book,
-  Check,
-  Award,
-  Flag,
-  Calendar,
-  ChevronUp,
-  ChevronDown,
-} from "lucide-react";
-import { getBibleBook } from "@/data/bible";
-import type { Verse } from "@/types/bible";
-import { formatDistance, formatDistanceToNow } from "date-fns";
+import { Calendar, ChevronUp, ChevronDown } from "lucide-react";
+
+import { formatDistanceToNow } from "date-fns";
 
 export default function QuestionDetails({
   questionId,

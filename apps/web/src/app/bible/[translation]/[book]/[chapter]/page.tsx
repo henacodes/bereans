@@ -44,7 +44,7 @@ export default async function BiblePage({
     bibleBooks.find((b) => b.bookId === selectedBookId) ?? bibleBooks[0];
 
   return (
-    <main className="  ml-[25rem] mr-[5rem]     p-4">
+    <main className="       p-4">
       <h1 className="text-2xl font-bold mb-4">{selectedBook.name}</h1>
 
       <ChapterSelector
