@@ -4,6 +4,9 @@ import { useState } from "react";
 import { useVerseDialog } from "@/stores/useVerseDialog";
 import { getBibleBook } from "@/data/bible";
 
+import { trpc } from "@/utils/trpc";
+import { useTRPCMutation } from "@/hooks/useTRPCMutation";
+
 export function QuestionForm() {
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
@@ -16,6 +19,9 @@ export function QuestionForm() {
   const verseStart = selectedPassage?.start;
   const verseEnd = selectedPassage?.end;
   const translation = selectedPassage?.translation;
+
+  const questionMutation = useTRPCMutation(trpc.question.createQuestion);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
@@ -31,26 +37,22 @@ export function QuestionForm() {
       translation: translation,
     };
 
-    try {
-      const res = await fetch("/api/question/ask", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        setError(data?.error || "Something went wrong");
-      } else {
-        // Optionally close modal or redirect
-        alert("Question posted!");
+    const res = questionMutation.mutate(
+      {
+        text,
+        title,
+        bookId: bookId!,
+        chapter: chapter!,
+        verseStart: verseStart!,
+        verseEnd: verseEnd!,
+      },
+      {
+        onSuccess: (data) => {
+          console.log("SUCCESS");
+          console.log(data);
+        },
       }
-    } catch (err) {
-      setError("Failed to post question");
-    } finally {
-      setLoading(false);
-    }
+    );
   };
 
   return (
@@ -87,7 +89,6 @@ export function QuestionForm() {
 
       <button
         type="submit"
-        disabled={loading}
         className="bg-primary  text-white px-4 py-2 rounded"
       >
         {loading ? "Posting..." : "Post Question"}

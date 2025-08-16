@@ -9,17 +9,22 @@ export const questionRouter = router({
   createQuestion: protectedProcedure
     .input(CreateQuestionSchema.omit({ id: true, userId: true }))
     .mutation(async ({ input, ctx }) => {
+      console.log("hereeee");
       const userId = ctx.session.user.id;
 
-      const [newQuestion] = await db
-        .insert(question)
-        .values({
-          ...input,
-          userId: userId,
-        })
-        .returning();
+      try {
+        const [newQuestion] = await db
+          .insert(question)
+          .values({
+            ...input,
+            userId: userId,
+          })
+          .returning();
 
-      return newQuestion;
+        return newQuestion;
+      } catch (error) {
+        console.log(error);
+      }
     }),
   getQuestionById: publicProcedure
     .input(z.object({ questionId: z.string() }))

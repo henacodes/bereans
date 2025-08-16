@@ -20,7 +20,7 @@ export const question = sqliteTable("question", {
 
   createdAt: integer("created_at", { mode: "timestamp" })
     .notNull()
-    .default(sql`now`),
+    .default(sql`(current_timestamp)`),
 
   updatedAt: integer("updated_at", { mode: "timestamp" })
     .$onUpdateFn(() => new Date())
@@ -39,7 +39,7 @@ export const answer = sqliteTable("answer", {
 
   createdAt: integer("created_at", { mode: "timestamp" })
     .notNull()
-    .default(sql`now`),
+    .default(sql`(current_timestamp)`),
 
   updatedAt: integer("updated_at", { mode: "timestamp" })
     .$onUpdateFn(() => new Date())
