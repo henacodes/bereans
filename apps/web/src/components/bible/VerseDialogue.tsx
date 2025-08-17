@@ -25,19 +25,6 @@ export function VerseDialog() {
   const numQuestions = 3;
   const numComments = 7;
 
-  function toQueryString(obj: Record<string, any>, keys: string[]) {
-    const params = new URLSearchParams();
-
-    keys.forEach((key) => {
-      const value = obj[key];
-      if (value !== undefined && value !== null) {
-        params.append(key, value.toString());
-      }
-    });
-
-    return params.toString();
-  }
-
   const queryString = objToQueryString(selectedPassage, [
     "bookId",
     "chapter",

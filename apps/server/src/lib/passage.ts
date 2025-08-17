@@ -1,6 +1,7 @@
 import type { PassageSearchParams } from "@/types/bible";
 
 export async function fetchPassage(params: PassageSearchParams) {
+  console.log("queryyyyyyy", params);
   const body = {
     translation: params.translation.toUpperCase(),
     book: Number(params.bookId),

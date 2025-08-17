@@ -18,19 +18,22 @@ import { trpc } from "@/utils/trpc";
 import { useTRPCQuery } from "@/hooks/useTRPCQuery";
 import { SkeletonCard } from "../Skeleton";
 import type { PassageSearchParams } from "@/types/bible";
+import { objToQueryString } from "@/lib/utils";
 
 export default function QuestionsList({
   bookId,
   chapter,
   verseStart,
   verseEnd,
+  translation,
 }: PassageSearchParams) {
-  const questionsQuery = useTRPCQuery(trpc.question.getQuestions, {
+  const query = {
     bookId: parseInt(bookId),
     chapter: parseInt(chapter),
     verseStart: parseInt(verseStart),
     verseEnd: parseInt(verseEnd),
-  });
+  };
+  const questionsQuery = useTRPCQuery(trpc.question.getQuestions, query);
 
   if (questionsQuery.isPending) {
     return (
@@ -87,7 +90,22 @@ export default function QuestionsList({
                 <div className="flex-1">
                   <h3 className="text-lg font-medium text-slate-900 mb-2 hover:text-blue-600 transition-colors">
                     <a
-                      href={`/forum/${q.id}`}
+                      href={`/forum/${q.id}?${objToQueryString(
+                        {
+                          bookId: q.bookId,
+                          chapter: q.chapter,
+                          verseStart: q.verseStart,
+                          verseEnd: q.verseEnd,
+                          translation,
+                        },
+                        [
+                          "bookId",
+                          "chapter",
+                          "verseStart",
+                          "verseEnd",
+                          "translation",
+                        ]
+                      )}`}
                       className="flex gap-2 items-center  "
                     >
                       {q.title} <ExternalLink size={20} />

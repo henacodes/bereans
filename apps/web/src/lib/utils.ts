@@ -11,10 +11,11 @@ export function objToQueryString<T extends object, K extends keyof T>(
 ) {
   const params = new URLSearchParams();
 
+  // instead of converting all properties of the obj, only selected keys will be built
   keys.forEach((key) => {
     const value = obj[key];
     if (value !== undefined && value !== null) {
-      params.append(String(key), String(value)); // cast key and value to string
+      params.append(String(key), String(value));
     }
   });
 
