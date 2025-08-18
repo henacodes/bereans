@@ -1,7 +1,6 @@
 import type { PassageSearchParams } from "@/types/bible";
 
 export async function fetchPassage(params: PassageSearchParams) {
-  console.log("queryyyyyyy", params);
   const body = {
     translation: params.translation.toUpperCase(),
     book: Number(params.bookId),
@@ -12,7 +11,6 @@ export async function fetchPassage(params: PassageSearchParams) {
     ),
   };
 
-  console.log("errrrrorrrr", process.env.NEXT_PUBLIC_BIBLE_API);
   const res = await fetch(`${process.env.NEXT_PUBLIC_BIBLE_API}/get-verses/`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },

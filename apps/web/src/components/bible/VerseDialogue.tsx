@@ -33,8 +33,6 @@ export function VerseDialog() {
     "translation",
   ]);
 
-  console.log(queryString);
-
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="max-w-lg">

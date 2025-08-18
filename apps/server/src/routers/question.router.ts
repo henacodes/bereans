@@ -15,7 +15,6 @@ export const questionRouter = router({
   createQuestion: protectedProcedure
     .input(CreateQuestionSchema.omit({ id: true, userId: true }))
     .mutation(async ({ input, ctx }) => {
-      console.log("hereeee");
       const userId = ctx.session.user.id;
 
       try {
@@ -50,10 +49,12 @@ export const questionRouter = router({
               columns: {
                 id: true,
                 text: true,
+                createdAt: true,
               },
               with: {
                 user: {
                   columns: {
+                    id: true,
                     name: true,
                     image: true,
                   },
@@ -65,8 +66,6 @@ export const questionRouter = router({
 
         return foundQuestion;
       } catch (error) {
-        console.log("dbbbbbbbb error", error);
-
         throw new Error("Internal Server Error");
       }
     }),

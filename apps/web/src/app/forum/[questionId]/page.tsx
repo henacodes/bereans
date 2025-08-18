@@ -22,9 +22,7 @@ export default async function DiscussionPage({
 
   if (hasAllProps) {
     try {
-      console.log("searchhhhh", searchQuery);
       passage = await fetchPassage(searchQuery);
-      console.log("Passage fetched:", passage);
     } catch (error) {
       console.error(error);
     }
@@ -34,20 +32,6 @@ export default async function DiscussionPage({
 
   return (
     <div className="p-8">
-      <div className="flex items-center gap-2 mb-6">
-        {/*    <Button
-          variant="ghost"
-          size="sm"
-          className="gap-2 text-slate-600 hover:text-slate-900"
-        >
-          <ArrowLeft className="h-4 w-4" />
-          Back to {getBibleBook(searchQueries.bookId).name} {chapter}:
-          {verseStart} related questions
-        </Button> */}
-      </div>
-
-      {/* Verse Context */}
-
       <ExcerptCard
         searchParams={searchQuery}
         serverFetchedPassage={passage || []}

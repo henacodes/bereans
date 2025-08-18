@@ -11,33 +11,22 @@ import { useTRPCMutation } from "@/hooks/useTRPCMutation";
 export function AnswerForm({ questionId }: { questionId: string }) {
   const [answer, setAnswer] = useState("");
 
-  const [loading, setLoading] = useState(false);
   const answerMutation = useTRPCMutation(trpc.answer.createAnswer);
 
   const submitAnswer = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("asnwerinnnnn");
 
     const body = {
       questionId,
       text: answer,
     };
 
-    answerMutation.mutate(body);
+    answerMutation.mutate(body, {
+      onSuccess() {
+        setAnswer("");
+      },
+    });
   };
-
-  if (answerMutation.isPending) {
-    console.log("Pendinnnnnnnnnnnng");
-  }
-
-  if (answerMutation.isSuccess) {
-    console.log("SUCESSSSSSSSSSSS");
-    console.log(answerMutation.data);
-  }
-
-  if (answerMutation.isError) {
-    console.log("errrorrrr");
-  }
 
   return (
     <Card className="border-slate-200 shadow-sm">
@@ -68,10 +57,12 @@ export function AnswerForm({ questionId }: { questionId: string }) {
               and helpful to the community.
             </p>
             <Button
+              variant={"default"}
+              disabled={answerMutation.isPending}
               onClick={submitAnswer}
-              className="bg-blue-600 hover:bg-blue-700 text-white"
+              className=" text-white"
             >
-              Post Answer
+              {answerMutation.isPending ? "Posting ..." : "Answer"}
             </Button>
           </div>
         </form>

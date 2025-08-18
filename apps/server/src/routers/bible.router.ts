@@ -18,8 +18,6 @@ export const bibleRouter = router({
       try {
         const res = await fetchPassage(input);
 
-        console.log("resresresresresres", res);
-
         return res;
       } catch (error: any) {
         console.log(error);
