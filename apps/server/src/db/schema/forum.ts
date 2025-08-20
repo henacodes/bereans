@@ -64,6 +64,7 @@ export const answer = sqliteTable("answer", {
 
   upvotes: integer("upvotes").default(0).notNull(),
   downvotes: integer("downvotes").default(0).notNull(),
+  approved: integer("approved", { mode: "boolean" }).default(false).notNull(),
 });
 
 export const answerRelations = relations(answer, ({ one }) => ({

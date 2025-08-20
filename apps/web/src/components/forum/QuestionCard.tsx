@@ -57,10 +57,16 @@ export default function QuestionCard({
             </div>
           </div>
           <div className="flex gap-2">
-            <Button size={"lg"} variant="outline" className="rounded-xl">
-              <ArrowBigUp fill="bg-red-400" strokeWidth={0} size={1000} />
-              <ArrowBigDown fill="bg-red-400" strokeWidth={0} size={100} />
-            </Button>
+            <div className="flex col items-center justify-center bg-slate-200 rounded-full text-slate-500     ">
+              <div className="p-1 rounded-full hover:bg-orange-500/20 cursor-pointer transition  ease-in-out">
+                <ArrowBigUp className="hover:text-orange-500" size={28} />
+              </div>
+              <span className="text-sm font-medium">123</span>
+              <div className="p-1 rounded-full hover:bg-blue-500/20 cursor-pointer transition  ease-in-out">
+                <ArrowBigDown className="hover:text-blue-500" size={28} />
+              </div>
+            </div>
+
             <Button size="sm" variant="outline" className="rounded-xl">
               <Bookmark className="h-4 w-4 mr-1" /> Save
             </Button>

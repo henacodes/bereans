@@ -41,6 +41,7 @@ export const questionRouter = router({
           with: {
             user: {
               columns: {
+                id: true,
                 name: true,
                 image: true,
               },
@@ -50,6 +51,7 @@ export const questionRouter = router({
                 id: true,
                 text: true,
                 createdAt: true,
+                approved: true,
               },
               with: {
                 user: {

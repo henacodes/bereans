@@ -9,28 +9,37 @@ import { useQuestionDetail } from "@/stores/useQuestionDetail";
 import { useEffect, useState } from "react";
 import QuestionCard from "./QuestionCard";
 import { AnswerCard } from "./AnswerCard";
+import { authClient } from "@/lib/auth-client";
 
 export default function QuestionDetails({
   questionId,
 }: {
   questionId: string;
 }) {
+  const [approvedAnswer, setApprovedAnswer] = useState<string | null>(null);
   const { setQuestion } = useQuestionDetail();
-
-  const [state, setState] = useState<any>();
-
   const questionQuery = useTRPCQuery(trpc.question.getQuestionById, {
     questionId,
   });
+  const session = authClient.useSession();
 
   useEffect(() => {
     if (!questionQuery.data) return;
+
+    let answers = questionQuery.data.answers;
 
     setQuestion({
       ...questionQuery.data,
       createdAt: questionQuery.data.createdAt,
       updatedAt: new Date(questionQuery.data.updatedAt),
     });
+
+    const approved = answers.find((a) => a.approved);
+    if (approved) {
+      setApprovedAnswer(approved.id);
+    } else {
+      setApprovedAnswer(null);
+    }
   }, [questionQuery.data, setQuestion]);
 
   if (questionQuery.isLoading)
@@ -53,7 +62,7 @@ export default function QuestionDetails({
   const {
     title,
     text,
-    user,
+    user: asker,
     createdAt,
     answers,
     upvotes,
@@ -66,7 +75,7 @@ export default function QuestionDetails({
     <div className="space-y-8">
       <QuestionCard
         title={title}
-        author={user.name}
+        author={asker.name}
         text={text}
         date={createdAt}
       />
@@ -78,17 +87,23 @@ export default function QuestionDetails({
         </h2>
 
         <div className="space-y-6">
-          {answers.map((answer) => (
-            <>
+          {answers.map((answer) => {
+            return (
               <AnswerCard
+                key={answer.id}
+                id={answer.id}
                 content={answer.text}
-                author={answer.user.name}
+                author={answer.user}
                 votes={0}
-                accepted={false}
+                approved={answer.approved}
                 date={answer.createdAt}
+                userId={session.data?.user.id}
+                setApprovedAnswer={setApprovedAnswer}
+                approvedAnswer={approvedAnswer}
+                asker={asker}
               />
-            </>
-          ))}
+            );
+          })}
         </div>
       </div>
       <AnswerForm questionId={questionId} />

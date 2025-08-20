@@ -1,0 +1,1 @@
+ALTER TABLE `question` ADD `approved` integer DEFAULT false;
