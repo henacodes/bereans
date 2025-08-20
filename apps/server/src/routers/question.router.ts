@@ -1,9 +1,10 @@
 import { protectedProcedure, publicProcedure, router } from "@/lib/trpc";
 import { z } from "zod";
-import { question } from "@/db/schema/forum";
+import { question } from "@/db/schema/question";
 import { db } from "@/db/index";
 import { and, eq, gte, lte } from "drizzle-orm";
 import { CreateQuestionSchema } from "@/lib/validation";
+import { handleVote } from "@/utils/vote";
 
 const selectedUserColumns = {
   id: true,
@@ -112,6 +113,27 @@ export const questionRouter = router({
       });
 
       return result;
+    }),
+
+  voteQuestion: protectedProcedure
+    .input(
+      z.object({
+        value: z.union([z.literal(-1), z.literal(0), z.literal(1)]),
+        questionId: z.uuid(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      const userId = ctx.session.user.id;
+      const { questionId, value } = input;
+
+      const res = await handleVote({
+        userId,
+        targetId: questionId,
+        target: "answer",
+        value,
+      });
+
+      return res.message;
     }),
 });
 

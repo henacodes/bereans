@@ -1,3 +1,5 @@
-export * from "./forum";
-
+export * from "./question";
+export * from "./answer";
+export * from "./answerVote";
+export * from "./questionVote";
 export * from "./auth";

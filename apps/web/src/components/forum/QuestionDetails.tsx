@@ -87,23 +87,29 @@ export default function QuestionDetails({
         </h2>
 
         <div className="space-y-6">
-          {answers.map((answer) => {
-            return (
-              <AnswerCard
-                key={answer.id}
-                id={answer.id}
-                content={answer.text}
-                author={answer.user}
-                votes={0}
-                approved={answer.approved}
-                date={answer.createdAt}
-                userId={session.data?.user.id}
-                setApprovedAnswer={setApprovedAnswer}
-                approvedAnswer={approvedAnswer}
-                asker={asker}
-              />
-            );
-          })}
+          {answers
+            .sort((a, b) => {
+              if (a.approved && !b.approved) return -1;
+              if (!a.approved && b.approved) return 1;
+              return 0;
+            })
+            .map((answer) => {
+              return (
+                <AnswerCard
+                  key={answer.id}
+                  id={answer.id}
+                  content={answer.text}
+                  author={answer.user}
+                  votes={0}
+                  approved={answer.approved}
+                  date={answer.createdAt}
+                  userId={session.data?.user.id}
+                  setApprovedAnswer={setApprovedAnswer}
+                  approvedAnswer={approvedAnswer}
+                  asker={asker}
+                />
+              );
+            })}
         </div>
       </div>
       <AnswerForm questionId={questionId} />

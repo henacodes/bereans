@@ -1,8 +1,9 @@
 import { db } from "@/db";
-import { answer } from "@/db/schema";
+import { answer, answerVote } from "@/db/schema";
 import { protectedProcedure, publicProcedure, router } from "@/lib/trpc";
 import { CreateAnswerSchema } from "@/lib/validation";
-import { eq } from "drizzle-orm";
+import { handleVote } from "@/utils/vote";
+import { and, eq, sql } from "drizzle-orm";
 import z from "zod";
 
 export const answerRouter = router({
@@ -57,6 +58,26 @@ export const answerRouter = router({
         console.error("Failed to find the answer");
         return {};
       }
+    }),
+  voteAnswer: protectedProcedure
+    .input(
+      z.object({
+        value: z.union([z.literal(-1), z.literal(0), z.literal(1)]),
+        answerId: z.string().uuid(), // assuming answerId is a UUID string
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      const userId = ctx.session.user.id;
+      const { answerId, value } = input;
+
+      const res = await handleVote({
+        userId,
+        targetId: answerId,
+        target: "answer",
+        value,
+      });
+
+      return res.message;
     }),
 });
 
