@@ -39,8 +39,9 @@ export const answerRouter = router({
           return {};
         }
         if (foundAnswer.question.userId != userId) {
-          console.error("Only the question author can approve this answer");
-          return {};
+          return {
+            error: "Only the question author can approve this answer",
+          };
         }
 
         await db.transaction(async (tx) => {

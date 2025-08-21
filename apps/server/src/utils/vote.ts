@@ -32,7 +32,8 @@ export async function handleVote({
 
   // Vote exists
   if (existing) {
-    if (value === existing.value) return { message: "Vote didn't change" };
+    if (value === existing.value)
+      return { success: false, message: "Vote didn't change" };
 
     // Subtract previous vote from counters
     if (existing.value === 1) deltaUp -= 1;
@@ -56,7 +57,7 @@ export async function handleVote({
     actionMessage =
       value === 1 ? "Vote added (upvote)" : "Vote added (downvote)";
   } else if (!existing && value === 0) {
-    return { message: "No existing vote to retract" };
+    return { message: "No existing vote to retract", success: false };
   }
 
   // Add new vote to counters
@@ -76,5 +77,6 @@ export async function handleVote({
 
   return {
     message: actionMessage,
+    success: true,
   };
 }

@@ -8,25 +8,95 @@ import {
   ArrowBigUp,
   ArrowBigDown,
 } from "lucide-react";
+import { trpc } from "@/utils/trpc";
+import { useTRPCMutation } from "@/hooks/useTRPCMutation copy";
+import { useState } from "react";
 
-interface QuestionCardProps {
+type QuestionCardProps = {
+  id: string;
   title: string;
   text: string;
   tags?: string[];
   author: string;
   date: string;
   views?: number;
-}
+  votes: {
+    userId: string;
+    value: number;
+  }[];
+  userId: string | undefined;
+};
+
+type VoteType = "upvote" | "downvote" | "retract";
 
 export default function QuestionCard({
+  id,
   title,
   text,
   tags = ["Test", "Test 1"],
   author,
   date,
   views = 221,
+  votes,
+  userId,
 }: QuestionCardProps) {
-  console.log("datewweeeeeeeee", date);
+  const voteMutation = useTRPCMutation(trpc.question.voteQuestion);
+
+  const [totalVotes, setTotalVotes] = useState(
+    votes.reduce((sum, v) => sum + v.value, 0)
+  );
+
+  const [userVoted, setUserVoted] = useState(() => {
+    const userVote = votes.find((v) => v.userId === userId);
+    console.log("userVoteuserVote", userVote);
+    return userVote ? userVote.value : 0;
+  });
+
+  const handleVote = (voteType: VoteType) => {
+    const voteValue =
+      voteType === "upvote"
+        ? userVoted === 1
+          ? 0
+          : 1
+        : voteType === "downvote"
+        ? userVoted === -1
+          ? 0
+          : -1
+        : 0;
+    const totalVoteDelta =
+      voteValue === userVoted
+        ? 0 // no change
+        : voteValue === 0
+        ? userVoted === 1
+          ? -1
+          : userVoted === -1
+          ? 1
+          : 0
+        : voteValue === 1
+        ? userVoted === -1
+          ? 1
+          : 1
+        : voteValue === -1
+        ? userVoted === 1
+          ? -1
+          : -1
+        : 0;
+
+    voteMutation.mutate(
+      {
+        value: voteValue,
+        questionId: id,
+      },
+      {
+        onSuccess: () => {
+          console.log("CAAAAAAAAASCUS");
+          setUserVoted(voteValue);
+          setTotalVotes(totalVotes + totalVoteDelta);
+        },
+      }
+    );
+  };
+
   return (
     <Card className="w-full mx-auto shadow-md rounded-2xl border border-slate-200">
       <CardHeader className="pb-2">
@@ -57,15 +127,39 @@ export default function QuestionCard({
             </div>
           </div>
           <div className="flex gap-2">
-            <div className="flex col items-center justify-center bg-slate-200 rounded-full text-slate-500     ">
-              <div className="p-1 rounded-full hover:bg-orange-500/20 cursor-pointer transition  ease-in-out">
-                <ArrowBigUp className="hover:text-orange-500" size={28} />
+            <button
+              disabled={voteMutation.isPending}
+              className={
+                "flex col items-center justify-center  rounded-full text-slate-500 " +
+                (userVoted === 1
+                  ? "bg-primary"
+                  : userVoted === -1
+                  ? "bg-secondary"
+                  : "bg-slate-200")
+              }
+            >
+              <div className="p-1 rounded-full  cursor-pointer transition  ease-in-out hover:bg-slate-300/50   ">
+                <ArrowBigUp
+                  onClick={() => handleVote("upvote")}
+                  fill="#fff"
+                  fillOpacity={userVoted === 1 ? 1 : 0}
+                  strokeWidth={userVoted !== 1 ? 1 : 0}
+                  className="hover:text-primary  "
+                  size={28}
+                />
               </div>
-              <span className="text-sm font-medium">123</span>
-              <div className="p-1 rounded-full hover:bg-blue-500/20 cursor-pointer transition  ease-in-out">
-                <ArrowBigDown className="hover:text-blue-500" size={28} />
+              <span className="text-sm font-medium">{totalVotes}</span>
+              <div className="p-1 rounded-full  cursor-pointer transition  ease-in-out hover:bg-slate-300/50">
+                <ArrowBigDown
+                  onClick={() => handleVote("downvote")}
+                  fill="#fff"
+                  fillOpacity={userVoted === -1 ? 1 : 0}
+                  strokeWidth={userVoted !== -1 ? 1 : 0}
+                  className="hover:text-secondary  "
+                  size={28}
+                />
               </div>
-            </div>
+            </button>
 
             <Button size="sm" variant="outline" className="rounded-xl">
               <Bookmark className="h-4 w-4 mr-1" /> Save

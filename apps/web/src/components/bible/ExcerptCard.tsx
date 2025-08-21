@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Book } from "lucide-react";
+import { Book, LoaderCircle } from "lucide-react";
 import { defaultTranslation, getBibleBook } from "@/data/bible";
 import type { PassageSearchParams, Verse } from "@/types/bible";
 import { useState } from "react";
@@ -91,8 +91,14 @@ export default function ExcerptCard({
           description="Required passage parameters weren't given "
         />
         <Button disabled={loading} className=" my-2" onClick={handleRetry}>
-          {" "}
-          {passageMutation.isPending ? "Loading ..." : "Retry"}
+          {passageMutation.isPending ? (
+            <>
+              {" "}
+              Loading <LoaderCircle className="animate-spin" />
+            </>
+          ) : (
+            "Retry"
+          )}
         </Button>
       </div>
     );

@@ -69,15 +69,21 @@ export default function QuestionDetails({
     downvotes,
     updatedAt,
     userId,
+    votes,
   } = questionQuery.data;
+
+  console.log("votessssss", votes);
 
   return (
     <div className="space-y-8">
       <QuestionCard
+        id={questionId}
         title={title}
         author={asker.name}
         text={text}
         date={createdAt}
+        votes={votes}
+        userId={session.data?.user.id}
       />
 
       {/* Answers Section */}

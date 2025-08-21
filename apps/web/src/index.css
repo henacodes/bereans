@@ -134,7 +134,8 @@ body {
 }
 
 @theme {
-  --color-primary: oklch(0.77 0.18 156.67);
+  --color-primary: #4ecdc4;
+  --color-secondary: #eb5160;
 }
 
 .scrollbar-hide::-webkit-scrollbar {

@@ -64,6 +64,12 @@ export const questionRouter = router({
                 },
               },
             },
+            votes: {
+              columns: {
+                userId: true,
+                value: true,
+              },
+            },
           },
         });
 
@@ -125,15 +131,19 @@ export const questionRouter = router({
     .mutation(async ({ input, ctx }) => {
       const userId = ctx.session.user.id;
       const { questionId, value } = input;
+      console.log(questionId, value);
+      try {
+        const res = await handleVote({
+          userId,
+          targetId: questionId,
+          target: "question",
+          value,
+        });
 
-      const res = await handleVote({
-        userId,
-        targetId: questionId,
-        target: "answer",
-        value,
-      });
-
-      return res.message;
+        return res;
+      } catch (error) {
+        return { error, success: false };
+      }
     }),
 });
 
