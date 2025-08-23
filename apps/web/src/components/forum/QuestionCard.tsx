@@ -55,7 +55,7 @@ export default function QuestionCard({
             size="sm"
             className="h-8 w-8 p-0 hover:bg-slate-100"
           >
-            <ChevronUp className="h-4 w-4 text-slate-600" />
+            <ChevronUp className="h-4 w-4 text-slate-400" />
           </Button>
           <span className="text-sm font-medium text-slate-700">
             {upvotes - downvotes}
@@ -65,13 +65,13 @@ export default function QuestionCard({
             size="sm"
             className="h-8 w-8 p-0 hover:bg-slate-100"
           >
-            <ChevronDown className="h-4 w-4 text-slate-600" />
+            <ChevronDown className="h-4 w-4 text-slate-400" />
           </Button>
         </div>
 
         {/* Question Content */}
         <div className="flex-1">
-          <h3 className="text-lg font-medium text-slate-900 mb-2 hover:text-blue-600 transition-colors">
+          <h3 className="text-lg font-medium  mb-2 hover:text-primary transition-colors">
             <a
               href={`/forum/${id}?${objToQueryString(
                 {
@@ -88,7 +88,7 @@ export default function QuestionCard({
               {title} <ExternalLink size={20} />
             </a>
           </h3>
-          <p className="text-slate-600 mb-4 line-clamp-2">{text}</p>
+          <p className="text-slate-400 mb-4 line-clamp-2">{text}</p>
 
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
@@ -98,7 +98,7 @@ export default function QuestionCard({
                     {user.name.charAt(0).toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
-                <span className="text-sm text-slate-600">{user.name}</span>
+                <span className="text-sm text-slate-400">{user.name}</span>
               </div>
 
               <div className="flex items-center gap-1 text-sm text-slate-500">

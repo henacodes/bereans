@@ -15,11 +15,11 @@ export default function QuestionsPage() {
         <small className=" my-4 ">
           Here are some of the most recent quuestions{" "}
         </small>
-        {questionsQuery.data.map((q) => (
-          <div className=" my-5  ">
-            <QuestionCard translation={"ESV"} {...q} />
-          </div>
-        ))}
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2   2xl:grid-cols-3 my-5">
+          {questionsQuery.data.map((q) => (
+            <QuestionCard key={q.id} translation="ESV" {...q} />
+          ))}
+        </div>
       </div>
     );
   }
