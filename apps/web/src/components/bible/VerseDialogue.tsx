@@ -31,7 +31,7 @@ export function VerseDialog() {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className=" w-[1000px]    flex">
+      <DialogContent className=" ">
         <DialogHeader>
           <DialogTitle className="text-xl font-semibold">
             Verses {selectedPassage?.verseStart}–{selectedPassage?.verseEnd}

@@ -17,7 +17,7 @@ type QuestionCardProps = {
   id: string;
   title: string;
   text: string;
-  tags?: string[];
+  tags?: string[] | null;
   author: string;
   date: string;
   views?: number;
@@ -35,7 +35,7 @@ export default function QuestionCard({
   id,
   title,
   text,
-  tags = ["Test", "Test 1"],
+  tags,
   author,
   date,
   views = 221,
@@ -121,11 +121,12 @@ export default function QuestionCard({
           {title}
         </CardTitle>
         <div className="flex flex-wrap gap-2 mt-2">
-          {tags.map((tag, idx) => (
-            <Badge key={idx} variant="secondary">
-              {tag}
-            </Badge>
-          ))}
+          {tags &&
+            tags.map((tag, idx) => (
+              <Badge key={idx} variant="secondary" className=" text-slate-300 ">
+                {tag}
+              </Badge>
+            ))}
         </div>
       </CardHeader>
 

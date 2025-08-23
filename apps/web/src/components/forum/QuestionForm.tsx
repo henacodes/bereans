@@ -9,6 +9,7 @@ import { useTRPCMutation } from "@/hooks/useTRPCMutation";
 import { Button } from "../ui/button";
 
 import { MinimalTiptap } from "@/components/ui/shadcn-io/minimal-tiptap";
+import TagInput from "../TagInput";
 
 export function QuestionForm() {
   const [title, setTitle] = useState("");
@@ -17,6 +18,7 @@ export function QuestionForm() {
   const [error, setError] = useState<string | null>(null);
   const { selectedPassage } = useVerseDialog();
   const [content, setContent] = useState("");
+  const [tags, setTags] = useState<string[]>([]);
 
   const bookId = selectedPassage?.bookId;
   const chapter = selectedPassage?.chapter;
@@ -54,6 +56,7 @@ export function QuestionForm() {
         chapter: chapter!,
         verseStart: verseStart!,
         verseEnd: verseEnd!,
+        tags,
       },
       {
         onSuccess() {
@@ -63,7 +66,7 @@ export function QuestionForm() {
     );
   };
 
-  console.log(content);
+  console.log("tagsssss", tags);
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
@@ -77,6 +80,21 @@ export function QuestionForm() {
       </div>
       <div>
         <label className="block font-semibold">Question</label>
+        <textarea
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          className="w-full border p-2 rounded"
+          rows={4}
+          required
+        />
+      </div>
+
+      <div>
+        <TagInput
+          onChange={(tags) => {
+            setTags(tags);
+          }}
+        />
       </div>
 
       <p className="text-sm text-gray-500">

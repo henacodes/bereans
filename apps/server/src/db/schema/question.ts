@@ -31,6 +31,7 @@ export const question = sqliteTable("question", {
 
   upvotes: integer("upvotes").default(0).notNull(),
   downvotes: integer("downvotes").default(0).notNull(),
+  tags: text("tags", { mode: "json" }).$type<string[]>(),
 });
 
 export const questionRelations = relations(question, ({ one, many }) => ({

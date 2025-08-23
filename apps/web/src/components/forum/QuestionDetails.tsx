@@ -75,6 +75,7 @@ export default function QuestionDetails({
     updatedAt,
     userId,
     votes,
+    tags,
   } = questionQuery.data;
 
   console.log("votessssss", votes);
@@ -90,6 +91,7 @@ export default function QuestionDetails({
         votes={votes}
         userId={session.data?.user.id}
         isSaved={savedQuestionQuery.data}
+        tags={tags}
       />
 
       {/* Answers Section */}

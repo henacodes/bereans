@@ -133,9 +133,10 @@ body {
   }
 }
 
+/* #4ecdc4 */
 @theme {
-  --color-primary: #4ecdc4;
-  --color-secondary: #eb5160;
+  --color-primary: #8fb78f;
+  --color-secondary: #28526b;
 }
 
 .scrollbar-hide::-webkit-scrollbar {

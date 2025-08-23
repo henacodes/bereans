@@ -7,12 +7,6 @@ import { CreateQuestionSchema } from "@/lib/validation";
 import { handleVote } from "@/utils/vote";
 import { savedQuestions, user } from "@/db/schema";
 
-const selectedUserColumns = {
-  id: true,
-  name: true,
-  image: true,
-};
-
 export const questionRouter = router({
   createQuestion: protectedProcedure
     .input(CreateQuestionSchema.omit({ id: true, userId: true }))
