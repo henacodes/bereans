@@ -27,7 +27,7 @@ interface QuestionCardProps {
   user: {
     name: string;
   };
-  answersCount: number;
+  totalAnswers?: unknown;
 }
 
 export default function QuestionCard({
@@ -43,7 +43,7 @@ export default function QuestionCard({
   translation,
   createdAt,
   user,
-  answersCount,
+  totalAnswers,
 }: QuestionCardProps) {
   return (
     <Card className="p-6">
@@ -114,7 +114,7 @@ export default function QuestionCard({
               className="bg-blue-50 text-secondary dark:text-primary hover:bg-blue-100"
             >
               <MessageSquare className="h-3 w-3 mr-1" />
-              {answersCount} answers
+              {`${totalAnswers}` || "0"} answers
             </Badge>
           </div>
         </div>

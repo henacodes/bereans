@@ -2,10 +2,10 @@ import { protectedProcedure, publicProcedure, router } from "@/lib/trpc";
 import { z } from "zod";
 import { question } from "@/db/schema/question";
 import { db } from "@/db/index";
-import { and, desc, eq, gte, lte, sql } from "drizzle-orm";
+import { and, count, desc, eq, gte, lte, sql } from "drizzle-orm";
 import { CreateQuestionSchema } from "@/lib/validation";
 import { handleVote } from "@/utils/vote";
-import { savedQuestions, user } from "@/db/schema";
+import { answer, savedQuestions, user } from "@/db/schema";
 
 export const questionRouter = router({
   createQuestion: protectedProcedure
@@ -132,13 +132,16 @@ export const questionRouter = router({
     .query(async ({ input }) => {
       try {
         const questions = await db.query.question.findMany({
-          with: {
-            user: true,
+          extras: {
+            totalAnswers:
+              sql`(select count(*) from "answer" where "answer"."question_id" = "question"."id")`.as(
+                "totalAnswers"
+              ),
           },
+          with: { user: true },
           orderBy: desc(question.createdAt),
           limit: 10,
         });
-
         return questions;
       } catch (error) {
         throw new Error("Couldn't fetch questions");

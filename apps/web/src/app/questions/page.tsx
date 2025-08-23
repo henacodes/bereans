@@ -9,6 +9,7 @@ export default function QuestionsPage() {
   const questionsQuery = useTRPCQuery(trpc.question.fetchRecent, {});
 
   if (questionsQuery.isSuccess) {
+    console.log(questionsQuery.data);
     return (
       <div className=" mt-10  ">
         <small className=" my-4 ">
@@ -16,7 +17,7 @@ export default function QuestionsPage() {
         </small>
         {questionsQuery.data.map((q) => (
           <div className=" my-5  ">
-            <QuestionCard translation={"ESV"} answersCount={0} {...q} />
+            <QuestionCard translation={"ESV"} {...q} />
           </div>
         ))}
       </div>
