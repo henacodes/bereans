@@ -24,6 +24,20 @@ export default async function Passage({
 }) {
   const params = await searchParams;
 
+  // Build search queries
+  const hasAllProps =
+    Object.keys(params).length > 0 &&
+    Object.values(params).every((v) => v !== undefined && v !== null);
+
+  if (!hasAllProps) {
+    return (
+      <p>
+        Failed to load the page as the required passage parameters were not
+        given
+      </p>
+    );
+  }
+
   const passage = await fetchPassage(params);
 
   return (

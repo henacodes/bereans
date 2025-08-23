@@ -17,10 +17,10 @@ type BetterAuthUser = {
 };
 
 type AnswerCardProps = {
-  content: string;
+  text: string;
   id: string;
   author: BetterAuthUser;
-  date: string;
+  createdAt: string;
   votes: number;
   approved: boolean;
   userId: string | undefined;
@@ -30,10 +30,10 @@ type AnswerCardProps = {
 };
 
 export function AnswerCard({
-  content,
+  text,
   id,
   author,
-  date,
+  createdAt,
   votes,
   approved,
   setApprovedAnswer,
@@ -62,7 +62,7 @@ export function AnswerCard({
           <span className="font-medium text-slate-700 mx-1 ">
             {author.name}
           </span>
-          • {new Date(date).toDateString()}
+          • {new Date(createdAt).toDateString()}
         </div>
         <div className=" flex items-center gap-3  ">
           {asker.id == author.id && <small className="  ">Asker</small>}
@@ -90,7 +90,7 @@ export function AnswerCard({
       </CardHeader>
 
       <CardContent>
-        <p className="text-slate-700 mb-4">{content}</p>
+        <p className="text-slate-700 mb-4">{text}</p>
 
         <div className="flex items-center justify-between text-sm text-slate-500">
           <div className="flex items-center gap-2">

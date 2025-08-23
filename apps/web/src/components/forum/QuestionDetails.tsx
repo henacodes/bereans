@@ -7,7 +7,7 @@ import AlertCard from "../Alert";
 import { AnswerForm } from "./AnswerForm";
 import { useQuestionDetail } from "@/stores/useQuestionDetail";
 import { useEffect, useState } from "react";
-import QuestionCard from "./QuestionCard";
+import QuestionDetailsCard from "./QuestionDetailsCard";
 import { AnswerCard } from "./AnswerCard";
 import { authClient } from "@/lib/auth-client";
 
@@ -84,7 +84,7 @@ export default function QuestionDetails({
 
   return (
     <div className="space-y-8">
-      <QuestionCard
+      <QuestionDetailsCard
         id={questionId}
         title={title}
         author={asker.name}
@@ -113,13 +113,9 @@ export default function QuestionDetails({
             .map((answer) => {
               return (
                 <AnswerCard
-                  key={answer.id}
-                  id={answer.id}
-                  content={answer.text}
                   author={answer.user}
                   votes={0}
-                  approved={answer.approved}
-                  date={answer.createdAt}
+                  {...answer}
                   userId={session.data?.user.id}
                   setApprovedAnswer={setApprovedAnswer}
                   approvedAnswer={approvedAnswer}

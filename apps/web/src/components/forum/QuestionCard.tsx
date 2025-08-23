@@ -1,233 +1,124 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import {
-  Bookmark,
+  ChevronUp,
+  ChevronDown,
+  Calendar,
   MessageSquare,
-  Eye,
-  ArrowBigUp,
-  ArrowBigDown,
-  BookmarkX,
+  ExternalLink,
 } from "lucide-react";
-import { trpc } from "@/utils/trpc";
-import { useTRPCMutation } from "@/hooks/useTRPCMutation copy";
-import { useState } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "../ui/button";
+import { Avatar, AvatarFallback } from "../ui/avatar";
+import { Badge } from "../ui/badge";
+import { formatDistance } from "date-fns";
+import { objToQueryString } from "@/lib/utils";
 
-type QuestionCardProps = {
+interface QuestionCardProps {
   id: string;
   title: string;
   text: string;
-  tags?: string[] | null;
-  author: string;
-  date: string;
-  views?: number;
-  votes: {
-    userId: string;
-    value: number;
-  }[];
-  userId: string | undefined;
-  isSaved: boolean | undefined;
-};
-
-type VoteType = "upvote" | "downvote" | "retract";
+  upvotes: number;
+  downvotes: number;
+  bookId: number;
+  chapter: number;
+  verseStart: number;
+  verseEnd: number;
+  translation: string;
+  createdAt: string | Date;
+  user: {
+    name: string;
+  };
+  answersCount: number;
+}
 
 export default function QuestionCard({
   id,
   title,
   text,
-  tags,
-  author,
-  date,
-  votes,
-  userId,
-  isSaved,
-  views,
+  upvotes,
+  downvotes,
+  bookId,
+  chapter,
+  verseStart,
+  verseEnd,
+  translation,
+  createdAt,
+  user,
+  answersCount,
 }: QuestionCardProps) {
-  const voteMutation = useTRPCMutation(trpc.question.voteQuestion);
-  const savedQuestionMutation = useTRPCMutation(
-    trpc.question.addOrRemoveSavedQuestion
-  );
-  const [totalVotes, setTotalVotes] = useState(
-    votes.reduce((sum, v) => sum + v.value, 0)
-  );
-  const [userVoted, setUserVoted] = useState(() => {
-    const userVote = votes.find((v) => v.userId === userId);
-    return userVote ? userVote.value : 0;
-  });
-
-  const [isQuestionSaved, setIsQuestionSaved] = useState<boolean>(
-    isSaved != undefined ? isSaved : false
-  );
-
-  const handleSave = () => {
-    savedQuestionMutation.mutate(
-      { questionId: id },
-      {
-        onSuccess() {
-          setIsQuestionSaved(!isQuestionSaved);
-        },
-      }
-    );
-  };
-
-  const handleVote = (voteType: VoteType) => {
-    const voteValue =
-      voteType === "upvote"
-        ? userVoted === 1
-          ? 0
-          : 1
-        : voteType === "downvote"
-        ? userVoted === -1
-          ? 0
-          : -1
-        : 0;
-
-    voteMutation.mutate(
-      {
-        value: voteValue,
-        questionId: id,
-      },
-      {
-        onSuccess: (data) => {
-          setUserVoted(voteValue);
-          if (data.updatedQuestion) {
-            const { upvotes, downvotes } = data.updatedQuestion[0];
-            setTotalVotes(upvotes - downvotes);
-          }
-        },
-      }
-    );
-  };
-
   return (
-    <Card className="w-full mx-auto shadow-md rounded-2xl border border-slate-200">
-      <CardHeader className="pb-2">
-        <CardTitle className="text-xl font-semibold text-slate-800">
-          {title}
-        </CardTitle>
-        <div className="flex flex-wrap gap-2 mt-2">
-          {tags &&
-            tags.map((tag, idx) => (
-              <Badge key={idx} variant="secondary" className=" text-slate-300 ">
-                {tag}
-              </Badge>
-            ))}
+    <Card className="p-6">
+      <div className="flex gap-4">
+        {/* Vote Section */}
+        <div className="flex flex-col items-center gap-1 min-w-[60px]">
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-8 w-8 p-0 hover:bg-slate-100"
+          >
+            <ChevronUp className="h-4 w-4 text-slate-600" />
+          </Button>
+          <span className="text-sm font-medium text-slate-700">
+            {upvotes - downvotes}
+          </span>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-8 w-8 p-0 hover:bg-slate-100"
+          >
+            <ChevronDown className="h-4 w-4 text-slate-600" />
+          </Button>
         </div>
-      </CardHeader>
 
-      <CardContent>
-        <p className="text-slate-700 mb-4">{text}</p>
-
-        <div className="flex items-center justify-between text-sm text-slate-500">
-          <div className="flex items-center gap-4">
-            <span>
-              Asked by
-              <span className="font-medium text-slate-700 mx-3 ">{author}</span>
-            </span>
-            <span>{new Date(date).toDateString()}</span>
-            <div className="flex items-center gap-1">
-              <Eye className="h-4 w-4" /> <span>{views} views</span>
-            </div>
-          </div>
-          <div className="flex gap-2">
-            {/*  <button
-              disabled={voteMutation.isPending}
-              className={
-                "flex col items-center justify-center  rounded-full text-slate-500 " +
-                (userVoted === 1
-                  ? "bg-primary"
-                  : userVoted === -1
-                  ? "bg-secondary"
-                  : "bg-slate-200")
-              }
+        {/* Question Content */}
+        <div className="flex-1">
+          <h3 className="text-lg font-medium text-slate-900 mb-2 hover:text-blue-600 transition-colors">
+            <a
+              href={`/forum/${id}?${objToQueryString(
+                {
+                  bookId,
+                  chapter,
+                  verseStart,
+                  verseEnd,
+                  translation,
+                },
+                ["bookId", "chapter", "verseStart", "verseEnd", "translation"]
+              )}`}
+              className="flex gap-2 items-center"
             >
-              <div className="p-1 relative rounded-full  cursor-pointer transition  ease-in-out hover:bg-slate-300/50   ">
-              
-                <ArrowBigUp
-                  aria-disabled={true}
-                  onClick={() => handleVote("upvote")}
-                  fill="#fff"
-                  fillOpacity={userVoted === 1 ? 1 : 0}
-                  strokeWidth={userVoted !== 1 ? 1 : 0}
-                  className="hover:text-primary  "
-                  size={28}
-                />
-              </div>
-              <span className="text-sm font-medium">{totalVotes}</span>
-              <div className="p-1 rounded-full  cursor-pointer transition  ease-in-out hover:bg-slate-300/50">
-                <ArrowBigDown
-                  onClick={() => handleVote("downvote")}
-                  fill="#fff"
-                  fillOpacity={userVoted === -1 ? 1 : 0}
-                  strokeWidth={userVoted !== -1 ? 1 : 0}
-                  className="hover:text-secondary  "
-                  size={28}
-                />
-              </div>
-            </button> */}
-            <div
-              className={
-                "flex  items-center justify-center  rounded-full  " +
-                (userVoted === 1
-                  ? "bg-primary text-slate-500 "
-                  : userVoted === -1
-                  ? "bg-secondary text-slate-200  "
-                  : "bg-slate-200")
-              }
-            >
-              <button
-                disabled={voteMutation.isPending}
-                onClick={() => handleVote("upvote")}
-                className="p-1 relative rounded-full  cursor-pointer transition  ease-in-out hover:bg-slate-300/50 "
-              >
-                <ArrowBigUp
-                  fill="#fff"
-                  fillOpacity={userVoted === 1 ? 1 : 0}
-                  strokeWidth={userVoted !== 1 ? 1 : 0}
-                  size={28}
-                />
-              </button>
+              {title} <ExternalLink size={20} />
+            </a>
+          </h3>
+          <p className="text-slate-600 mb-4 line-clamp-2">{text}</p>
 
-              <span className="text-sm font-medium">{totalVotes}</span>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2">
+                <Avatar className="h-6 w-6">
+                  <AvatarFallback className="text-xs bg-slate-200">
+                    {user.name.charAt(0).toUpperCase()}
+                  </AvatarFallback>
+                </Avatar>
+                <span className="text-sm text-slate-600">{user.name}</span>
+              </div>
 
-              <button
-                disabled={voteMutation.isPending}
-                onClick={() => handleVote("downvote")}
-                className="p-1 relative rounded-full  cursor-pointer transition  ease-in-out hover:bg-slate-300/50 "
-              >
-                <ArrowBigDown
-                  fill="#fff"
-                  fillOpacity={userVoted === -1 ? 1 : 0}
-                  strokeWidth={userVoted !== -1 ? 1 : 0}
-                  size={28}
-                />
-              </button>
+              <div className="flex items-center gap-1 text-sm text-slate-500">
+                <Calendar className="h-3 w-3" />
+                {formatDistance(new Date(createdAt), new Date(), {
+                  addSuffix: true,
+                })}
+              </div>
             </div>
 
-            {isSaved != undefined && (
-              <Button
-                onClick={handleSave}
-                size="sm"
-                variant="outline"
-                className={
-                  "rounded-xl cursor-pointer " +
-                  (isQuestionSaved && " bg-slate-300 ")
-                }
-              >
-                {isQuestionSaved ? (
-                  <>
-                    <BookmarkX className="h-4 w-4 mr-1" /> Unsave
-                  </>
-                ) : (
-                  <>
-                    <Bookmark className="h-4 w-4 mr-1" /> Save
-                  </>
-                )}
-              </Button>
-            )}
+            <Badge
+              variant="default"
+              className="bg-blue-50 text-secondary dark:text-primary hover:bg-blue-100"
+            >
+              <MessageSquare className="h-3 w-3 mr-1" />
+              {answersCount} answers
+            </Badge>
           </div>
         </div>
-      </CardContent>
+      </div>
     </Card>
   );
 }

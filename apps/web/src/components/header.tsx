@@ -7,12 +7,15 @@ import UserMenu from "./user-menu";
 export default function Header() {
   const links = [
     { to: "/bible/ESV/1/1/", label: "Home" },
-    { to: "/dashboard", label: "Dashboard" },
+    { to: "/questions", label: "Questions" },
   ];
 
   return (
     <div>
       <div className="flex flex-row items-center justify-between    py-3    ">
+        <p className=" text-xl text-secondary dark:text-primary font-bold  ">
+          Bereans
+        </p>
         <nav className="flex gap-4 text-lg    ">
           {links.map(({ to, label }) => {
             return (

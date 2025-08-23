@@ -2,7 +2,7 @@ import { protectedProcedure, publicProcedure, router } from "@/lib/trpc";
 import { z } from "zod";
 import { question } from "@/db/schema/question";
 import { db } from "@/db/index";
-import { and, eq, gte, lte, sql } from "drizzle-orm";
+import { and, desc, eq, gte, lte, sql } from "drizzle-orm";
 import { CreateQuestionSchema } from "@/lib/validation";
 import { handleVote } from "@/utils/vote";
 import { savedQuestions, user } from "@/db/schema";
@@ -84,6 +84,7 @@ export const questionRouter = router({
         throw new Error("Internal Server Error");
       }
     }),
+
   getQuestions: publicProcedure
     .input(
       z.object({
@@ -126,7 +127,23 @@ export const questionRouter = router({
 
       return result;
     }),
+  fetchRecent: publicProcedure
+    .input(z.object({ limit: z.number().optional().default(10) }))
+    .query(async ({ input }) => {
+      try {
+        const questions = await db.query.question.findMany({
+          with: {
+            user: true,
+          },
+          orderBy: desc(question.createdAt),
+          limit: 10,
+        });
 
+        return questions;
+      } catch (error) {
+        throw new Error("Couldn't fetch questions");
+      }
+    }),
   voteQuestion: protectedProcedure
     .input(
       z.object({
