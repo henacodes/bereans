@@ -8,12 +8,15 @@ import { trpc } from "@/utils/trpc";
 import { useTRPCMutation } from "@/hooks/useTRPCMutation";
 import { Button } from "../ui/button";
 
+import { MinimalTiptap } from "@/components/ui/shadcn-io/minimal-tiptap";
+
 export function QuestionForm() {
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { selectedPassage } = useVerseDialog();
+  const [content, setContent] = useState("");
 
   const bookId = selectedPassage?.bookId;
   const chapter = selectedPassage?.chapter;
@@ -60,6 +63,7 @@ export function QuestionForm() {
     );
   };
 
+  console.log(content);
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
@@ -73,13 +77,6 @@ export function QuestionForm() {
       </div>
       <div>
         <label className="block font-semibold">Question</label>
-        <textarea
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          className="w-full border p-2 rounded"
-          rows={4}
-          required
-        />
       </div>
 
       <p className="text-sm text-gray-500">
@@ -92,7 +89,7 @@ export function QuestionForm() {
 
       {error && <p className="text-red-500">{error}</p>}
 
-      <Button type="submit" variant="default">
+      <Button type="submit" variant="default" className="cursor-pointer">
         {questionMutation.isPending ? "Posting..." : "Post Question"}
       </Button>
     </form>

@@ -100,8 +100,6 @@ export function AnswerCard({
             <Button size="icon" variant="ghost">
               <ArrowBigDown fill="bg-red-400" strokeWidth={0} size={100} />
             </Button>
-
-            {/* Approve button */}
           </div>
         </div>
       </CardContent>

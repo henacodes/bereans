@@ -7,6 +7,7 @@ import {
   Eye,
   ArrowBigUp,
   ArrowBigDown,
+  BookmarkX,
 } from "lucide-react";
 import { trpc } from "@/utils/trpc";
 import { useTRPCMutation } from "@/hooks/useTRPCMutation copy";
@@ -25,6 +26,7 @@ type QuestionCardProps = {
     value: number;
   }[];
   userId: string | undefined;
+  isSaved: boolean | undefined;
 };
 
 type VoteType = "upvote" | "downvote" | "retract";
@@ -39,18 +41,34 @@ export default function QuestionCard({
   views = 221,
   votes,
   userId,
+  isSaved,
 }: QuestionCardProps) {
   const voteMutation = useTRPCMutation(trpc.question.voteQuestion);
-
+  const savedQuestionMutation = useTRPCMutation(
+    trpc.question.addOrRemoveSavedQuestion
+  );
   const [totalVotes, setTotalVotes] = useState(
     votes.reduce((sum, v) => sum + v.value, 0)
   );
-
   const [userVoted, setUserVoted] = useState(() => {
     const userVote = votes.find((v) => v.userId === userId);
-    console.log("userVoteuserVote", userVote);
     return userVote ? userVote.value : 0;
   });
+
+  const [isQuestionSaved, setIsQuestionSaved] = useState<boolean>(
+    isSaved != undefined ? isSaved : false
+  );
+
+  const handleSave = () => {
+    savedQuestionMutation.mutate(
+      { questionId: id },
+      {
+        onSuccess() {
+          setIsQuestionSaved(!isQuestionSaved);
+        },
+      }
+    );
+  };
 
   const handleVote = (voteType: VoteType) => {
     const voteValue =
@@ -65,7 +83,7 @@ export default function QuestionCard({
         : 0;
     const totalVoteDelta =
       voteValue === userVoted
-        ? 0 // no change
+        ? 0
         : voteValue === 0
         ? userVoted === 1
           ? -1
@@ -89,7 +107,6 @@ export default function QuestionCard({
       },
       {
         onSuccess: () => {
-          console.log("CAAAAAAAAASCUS");
           setUserVoted(voteValue);
           setTotalVotes(totalVotes + totalVoteDelta);
         },
@@ -161,9 +178,27 @@ export default function QuestionCard({
               </div>
             </button>
 
-            <Button size="sm" variant="outline" className="rounded-xl">
-              <Bookmark className="h-4 w-4 mr-1" /> Save
-            </Button>
+            {isSaved != undefined && (
+              <Button
+                onClick={handleSave}
+                size="sm"
+                variant="outline"
+                className={
+                  "rounded-xl cursor-pointer " +
+                  (isQuestionSaved && " bg-slate-300 ")
+                }
+              >
+                {isQuestionSaved ? (
+                  <>
+                    <BookmarkX className="h-4 w-4 mr-1" /> Unsave
+                  </>
+                ) : (
+                  <>
+                    <Bookmark className="h-4 w-4 mr-1" /> Save
+                  </>
+                )}
+              </Button>
+            )}
           </div>
         </div>
       </CardContent>

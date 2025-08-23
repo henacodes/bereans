@@ -18,7 +18,12 @@ export default function QuestionDetails({
 }) {
   const [approvedAnswer, setApprovedAnswer] = useState<string | null>(null);
   const { setQuestion } = useQuestionDetail();
+
   const questionQuery = useTRPCQuery(trpc.question.getQuestionById, {
+    questionId,
+  });
+
+  const savedQuestionQuery = useTRPCQuery(trpc.question.isQuestionSaved, {
     questionId,
   });
   const session = authClient.useSession();
@@ -84,6 +89,7 @@ export default function QuestionDetails({
         date={createdAt}
         votes={votes}
         userId={session.data?.user.id}
+        isSaved={savedQuestionQuery.data}
       />
 
       {/* Answers Section */}

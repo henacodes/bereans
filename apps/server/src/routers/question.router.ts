@@ -5,6 +5,7 @@ import { db } from "@/db/index";
 import { and, eq, gte, lte } from "drizzle-orm";
 import { CreateQuestionSchema } from "@/lib/validation";
 import { handleVote } from "@/utils/vote";
+import { savedQuestions, user } from "@/db/schema";
 
 const selectedUserColumns = {
   id: true,
@@ -34,8 +35,10 @@ export const questionRouter = router({
     }),
   getQuestionById: publicProcedure
     .input(z.object({ questionId: z.string() }))
-    .query(async ({ input }) => {
+    .query(async ({ input, ctx }) => {
       const { questionId } = input;
+      const userId = ctx.session?.user.id;
+
       try {
         const foundQuestion = await db.query.question.findFirst({
           where: eq(question.id, questionId),
@@ -143,6 +146,91 @@ export const questionRouter = router({
         return res;
       } catch (error) {
         return { error, success: false };
+      }
+    }),
+  addOrRemoveSavedQuestion: protectedProcedure
+    .input(z.object({ questionId: z.string() }))
+    .mutation(async ({ input, ctx }) => {
+      const userId = ctx.session.user.id;
+      const { questionId } = input;
+
+      try {
+        // check if already saved
+        const existing = await db.query.savedQuestions.findFirst({
+          where: and(
+            eq(savedQuestions.userId, userId),
+            eq(savedQuestions.questionId, questionId)
+          ),
+        });
+
+        if (existing) {
+          // remove it (unsave)
+          await db
+            .delete(savedQuestions)
+            .where(
+              and(
+                eq(savedQuestions.userId, userId),
+                eq(savedQuestions.questionId, questionId)
+              )
+            );
+          return { saved: false };
+        } else {
+          // insert (save)
+          await db.insert(savedQuestions).values({
+            userId,
+            questionId,
+          });
+          return { saved: true };
+        }
+      } catch (error) {
+        console.error(error);
+        throw new Error("Couldn't perform the task");
+      }
+    }),
+
+  savedQuestions: protectedProcedure.query(async ({ ctx }) => {
+    const userId = ctx.session.user.id;
+
+    try {
+      const questions = await db.query.savedQuestions.findMany({
+        where: eq(savedQuestions.userId, userId),
+        with: {
+          question: true,
+        },
+        columns: {
+          questionId: true,
+        },
+      });
+
+      return questions;
+    } catch (error) {
+      return { error };
+    }
+  }),
+  isQuestionSaved: protectedProcedure
+    .input(z.object({ questionId: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const userId = ctx.session.user.id;
+      const { questionId } = input;
+      try {
+        let isQuestionSaved = false;
+
+        if (userId) {
+          const saved = await db.query.savedQuestions.findFirst({
+            where: and(
+              eq(savedQuestions.userId, userId),
+              eq(savedQuestions.questionId, questionId)
+            ),
+          });
+
+          if (saved) {
+            isQuestionSaved = true;
+          }
+        }
+
+        return isQuestionSaved;
+      } catch (error) {
+        return false;
       }
     }),
 });
