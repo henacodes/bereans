@@ -38,10 +38,10 @@ export default function QuestionCard({
   tags,
   author,
   date,
-  views = 221,
   votes,
   userId,
   isSaved,
+  views,
 }: QuestionCardProps) {
   const voteMutation = useTRPCMutation(trpc.question.voteQuestion);
   const savedQuestionMutation = useTRPCMutation(

@@ -2,7 +2,7 @@ import { protectedProcedure, publicProcedure, router } from "@/lib/trpc";
 import { z } from "zod";
 import { question } from "@/db/schema/question";
 import { db } from "@/db/index";
-import { and, eq, gte, lte } from "drizzle-orm";
+import { and, eq, gte, lte, sql } from "drizzle-orm";
 import { CreateQuestionSchema } from "@/lib/validation";
 import { handleVote } from "@/utils/vote";
 import { savedQuestions, user } from "@/db/schema";
@@ -28,10 +28,9 @@ export const questionRouter = router({
       }
     }),
   getQuestionById: publicProcedure
-    .input(z.object({ questionId: z.string() }))
+    .input(z.object({ questionId: z.string(), incrementsView: z.boolean() }))
     .query(async ({ input, ctx }) => {
       const { questionId } = input;
-      const userId = ctx.session?.user.id;
 
       try {
         const foundQuestion = await db.query.question.findFirst({
@@ -69,6 +68,16 @@ export const questionRouter = router({
             },
           },
         });
+
+        try {
+          await db
+            .update(question)
+            .set({ views: sql`${question.views} + 1` })
+            .where(eq(question.id, questionId));
+        } catch (error) {
+          console.log(error);
+          throw new Error("Couldn't increment the views counter");
+        }
 
         return foundQuestion;
       } catch (error) {

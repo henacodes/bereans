@@ -21,6 +21,7 @@ export default function QuestionDetails({
 
   const questionQuery = useTRPCQuery(trpc.question.getQuestionById, {
     questionId,
+    incrementsView: true,
   });
 
   const savedQuestionQuery = useTRPCQuery(trpc.question.isQuestionSaved, {
@@ -76,6 +77,7 @@ export default function QuestionDetails({
     userId,
     votes,
     tags,
+    views,
   } = questionQuery.data;
 
   console.log("votessssss", votes);
@@ -92,6 +94,7 @@ export default function QuestionDetails({
         userId={session.data?.user.id}
         isSaved={savedQuestionQuery.data}
         tags={tags}
+        views={views}
       />
 
       {/* Answers Section */}
