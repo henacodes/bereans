@@ -2,6 +2,12 @@ export type BibleBook = {
   bookId: number;
   name: string;
   chapters: number;
+  canons: ("protestant" | "catholic" | "orthodox" | "lxx")[];
+};
+export type Translation = {
+  shortName: string;
+  fullName: string;
+  canon: "catholic" | "protestant" | "lxx";
 };
 
 export type Verse = {

@@ -148,7 +148,7 @@ export const questionRouter = router({
 
         return res;
       } catch (error) {
-        return { error, success: false };
+        throw new Error("Failed vote");
       }
     }),
   addOrRemoveSavedQuestion: protectedProcedure

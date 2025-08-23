@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { bibleBooks, getBibleBook } from "@/data/bible";
 import { supportedTranslations } from "@/data/bible";
@@ -30,15 +30,29 @@ export default function ChapterSelector({
 }: ChapterSelectorProps) {
   const router = useRouter();
 
-  const [translation, setTranslation] = React.useState(
+  const [translation, setTranslation] = useState(
     currentTranslation.toUpperCase()
   );
-  const [selectedBook, setSelectedBook] = React.useState(currentBookId);
-  const [selectedChapter, setSelectedChapter] = React.useState(currentChapter);
+  const [selectedBook, setSelectedBook] = useState(currentBookId);
+  const [selectedChapter, setSelectedChapter] = useState(currentChapter);
 
   const selectedBookObj = getBibleBook(selectedBook) ?? bibleBooks[0];
 
-  React.useEffect(() => {
+  const filteredBooks = useMemo(() => {
+    const canon = getTranslationCanon(translation);
+    return bibleBooks.filter((b) => b.canons.includes(canon));
+  }, [translation]);
+
+  function getTranslationCanon(
+    shortName: string
+  ): "protestant" | "catholic" | "lxx" {
+    const translation = supportedTranslations.find(
+      (t) => t.shortName === shortName
+    );
+    return translation?.canon ?? "protestant";
+  }
+
+  useEffect(() => {
     if (selectedChapter > selectedBookObj.chapters) {
       setSelectedChapter(1);
     }
@@ -80,7 +94,7 @@ export default function ChapterSelector({
         <SelectContent>
           <SelectGroup>
             <SelectLabel>Book</SelectLabel>
-            {bibleBooks.map((b) => (
+            {filteredBooks.map((b) => (
               <SelectItem key={b.bookId} value={String(b.bookId)}>
                 {b.name}
               </SelectItem>

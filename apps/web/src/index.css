@@ -149,3 +149,10 @@ s {
 S {
   display: none;
 }
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.5);
+  pointer-events: all; /* blocks clicks */
+}

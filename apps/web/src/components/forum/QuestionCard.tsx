@@ -81,24 +81,6 @@ export default function QuestionCard({
           ? 0
           : -1
         : 0;
-    const totalVoteDelta =
-      voteValue === userVoted
-        ? 0
-        : voteValue === 0
-        ? userVoted === 1
-          ? -1
-          : userVoted === -1
-          ? 1
-          : 0
-        : voteValue === 1
-        ? userVoted === -1
-          ? 1
-          : 1
-        : voteValue === -1
-        ? userVoted === 1
-          ? -1
-          : -1
-        : 0;
 
     voteMutation.mutate(
       {
@@ -106,9 +88,12 @@ export default function QuestionCard({
         questionId: id,
       },
       {
-        onSuccess: () => {
+        onSuccess: (data) => {
           setUserVoted(voteValue);
-          setTotalVotes(totalVotes + totalVoteDelta);
+          if (data.updatedQuestion) {
+            const { upvotes, downvotes } = data.updatedQuestion[0];
+            setTotalVotes(upvotes - downvotes);
+          }
         },
       }
     );
@@ -145,7 +130,7 @@ export default function QuestionCard({
             </div>
           </div>
           <div className="flex gap-2">
-            <button
+            {/*  <button
               disabled={voteMutation.isPending}
               className={
                 "flex col items-center justify-center  rounded-full text-slate-500 " +
@@ -156,8 +141,10 @@ export default function QuestionCard({
                   : "bg-slate-200")
               }
             >
-              <div className="p-1 rounded-full  cursor-pointer transition  ease-in-out hover:bg-slate-300/50   ">
+              <div className="p-1 relative rounded-full  cursor-pointer transition  ease-in-out hover:bg-slate-300/50   ">
+              
                 <ArrowBigUp
+                  aria-disabled={true}
                   onClick={() => handleVote("upvote")}
                   fill="#fff"
                   fillOpacity={userVoted === 1 ? 1 : 0}
@@ -177,7 +164,45 @@ export default function QuestionCard({
                   size={28}
                 />
               </div>
-            </button>
+            </button> */}
+            <div
+              className={
+                "flex  items-center justify-center  rounded-full  " +
+                (userVoted === 1
+                  ? "bg-primary text-slate-500 "
+                  : userVoted === -1
+                  ? "bg-secondary text-slate-200  "
+                  : "bg-slate-200")
+              }
+            >
+              <button
+                disabled={voteMutation.isPending}
+                onClick={() => handleVote("upvote")}
+                className="p-1 relative rounded-full  cursor-pointer transition  ease-in-out hover:bg-slate-300/50 "
+              >
+                <ArrowBigUp
+                  fill="#fff"
+                  fillOpacity={userVoted === 1 ? 1 : 0}
+                  strokeWidth={userVoted !== 1 ? 1 : 0}
+                  size={28}
+                />
+              </button>
+
+              <span className="text-sm font-medium">{totalVotes}</span>
+
+              <button
+                disabled={voteMutation.isPending}
+                onClick={() => handleVote("downvote")}
+                className="p-1 relative rounded-full  cursor-pointer transition  ease-in-out hover:bg-slate-300/50 "
+              >
+                <ArrowBigDown
+                  fill="#fff"
+                  fillOpacity={userVoted === -1 ? 1 : 0}
+                  strokeWidth={userVoted !== -1 ? 1 : 0}
+                  size={28}
+                />
+              </button>
+            </div>
 
             {isSaved != undefined && (
               <Button

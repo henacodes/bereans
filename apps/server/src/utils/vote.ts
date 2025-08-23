@@ -33,7 +33,11 @@ export async function handleVote({
   // Vote exists
   if (existing) {
     if (value === existing.value)
-      return { success: false, message: "Vote didn't change" };
+      return {
+        success: false,
+        message: "Vote didn't change",
+        updatedQuestion: null,
+      };
 
     // Subtract previous vote from counters
     if (existing.value === 1) deltaUp -= 1;
@@ -57,26 +61,34 @@ export async function handleVote({
     actionMessage =
       value === 1 ? "Vote added (upvote)" : "Vote added (downvote)";
   } else if (!existing && value === 0) {
-    return { message: "No existing vote to retract", success: false };
+    return {
+      message: "No existing vote to retract",
+      success: false,
+      updatedQuestion: null,
+    };
   }
 
   // Add new vote to counters
   if (value === 1) deltaUp += 1;
   else if (value === -1) deltaDown += 1;
 
+  let updatedQuestion = null;
+
   // Update counters in target table
   if (deltaUp !== 0 || deltaDown !== 0) {
-    await db
+    updatedQuestion = await db
       .update(targetTable)
       .set({
         upvotes: sql`${targetTable.upvotes} + ${deltaUp}`,
         downvotes: sql`${targetTable.downvotes} + ${deltaDown}`,
       })
-      .where(eq(targetTable.id, targetId));
+      .where(eq(targetTable.id, targetId))
+      .returning();
   }
 
   return {
     message: actionMessage,
     success: true,
+    updatedQuestion,
   };
 }
