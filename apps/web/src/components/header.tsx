@@ -11,8 +11,8 @@ export default function Header() {
   ];
 
   return (
-    <div>
-      <div className="flex flex-row items-center justify-between    py-3    ">
+    <div className=" px-32 ">
+      <div className="flex flex-row items-center justify-between mt-5 rounded-full    backdrop-blur-lg   py-3    ">
         <p className=" text-xl text-secondary dark:text-primary font-bold  ">
           Bereans
         </p>

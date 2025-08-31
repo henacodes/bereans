@@ -30,7 +30,13 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Providers>
-          <div className="grid grid-rows-[auto_1fr] h-svh px-32   ">
+          <div className="grid grid-rows-[auto_1fr] h-svh     ">
+            {/*  <div
+                className="fixed inset-0 -z-10 h-full w-full 
+  bg-[radial-gradient(rgba(229,231,235,0.1)_1px,transparent_1px)] 
+  [background-size:16px_16px]"
+              ></div> */}
+
             <Header />
             {children}
           </div>

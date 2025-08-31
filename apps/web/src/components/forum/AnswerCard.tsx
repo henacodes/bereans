@@ -55,7 +55,7 @@ export function AnswerCard({
     );
   };
   return (
-    <Card className="w-full mx-auto shadow-sm rounded-2xl border border-slate-200">
+    <Card className="w-full mx-auto shadow-sm rounded-2xl border border-slate-200/20 dark:bg-secondary/20">
       <CardHeader className="pb-2 flex justify-between items-center">
         <div className="text-sm text-slate-500">
           Answered by

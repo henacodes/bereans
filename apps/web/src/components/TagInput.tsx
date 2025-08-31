@@ -36,6 +36,10 @@ export default function TagInput({ onChange }: TagInputProps) {
 
   return (
     <div className="w-full max-w-md">
+      <label htmlFor="" className="block font-semibold">
+        {" "}
+        Tags{" "}
+      </label>
       <div className="flex flex-wrap gap-2 border p-2 rounded-lg">
         {tags.map((tag, index) => (
           <div

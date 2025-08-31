@@ -11,7 +11,7 @@ export default function QuestionsPage() {
   if (questionsQuery.isSuccess) {
     console.log(questionsQuery.data);
     return (
-      <div className=" mt-10  ">
+      <div className=" mt-10  px-32   relative z-0       ">
         <small className=" my-4 ">
           Here are some of the most recent quuestions{" "}
         </small>
@@ -25,7 +25,7 @@ export default function QuestionsPage() {
   }
   if (questionsQuery.isPending) {
     return (
-      <div className="gap">
+      <div className="gap px-32">
         <SkeletonCard />
         <SkeletonCard />
         <SkeletonCard />

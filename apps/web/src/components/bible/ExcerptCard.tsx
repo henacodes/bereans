@@ -60,7 +60,7 @@ export default function ExcerptCard({
   if (params.bookId && passage.length) {
     return (
       <>
-        <Card className="mb-6 border-0 shadow-sm bg-gradient-to-r from-blue-50 to-indigo-50">
+        <Card className="mb-6 border-0 shadow-sm bg-primary ">
           <CardContent className="p-4">
             <div className="flex items-center gap-2 text-sm text-slate-600 mb-2">
               <Book className="h-4 w-4" />

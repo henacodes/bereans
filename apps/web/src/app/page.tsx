@@ -10,7 +10,9 @@ export default function Home() {
   return (
     <div>
       <MinimalHero />
-      <Features />
+      <div className="px-32">
+        <Features />
+      </div>
     </div>
   );
 }

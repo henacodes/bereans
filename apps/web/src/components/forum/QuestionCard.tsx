@@ -46,7 +46,7 @@ export default function QuestionCard({
   totalAnswers,
 }: QuestionCardProps) {
   return (
-    <Card className="p-6">
+    <Card className="p-6   dark:bg-secondary/20     ">
       <div className="flex gap-4">
         {/* Vote Section */}
         <div className="flex flex-col items-center gap-1 min-w-[60px]">
@@ -85,7 +85,7 @@ export default function QuestionCard({
               )}`}
               className="flex gap-2 items-center"
             >
-              {title} <ExternalLink size={20} />
+              {title} <ExternalLink size={15} />
             </a>
           </h3>
           <p className="text-slate-400 mb-4 line-clamp-2">{text}</p>
@@ -109,10 +109,7 @@ export default function QuestionCard({
               </div>
             </div>
 
-            <Badge
-              variant="default"
-              className="bg-blue-50 text-secondary dark:text-primary hover:bg-blue-100"
-            >
+            <Badge variant="default" className=" ">
               <MessageSquare className="h-3 w-3 mr-1" />
               {`${totalAnswers}` || "0"} answers
             </Badge>

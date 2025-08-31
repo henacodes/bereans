@@ -8,16 +8,13 @@ import { trpc } from "@/utils/trpc";
 import { useTRPCMutation } from "@/hooks/useTRPCMutation";
 import { Button } from "../ui/button";
 
-import { MinimalTiptap } from "@/components/ui/shadcn-io/minimal-tiptap";
 import TagInput from "../TagInput";
 
 export function QuestionForm() {
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { selectedPassage } = useVerseDialog();
-  const [content, setContent] = useState("");
   const [tags, setTags] = useState<string[]>([]);
 
   const bookId = selectedPassage?.bookId;
@@ -31,7 +28,6 @@ export function QuestionForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
-    setLoading(true);
 
     const body = {
       title,

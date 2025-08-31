@@ -100,11 +100,9 @@ export default function QuestionDetailsCard({
   };
 
   return (
-    <Card className="w-full mx-auto shadow-md rounded-2xl border border-slate-200">
+    <Card className="w-full mx-auto shadow-md rounded-2xl border  dark:bg-secondary/20">
       <CardHeader className="pb-2">
-        <CardTitle className="text-xl font-semibold text-slate-800">
-          {title}
-        </CardTitle>
+        <CardTitle className="text-xl font-semibold ">{title}</CardTitle>
         <div className="flex flex-wrap gap-2 mt-2">
           {tags &&
             tags.map((tag, idx) => (
@@ -118,7 +116,7 @@ export default function QuestionDetailsCard({
       <CardContent>
         <p className="text-slate-700 mb-4">{text}</p>
 
-        <div className="flex items-center justify-between text-sm text-slate-500">
+        <div className="flex items-center justify-between text-sm ">
           <div className="flex items-center gap-4">
             <span>
               Asked by
@@ -137,7 +135,7 @@ export default function QuestionDetailsCard({
                   ? "bg-primary text-slate-500 "
                   : userVoted === -1
                   ? "bg-secondary text-slate-200  "
-                  : "bg-slate-200")
+                  : "bg-slate-200 text-slate-500 ")
               }
             >
               <button
