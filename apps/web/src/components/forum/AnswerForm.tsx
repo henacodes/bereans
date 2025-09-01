@@ -29,9 +29,11 @@ export function AnswerForm({ questionId }: { questionId: string }) {
   };
 
   return (
-    <Card className="border-slate-200 shadow-sm">
+    <Card className=" bg-transparent ">
       <CardHeader>
-        <h3 className="text-lg font-semibold text-slate-800">Your Answer</h3>
+        <h3 className="text-lg font-semibold text-slate-800 dark:text-slate-400">
+          Your Answer
+        </h3>
       </CardHeader>
       <CardContent>
         <form className="space-y-4">
@@ -47,7 +49,7 @@ export function AnswerForm({ questionId }: { questionId: string }) {
               onChange={(e) => setAnswer(e.target.value)}
               id="answer"
               placeholder="Write your answer here..."
-              className="mt-2 min-h-[120px] border-slate-200 focus:border-blue-300 focus:ring-blue-200"
+              className="mt-2 min-h-[120px]  "
             />
           </div>
 

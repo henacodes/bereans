@@ -55,7 +55,7 @@ export function AnswerCard({
     );
   };
   return (
-    <Card className="w-full mx-auto shadow-sm rounded-2xl border border-slate-200/20 dark:bg-secondary/20">
+    <div className=" border-l border-primary   ">
       <CardHeader className="pb-2 flex justify-between items-center">
         <div className="text-sm text-slate-500">
           Answered by
@@ -90,7 +90,7 @@ export function AnswerCard({
       </CardHeader>
 
       <CardContent>
-        <p className="text-slate-700 mb-4">{text}</p>
+        <p className="text-slate-700 dark:text-slate-300  mb-4">{text}</p>
 
         <div className="flex items-center justify-between text-sm text-slate-500">
           <div className="flex items-center gap-2">
@@ -103,6 +103,6 @@ export function AnswerCard({
           </div>
         </div>
       </CardContent>
-    </Card>
+    </div>
   );
 }

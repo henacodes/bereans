@@ -29,6 +29,8 @@ export default function QuestionDetails({
   });
   const session = authClient.useSession();
 
+  const isLoggedIn = session.data?.user != undefined;
+
   useEffect(() => {
     if (!questionQuery.data) return;
 
@@ -80,8 +82,6 @@ export default function QuestionDetails({
     views,
   } = questionQuery.data;
 
-  console.log("votessssss", votes);
-
   return (
     <div className="space-y-8">
       <QuestionDetailsCard
@@ -95,11 +95,12 @@ export default function QuestionDetails({
         isSaved={savedQuestionQuery.data}
         tags={tags}
         views={views}
+        isLoggedIn={isLoggedIn}
       />
 
       {/* Answers Section */}
       <div className="mb-8">
-        <h2 className="text-xl font-semibold text-slate-800 mb-6">
+        <h2 className="text-xl font-semibold text-slate-800 dark:text-primary   mb-6">
           {answers.length} Answers
         </h2>
 
@@ -125,7 +126,7 @@ export default function QuestionDetails({
             })}
         </div>
       </div>
-      <AnswerForm questionId={questionId} />
+      {isLoggedIn && <AnswerForm questionId={questionId} />}
     </div>
   );
 }

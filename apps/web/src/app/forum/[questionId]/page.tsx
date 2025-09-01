@@ -31,7 +31,7 @@ export default async function DiscussionPage({
   }
 
   return (
-    <div className="p-8">
+    <div className="px-32  pt-10 ">
       <ExcerptCard
         searchParams={searchQuery}
         serverFetchedPassage={passage || []}
