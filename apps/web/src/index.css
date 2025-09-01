@@ -156,3 +156,24 @@ S {
   background: rgba(255, 255, 255, 0.5);
   pointer-events: all; /* blocks clicks */
 }
+
+.blob {
+  animation: spin 60s linear infinite;
+}
+
+.blob-left {
+  animation-direction: normal;
+}
+
+.blob-right {
+  animation: spin 20s linear infinite reverse;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

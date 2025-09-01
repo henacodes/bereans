@@ -14,13 +14,12 @@ export const question = sqliteTable("question", {
     .references(() => user.id),
   bookId: integer("book_id").notNull(),
   chapter: integer("chapter").notNull(),
-
   verseStart: integer("verse_start").notNull(),
   verseEnd: integer("verse_end").notNull(),
+  translation: text("translation").notNull(),
 
   title: text("title").notNull(),
   text: text("text").notNull(),
-
   createdAt: text("created_at")
     .notNull()
     .default(sql`CURRENT_TIMESTAMP`),

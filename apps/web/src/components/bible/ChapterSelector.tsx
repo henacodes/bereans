@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { bibleBooks, getBibleBook } from "@/data/bible";
 import { supportedTranslations } from "@/data/bible";
+import { LoaderCircle } from "lucide-react";
 
 import {
   Select,
@@ -36,6 +37,8 @@ export default function ChapterSelector({
   const [selectedBook, setSelectedBook] = useState(currentBookId);
   const [selectedChapter, setSelectedChapter] = useState(currentChapter);
 
+  const [loading, setLoading] = useState(false);
+
   const selectedBookObj = getBibleBook(selectedBook) ?? bibleBooks[0];
 
   const filteredBooks = useMemo(() => {
@@ -60,6 +63,15 @@ export default function ChapterSelector({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (
+      selectedBook === currentBookId &&
+      selectedChapter === currentChapter &&
+      translation === currentTranslation
+    ) {
+      console.log("equal");
+      return;
+    }
+    setLoading(true);
     router.push(`/bible/${translation}/${selectedBook}/${selectedChapter}`);
   };
 
@@ -105,7 +117,12 @@ export default function ChapterSelector({
 
       <Select
         value={String(selectedChapter)}
-        onValueChange={(val) => setSelectedChapter(parseInt(val, 10))}
+        onValueChange={(val) => {
+          setSelectedChapter(parseInt(val, 10));
+
+          console.log("selectedChapter", selectedChapter);
+          console.log("currentChapter", currentChapter);
+        }}
       >
         <SelectTrigger className="w-[100px]">
           <SelectValue placeholder="Select chapter" />
@@ -126,10 +143,11 @@ export default function ChapterSelector({
       </Select>
 
       <button
+        disabled={loading}
         type="submit"
-        className="ml-4 rounded-md bg-primary text-secondary px-8 py-2 cursor-pointer   "
+        className="ml-4 rounded-md bg-primary text-secondary px-8 py-2 cursor-pointer    "
       >
-        Go
+        {loading ? <LoaderCircle className="animate-spin" /> : <>Go</>}
       </button>
     </form>
   );

@@ -14,7 +14,7 @@ import { cn } from "@/lib/utils";
 
 export default function GradientHero() {
   return (
-    <div className="bg-background relative w-full overflow-hidden">
+    <div className=" relative w-full overflow-hidden">
       {/* Background gradient */}
       <div className="absolute inset-0 z-0">
         <div className="from-primary/20 via-background to-background absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))]"></div>

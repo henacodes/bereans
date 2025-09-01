@@ -10,7 +10,6 @@ export default function QuestionsPage() {
   const questionsQuery = useTRPCQuery(trpc.question.fetchRecent, {});
 
   if (questionsQuery.isSuccess) {
-    console.log(questionsQuery.data);
     return (
       <div className=" mt-10  px-32   relative z-0 ">
         <CoolBackground />
@@ -27,7 +26,10 @@ export default function QuestionsPage() {
   }
   if (questionsQuery.isPending) {
     return (
-      <div className="gap px-32">
+      <div className="mt-10  px-32   relative z-0">
+        <CoolBackground />
+        <SkeletonCard />
+        <SkeletonCard />
         <SkeletonCard />
         <SkeletonCard />
         <SkeletonCard />

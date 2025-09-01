@@ -1,0 +1,1 @@
+ALTER TABLE `question` ADD `translation` text DEFAULT 'ESV' NOT NULL;

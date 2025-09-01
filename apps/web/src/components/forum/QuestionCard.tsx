@@ -5,12 +5,13 @@ import {
   MessageSquare,
   ExternalLink,
 } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Button } from "../ui/button";
 import { Avatar, AvatarFallback } from "../ui/avatar";
 import { Badge } from "../ui/badge";
-import { formatDistance } from "date-fns";
 import { objToQueryString } from "@/lib/utils";
+import { formatTimestamp, parseSQLiteDate } from "@/utils/misc";
+import { formatDistance } from "date-fns";
 
 interface QuestionCardProps {
   id: string;
@@ -51,6 +52,7 @@ export default function QuestionCard({
         {/* Vote Section */}
         <div className="flex flex-col items-center gap-1 min-w-[60px]">
           <Button
+            disabled={true}
             variant="ghost"
             size="sm"
             className="h-8 w-8 p-0 hover:bg-slate-100"
@@ -61,6 +63,7 @@ export default function QuestionCard({
             {upvotes - downvotes}
           </span>
           <Button
+            disabled={true}
             variant="ghost"
             size="sm"
             className="h-8 w-8 p-0 hover:bg-slate-100"
@@ -103,9 +106,7 @@ export default function QuestionCard({
 
               <div className="flex items-center gap-1 text-sm text-slate-500">
                 <Calendar className="h-3 w-3" />
-                {formatDistance(new Date(createdAt), new Date(), {
-                  addSuffix: true,
-                })}
+                {formatTimestamp(createdAt.toString())}
               </div>
             </div>
 

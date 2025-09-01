@@ -53,6 +53,7 @@ export function QuestionForm() {
         verseStart: verseStart!,
         verseEnd: verseEnd!,
         tags,
+        translation: translation!,
       },
       {
         onSuccess() {
