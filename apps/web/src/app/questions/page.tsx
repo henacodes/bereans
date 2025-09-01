@@ -1,5 +1,6 @@
 "use client";
 
+import { CoolBackground } from "@/components/background";
 import QuestionCard from "@/components/forum/QuestionCard";
 import { SkeletonCard } from "@/components/Skeleton";
 import { useTRPCQuery } from "@/hooks/useTRPCQuery";
@@ -11,7 +12,8 @@ export default function QuestionsPage() {
   if (questionsQuery.isSuccess) {
     console.log(questionsQuery.data);
     return (
-      <div className=" mt-10  px-32   relative z-0       ">
+      <div className=" mt-10  px-32   relative z-0 ">
+        <CoolBackground />
         <small className=" my-4 ">
           Here are some of the most recent quuestions{" "}
         </small>

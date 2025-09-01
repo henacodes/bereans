@@ -1,3 +1,4 @@
+import { CoolBackground } from "@/components/background";
 import ChapterSelector from "@/components/bible/ChapterSelector";
 import { VerseDialog } from "@/components/bible/VerseDialogue";
 import { VersesList } from "@/components/bible/Verses";
@@ -44,7 +45,8 @@ export default async function BiblePage({
     bibleBooks.find((b) => b.bookId === selectedBookId) ?? bibleBooks[0];
 
   return (
-    <main className=" px-32 ">
+    <main className=" px-32 relative z-0  ">
+      <CoolBackground />
       <h1 className="text-2xl font-bold mb-4">{selectedBook.name}</h1>
 
       <ChapterSelector

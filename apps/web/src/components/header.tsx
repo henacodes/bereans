@@ -11,7 +11,7 @@ export default function Header() {
   ];
 
   return (
-    <div className=" px-32 ">
+    <div className=" px-32 relative z-10  ">
       <div className="flex flex-row items-center justify-between mt-5 rounded-full    backdrop-blur-lg   py-3    ">
         <p className=" text-xl text-secondary dark:text-primary font-bold  ">
           Bereans
@@ -25,7 +25,7 @@ export default function Header() {
             );
           })}
         </nav>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 relative z-0 ">
           <ModeToggle />
           <UserMenu />
         </div>

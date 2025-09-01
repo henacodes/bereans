@@ -2,6 +2,7 @@ import { fetchPassage } from "@/lib/passage";
 import type { PassageSearchParams, Verse } from "@/types/bible";
 import QuestionDetails from "@/components/forum/QuestionDetails";
 import ExcerptCard from "@/components/bible/ExcerptCard";
+import { CoolBackground } from "@/components/background";
 
 export default async function DiscussionPage({
   params,
@@ -31,7 +32,8 @@ export default async function DiscussionPage({
   }
 
   return (
-    <div className="px-32  pt-10 ">
+    <div className="px-32  pt-10 relative z-0  ">
+      <CoolBackground />
       <ExcerptCard
         searchParams={searchQuery}
         serverFetchedPassage={passage || []}
