@@ -36,7 +36,7 @@ export async function handleVote({
       return {
         success: false,
         message: "Vote didn't change",
-        updatedQuestion: null,
+        updatedRow: null,
       };
 
     // Subtract previous vote from counters
@@ -64,7 +64,7 @@ export async function handleVote({
     return {
       message: "No existing vote to retract",
       success: false,
-      updatedQuestion: null,
+      updatedRow: null,
     };
   }
 
@@ -72,11 +72,11 @@ export async function handleVote({
   if (value === 1) deltaUp += 1;
   else if (value === -1) deltaDown += 1;
 
-  let updatedQuestion = null;
+  let updatedRow = null;
 
   // Update counters in target table
   if (deltaUp !== 0 || deltaDown !== 0) {
-    updatedQuestion = await db
+    updatedRow = await db
       .update(targetTable)
       .set({
         upvotes: sql`${targetTable.upvotes} + ${deltaUp}`,
@@ -89,6 +89,6 @@ export async function handleVote({
   return {
     message: actionMessage,
     success: true,
-    updatedQuestion,
+    updatedRow,
   };
 }

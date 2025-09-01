@@ -2,13 +2,13 @@ import type { Citation } from "@/types/forum";
 
 export function CitedComponent({
   citation,
-  key,
+  k,
 }: {
   citation: Citation;
-  key: number;
+  k: number;
 }) {
   return (
-    <li key={key}>
+    <li key={k}>
       {citation.title}
       {citation.author && ` — ${citation.author}`}
       {citation.context && ` (${citation.context})`}

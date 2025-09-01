@@ -79,21 +79,25 @@ export const answerRouter = router({
     .input(
       z.object({
         value: z.union([z.literal(-1), z.literal(0), z.literal(1)]),
-        answerId: z.string().uuid(), // assuming answerId is a UUID string
+        answerId: z.uuid(),
       })
     )
     .mutation(async ({ input, ctx }) => {
       const userId = ctx.session.user.id;
       const { answerId, value } = input;
 
-      const res = await handleVote({
-        userId,
-        targetId: answerId,
-        target: "answer",
-        value,
-      });
+      try {
+        const res = await handleVote({
+          userId,
+          targetId: answerId,
+          target: "answer",
+          value,
+        });
 
-      return res.message;
+        return res;
+      } catch (error) {
+        throw new Error("Failed to vote");
+      }
     }),
 });
 

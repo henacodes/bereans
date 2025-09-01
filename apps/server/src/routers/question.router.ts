@@ -58,6 +58,12 @@ export const questionRouter = router({
                     image: true,
                   },
                 },
+                votes: {
+                  columns: {
+                    userId: true,
+                    value: true,
+                  },
+                },
                 citations: {
                   columns: {
                     title: true,

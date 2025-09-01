@@ -12,6 +12,7 @@ import {
 import { trpc } from "@/utils/trpc";
 import { useTRPCMutation } from "@/hooks/useTRPCMutation copy";
 import { useState } from "react";
+import type { VoteType } from "@/types/forum";
 
 type QuestionCardProps = {
   id: string;
@@ -30,8 +31,6 @@ type QuestionCardProps = {
   isLoggedIn: boolean;
 };
 
-type VoteType = "upvote" | "downvote" | "retract";
-
 export default function QuestionDetailsCard({
   id,
   title,
@@ -49,6 +48,7 @@ export default function QuestionDetailsCard({
   const savedQuestionMutation = useTRPCMutation(
     trpc.question.addOrRemoveSavedQuestion
   );
+
   const [totalVotes, setTotalVotes] = useState(
     votes.reduce((sum, v) => sum + v.value, 0)
   );
@@ -73,6 +73,7 @@ export default function QuestionDetailsCard({
   };
 
   const handleVote = (voteType: VoteType) => {
+    if (!isLoggedIn) return;
     const voteValue =
       voteType === "upvote"
         ? userVoted === 1
@@ -92,8 +93,8 @@ export default function QuestionDetailsCard({
       {
         onSuccess: (data) => {
           setUserVoted(voteValue);
-          if (data.updatedQuestion) {
-            const { upvotes, downvotes } = data.updatedQuestion[0];
+          if (data.updatedRow) {
+            const { upvotes, downvotes } = data.updatedRow[0];
             setTotalVotes(upvotes - downvotes);
           }
         },
@@ -130,7 +131,7 @@ export default function QuestionDetailsCard({
             </div>
           </div>
 
-          {isLoggedIn && (
+          {
             <div className="flex gap-2">
               <div
                 className={
@@ -193,7 +194,7 @@ export default function QuestionDetailsCard({
                 </Button>
               )}
             </div>
-          )}
+          }
         </div>
       </CardContent>
     </Card>

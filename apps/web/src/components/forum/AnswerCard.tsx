@@ -1,18 +1,18 @@
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+"use client";
+
+import { CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
   CheckCircle,
-  ArrowBigUp,
-  ArrowBigDown,
-  Check,
   LoaderCircle,
   ChevronUp,
   ChevronDown,
 } from "lucide-react";
 import { trpc } from "@/utils/trpc";
 import { useTRPCMutation } from "@/hooks/useTRPCMutation copy";
-import type { Citation } from "@/types/forum";
+import type { Citation, VoteType } from "@/types/forum";
 import { CitedComponent } from "./CitedComponent";
+import { useState } from "react";
 
 type BetterAuthUser = {
   id: string;
@@ -25,7 +25,7 @@ type AnswerCardProps = {
   id: string;
   author: BetterAuthUser;
   createdAt: string;
-  votes: number;
+  votes: { userId: string; value: number }[];
   approved: boolean;
   userId: string | undefined;
   asker: BetterAuthUser;
@@ -48,6 +48,15 @@ export function AnswerCard({
   citations,
 }: AnswerCardProps) {
   const approveAnswerMutation = useTRPCMutation(trpc.answer.approveAnswer);
+  const voteMutation = useTRPCMutation(trpc.answer.voteAnswer);
+
+  const [totalVotes, setTotalVotes] = useState(
+    votes.reduce((sum, v) => sum + v.value, 0)
+  );
+  const [userVoted, setUserVoted] = useState(() => {
+    const userVote = votes.find((v) => v.userId === userId);
+    return userVote ? userVote.value : 0;
+  });
 
   const handleApprove = () => {
     approveAnswerMutation.mutate(
@@ -60,17 +69,62 @@ export function AnswerCard({
       }
     );
   };
+
+  const handleVote = (voteType: VoteType) => {
+    const voteValue =
+      voteType === "upvote"
+        ? userVoted === 1
+          ? 0
+          : 1
+        : voteType === "downvote"
+        ? userVoted === -1
+          ? 0
+          : -1
+        : 0;
+
+    voteMutation.mutate(
+      {
+        value: voteValue,
+        answerId: id,
+      },
+      {
+        onSuccess: (data) => {
+          setUserVoted(voteValue);
+          if (data.updatedRow) {
+            const { upvotes, downvotes } = data.updatedRow[0];
+            setTotalVotes(upvotes - downvotes);
+          }
+        },
+      }
+    );
+  };
   return (
     <div className="mb-4">
       <div className="flex gap-4">
         {/* Vote Sidebar */}
         <div className="flex flex-col items-center py-2 px-1 ">
-          <Button variant="ghost" size="icon">
-            <ChevronUp className="w-5 h-5" />
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => handleVote("upvote")}
+          >
+            <ChevronUp
+              className={
+                "w-5 h-5  " + (userVoted === 1 && " text-primary font-bold   ")
+              }
+            />
           </Button>
-          <span className="text-sm font-medium">{votes}</span>
-          <Button variant="ghost" size="icon">
-            <ChevronDown className="w-5 h-5" />
+          <span className="text-sm font-medium">{totalVotes}</span>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => handleVote("downvote")}
+          >
+            <ChevronDown
+              className={
+                "w-5 h-5  " + (userVoted === -1 && " text-destructive ")
+              }
+            />
           </Button>
         </div>
 
@@ -123,7 +177,7 @@ export function AnswerCard({
                 </h4>
                 <ul className="space-y-2 list-disc list-inside text-slate-700 dark:text-slate-300 text-sm">
                   {citations.map((c, i) => (
-                    <CitedComponent citation={c} key={i} />
+                    <CitedComponent citation={c} k={i} />
                   ))}
                 </ul>
               </div>

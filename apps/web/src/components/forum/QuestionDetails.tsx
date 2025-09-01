@@ -116,8 +116,8 @@ export default function QuestionDetails({
             .map((answer) => {
               return (
                 <AnswerCard
+                  key={answer.id}
                   author={answer.user}
-                  votes={0}
                   {...answer}
                   userId={session.data?.user.id}
                   setApprovedAnswer={setApprovedAnswer}

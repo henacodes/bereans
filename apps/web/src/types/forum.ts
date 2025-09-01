@@ -6,6 +6,8 @@ export type Question = inferProcedureOutput<
   AppRouter["question"]["getQuestionById"]
 >;
 
+export type VoteType = "upvote" | "downvote" | "retract";
+
 export type Citation = {
   title: string;
   author?: string | null;
