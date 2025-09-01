@@ -64,6 +64,7 @@ export function CitationForm({
         <Button
           type="button"
           variant="secondary"
+          className=" text-slate-300 "
           size="sm"
           onClick={addCitation}
         >
