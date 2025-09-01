@@ -82,6 +82,8 @@ export default function QuestionDetails({
     views,
   } = questionQuery.data;
 
+  console.log(answers);
+
   return (
     <div className="space-y-8">
       <QuestionDetailsCard
@@ -121,6 +123,7 @@ export default function QuestionDetails({
                   setApprovedAnswer={setApprovedAnswer}
                   approvedAnswer={approvedAnswer}
                   asker={asker}
+                  citations={answer.citations}
                 />
               );
             })}

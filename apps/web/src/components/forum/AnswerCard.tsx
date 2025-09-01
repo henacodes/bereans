@@ -9,6 +9,8 @@ import {
 } from "lucide-react";
 import { trpc } from "@/utils/trpc";
 import { useTRPCMutation } from "@/hooks/useTRPCMutation copy";
+import type { Citation } from "@/types/forum";
+import { CitedComponent } from "./CitedComponent";
 
 type BetterAuthUser = {
   id: string;
@@ -27,6 +29,7 @@ type AnswerCardProps = {
   asker: BetterAuthUser;
   setApprovedAnswer: (newState: any) => void;
   approvedAnswer: string | null;
+  citations?: Citation[];
 };
 
 export function AnswerCard({
@@ -40,6 +43,7 @@ export function AnswerCard({
   userId,
   asker,
   approvedAnswer,
+  citations,
 }: AnswerCardProps) {
   const approveAnswerMutation = useTRPCMutation(trpc.answer.approveAnswer);
 
@@ -91,6 +95,18 @@ export function AnswerCard({
 
       <CardContent>
         <p className="text-slate-700 dark:text-slate-300  mb-4">{text}</p>
+        {citations && citations.length > 0 && (
+          <div className="mt-4 border-t border-slate-200 pt-4">
+            <h4 className="text-sm font-semibold text-slate-600 mb-2">
+              Sources
+            </h4>
+            <ul className="space-y-2 list-disc list-inside text-slate-700 dark:text-slate-300 text-sm">
+              {citations.map((c, i) => (
+                <CitedComponent citation={c} key={i} />
+              ))}
+            </ul>
+          </div>
+        )}
 
         <div className="flex items-center justify-between text-sm text-slate-500">
           <div className="flex items-center gap-2">

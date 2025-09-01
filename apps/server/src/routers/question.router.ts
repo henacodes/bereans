@@ -58,6 +58,14 @@ export const questionRouter = router({
                     image: true,
                   },
                 },
+                citations: {
+                  columns: {
+                    title: true,
+                    author: true,
+                    type: true,
+                    url: true,
+                  },
+                },
               },
             },
             votes: {

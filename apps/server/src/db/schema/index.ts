@@ -4,3 +4,4 @@ export * from "./answerVote";
 export * from "./questionVote";
 export * from "./profile";
 export * from "./auth";
+export * from "./citation";

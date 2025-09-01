@@ -1,24 +1,39 @@
 import { db } from "@/db";
-import { answer, answerVote } from "@/db/schema";
+import { answer, answerVote, citation } from "@/db/schema";
 import { protectedProcedure, publicProcedure, router } from "@/lib/trpc";
-import { CreateAnswerSchema } from "@/lib/validation";
+import { CreateAnswerSchema, CreateCitationSchema } from "@/lib/validation";
 import { handleVote } from "@/utils/vote";
 import { and, eq, sql } from "drizzle-orm";
 import z from "zod";
 
 export const answerRouter = router({
   createAnswer: protectedProcedure
-    .input(CreateAnswerSchema.omit({ id: true, userId: true }))
+    .input(
+      CreateAnswerSchema.omit({ id: true, userId: true }).extend({
+        citations: z.array(CreateCitationSchema).optional(),
+      })
+    )
     .mutation(async ({ input, ctx }) => {
       const userId = ctx.session.user.id;
 
+      const { citations, ...answerData } = input;
       const [newAnswer] = await db
         .insert(answer)
         .values({
-          ...input,
+          ...answerData,
           userId: userId,
         })
         .returning();
+
+      if (citations && citations.length) {
+        await db.insert(citation).values(
+          citations.map((c) => ({
+            ...c,
+            answerId: newAnswer.id,
+            citedBy: userId,
+          }))
+        );
+      }
 
       return newAnswer;
     }),

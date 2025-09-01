@@ -4,6 +4,7 @@ import { sql } from "drizzle-orm";
 import { relations } from "drizzle-orm";
 import { question } from "./question";
 import { answerVote } from "./answerVote";
+import { citation } from "./citation";
 
 export const answer = sqliteTable("answer", {
   id: text("id")
@@ -42,5 +43,6 @@ export const answerRelations = relations(answer, ({ one, many }) => ({
     fields: [answer.questionId],
     references: [question.id],
   }),
+  citations: many(citation),
   votes: many(answerVote),
 }));
