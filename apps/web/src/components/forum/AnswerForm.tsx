@@ -59,7 +59,7 @@ export function AnswerForm({ questionId }: { questionId: string }) {
           </div>
 
           {/* Citations */}
-          <CitationForm onChange={setCitations} />
+          <CitationForm citations={citations} setCitations={setCitations} />
 
           {/* Submit */}
           <div className="flex justify-between items-center">

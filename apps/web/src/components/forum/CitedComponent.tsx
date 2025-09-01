@@ -8,7 +8,7 @@ export function CitedComponent({
   k: number;
 }) {
   return (
-    <li key={k}>
+    <li key={k} className=" text-slate-400 ">
       {citation.title}
       {citation.author && ` — ${citation.author}`}
       {citation.context && ` (${citation.context})`}

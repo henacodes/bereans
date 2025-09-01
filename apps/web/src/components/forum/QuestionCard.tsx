@@ -82,7 +82,7 @@ export default function QuestionCard({
                   chapter,
                   verseStart,
                   verseEnd,
-                  translation,
+                  translation: translation || "ESV",
                 },
                 ["bookId", "chapter", "verseStart", "verseEnd", "translation"]
               )}`}

@@ -21,19 +21,18 @@ export type CitationInput = {
 };
 
 export function CitationForm({
-  onChange,
+  citations,
+  setCitations,
 }: {
-  onChange: (citations: CitationInput[]) => void;
+  setCitations: (citations: CitationInput[]) => void;
+  citations: CitationInput[];
 }) {
-  const [citations, setCitations] = useState<CitationInput[]>([]);
-
   const addCitation = () => {
     const newCitations = [
       ...citations,
       { title: "", type: "book", author: "", url: "", context: "" },
     ] as CitationInput[];
     setCitations(newCitations);
-    onChange(newCitations);
   };
 
   const updateCitation = (
@@ -45,13 +44,11 @@ export function CitationForm({
       i === index ? { ...c, [field]: value } : c
     );
     setCitations(newCitations);
-    onChange(newCitations);
   };
 
   const removeCitation = (index: number) => {
     const newCitations = citations.filter((_, i) => i !== index);
     setCitations(newCitations);
-    onChange(newCitations);
   };
 
   return (

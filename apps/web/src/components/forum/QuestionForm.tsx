@@ -16,7 +16,6 @@ export function QuestionForm() {
   const [error, setError] = useState<string | null>(null);
   const { selectedPassage } = useVerseDialog();
   const [tags, setTags] = useState<string[]>([]);
-
   const bookId = selectedPassage?.bookId;
   const chapter = selectedPassage?.chapter;
   const verseStart = selectedPassage?.verseStart;
@@ -42,6 +41,7 @@ export function QuestionForm() {
     const resetState = () => {
       setTitle("");
       setText("");
+      setTags([]);
     };
 
     questionMutation.mutate(
@@ -87,11 +87,7 @@ export function QuestionForm() {
       </div>
 
       <div>
-        <TagInput
-          onChange={(tags) => {
-            setTags(tags);
-          }}
-        />
+        <TagInput setTags={setTags} tags={tags} />
       </div>
 
       <p className="text-sm text-gray-500">

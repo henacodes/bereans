@@ -82,8 +82,6 @@ export default function QuestionDetails({
     views,
   } = questionQuery.data;
 
-  console.log(answers);
-
   return (
     <div className="space-y-8">
       <QuestionDetailsCard

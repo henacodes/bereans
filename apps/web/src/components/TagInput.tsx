@@ -1,12 +1,12 @@
 import { useState } from "react";
 
 interface TagInputProps {
-  onChange: (tags: string[]) => void;
+  setTags: (tags: string[]) => void;
+  tags: string[];
 }
 
-export default function TagInput({ onChange }: TagInputProps) {
+export default function TagInput({ setTags, tags }: TagInputProps) {
   const [inputValue, setInputValue] = useState("");
-  const [tags, setTags] = useState<string[]>([]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
@@ -23,7 +23,6 @@ export default function TagInput({ onChange }: TagInputProps) {
     if (!tags.includes(tag)) {
       const newTags = [...tags, tag];
       setTags(newTags);
-      onChange(newTags); // send to parent
     }
     setInputValue("");
   };
@@ -31,7 +30,6 @@ export default function TagInput({ onChange }: TagInputProps) {
   const removeTag = (index: number) => {
     const newTags = tags.filter((_, i) => i !== index);
     setTags(newTags);
-    onChange(newTags); // send to parent
   };
 
   return (
