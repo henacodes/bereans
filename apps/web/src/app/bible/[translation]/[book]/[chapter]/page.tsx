@@ -3,6 +3,8 @@ import ChapterSelector from "@/components/bible/ChapterSelector";
 import { VerseDialog } from "@/components/bible/VerseDialogue";
 import { VersesList } from "@/components/bible/Verses";
 import { bibleBooks } from "@/data/bible";
+import { auth } from "../../../../../../../server/src/lib/auth";
+import { headers } from "next/headers";
 
 type Verse = {
   pk: number;
@@ -44,6 +46,8 @@ export default async function BiblePage({
   const selectedBook =
     bibleBooks.find((b) => b.bookId === selectedBookId) ?? bibleBooks[0];
 
+  let isLoggedIn = false; //session?.user != undefined;
+
   return (
     <main className=" px-32 relative z-0  ">
       <CoolBackground />
@@ -69,7 +73,7 @@ export default async function BiblePage({
         </article>
       )}
 
-      <VerseDialog />
+      <VerseDialog isLoggedIn={isLoggedIn} />
     </main>
   );
 }

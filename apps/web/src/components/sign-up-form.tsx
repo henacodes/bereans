@@ -7,6 +7,7 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { useRouter } from "next/navigation";
+import { CoolBackground } from "./background";
 
 export default function SignUpForm({
   onSwitchToSignIn,
@@ -37,7 +38,7 @@ export default function SignUpForm({
           onError: (error) => {
             toast.error(error.error.message || error.error.statusText);
           },
-        },
+        }
       );
     },
     validators: {
@@ -54,7 +55,8 @@ export default function SignUpForm({
   }
 
   return (
-    <div className="mx-auto w-full mt-10 max-w-md p-6">
+    <div className="mx-auto w-full mt-10 max-w-md p-6 relative z-0 ">
+      <CoolBackground />
       <h1 className="mb-6 text-center text-3xl font-bold">Create Account</h1>
 
       <form

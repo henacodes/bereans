@@ -7,13 +7,14 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { useRouter } from "next/navigation";
+import { CoolBackground } from "./background";
 
 export default function SignInForm({
   onSwitchToSignUp,
 }: {
   onSwitchToSignUp: () => void;
 }) {
-  const router = useRouter()
+  const router = useRouter();
   const { isPending } = authClient.useSession();
 
   const form = useForm({
@@ -29,13 +30,13 @@ export default function SignInForm({
         },
         {
           onSuccess: () => {
-            router.push("/dashboard")
+            router.push("/dashboard");
             toast.success("Sign in successful");
           },
           onError: (error) => {
             toast.error(error.error.message || error.error.statusText);
           },
-        },
+        }
       );
     },
     validators: {
@@ -51,7 +52,8 @@ export default function SignInForm({
   }
 
   return (
-    <div className="mx-auto w-full mt-10 max-w-md p-6">
+    <div className="mx-auto w-full mt-10 max-w-md p-6 relative z-0 ">
+      <CoolBackground />
       <h1 className="mb-6 text-center text-3xl font-bold">Welcome Back</h1>
 
       <form

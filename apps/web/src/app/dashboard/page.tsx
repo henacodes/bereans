@@ -10,7 +10,6 @@ export default function Dashboard() {
   const { data: session, isPending } = authClient.useSession();
 
   const privateData = useQuery(trpc.privateData.queryOptions());
-  const mutation = useMutation(trpc.answer.createAnswer.mutationOptions());
 
   // mutation.mutate({ up })
 

@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { bibleBooks, getBibleBook } from "@/data/bible";
 import { supportedTranslations } from "@/data/bible";
-import { LoaderCircle } from "lucide-react";
+import { Loader, LoaderCircle } from "lucide-react";
 
 import {
   Select,
@@ -80,6 +80,11 @@ export default function ChapterSelector({
       onSubmit={handleSubmit}
       className={"mb-6 flex flex-wrap gap-4 items-center  "}
     >
+      {loading && (
+        <div className=" w-[100vw] h-[100vh] fixed top-0 left-0 bg-black/80 z-30  flex items-center justify-center">
+          <Loader className=" animate-spin  text-primary" size={50} />
+        </div>
+      )}
       <Select value={translation} onValueChange={(val) => setTranslation(val)}>
         <SelectTrigger className="w-[240px]">
           <SelectValue placeholder="Select translation" />
@@ -117,12 +122,7 @@ export default function ChapterSelector({
 
       <Select
         value={String(selectedChapter)}
-        onValueChange={(val) => {
-          setSelectedChapter(parseInt(val, 10));
-
-          console.log("selectedChapter", selectedChapter);
-          console.log("currentChapter", currentChapter);
-        }}
+        onValueChange={(val) => setSelectedChapter(parseInt(val, 10))}
       >
         <SelectTrigger className="w-[100px]">
           <SelectValue placeholder="Select chapter" />
