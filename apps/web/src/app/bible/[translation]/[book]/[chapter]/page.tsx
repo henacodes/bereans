@@ -3,8 +3,6 @@ import ChapterSelector from "@/components/bible/ChapterSelector";
 import { VerseDialog } from "@/components/bible/VerseDialogue";
 import { VersesList } from "@/components/bible/Verses";
 import { bibleBooks } from "@/data/bible";
-import { auth } from "../../../../../../../server/src/lib/auth";
-import { headers } from "next/headers";
 
 type Verse = {
   pk: number;

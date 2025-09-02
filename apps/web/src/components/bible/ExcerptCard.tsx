@@ -10,7 +10,7 @@ import AlertCard from "../Alert";
 import { useQuestionDetail } from "@/stores/useQuestionDetail";
 import { trpc } from "@/utils/trpc";
 
-import { useTRPCMutation } from "@/hooks/useTRPCMutation copy";
+import { useTRPCMutation } from "@/hooks/useTRPCMutation";
 
 export default function ExcerptCard({
   searchParams,

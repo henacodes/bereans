@@ -9,7 +9,7 @@ import {
   ChevronDown,
 } from "lucide-react";
 import { trpc } from "@/utils/trpc";
-import { useTRPCMutation } from "@/hooks/useTRPCMutation copy";
+import { useTRPCMutation } from "@/hooks/useTRPCMutation";
 import type { Citation, VoteType } from "@/types/forum";
 import { CitedComponent } from "./CitedComponent";
 import { useState } from "react";

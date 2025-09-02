@@ -10,7 +10,7 @@ import {
   BookmarkX,
 } from "lucide-react";
 import { trpc } from "@/utils/trpc";
-import { useTRPCMutation } from "@/hooks/useTRPCMutation copy";
+import { useTRPCMutation } from "@/hooks/useTRPCMutation";
 import { useState } from "react";
 import type { VoteType } from "@/types/forum";
 

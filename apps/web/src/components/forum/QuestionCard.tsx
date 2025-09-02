@@ -11,7 +11,6 @@ import { Avatar, AvatarFallback } from "../ui/avatar";
 import { Badge } from "../ui/badge";
 import { objToQueryString } from "@/lib/utils";
 import { formatTimestamp, parseSQLiteDate } from "@/utils/misc";
-import { formatDistance } from "date-fns";
 
 interface QuestionCardProps {
   id: string;

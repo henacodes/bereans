@@ -59,7 +59,7 @@ export default function QuestionsList({
     return (
       <div className="  ">
         {questions.map((q) => (
-          <QuestionCard translation={translation} answersCount={0} {...q} />
+          <QuestionCard {...q} />
         ))}
       </div>
     );
