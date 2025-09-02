@@ -1,4 +1,4 @@
-import type { Citation } from "@/types/forum";
+import type { Citation } from "@web/types/forum";
 
 export function CitedComponent({
   citation,

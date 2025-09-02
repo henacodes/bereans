@@ -1,6 +1,6 @@
 // lib/server/validation.ts
 import { createInsertSchema } from "drizzle-zod";
-import { question, answer, citation } from "@/db/schema/";
+import { question, answer, citation } from "@server/db/schema/";
 import z from "zod";
 
 export const CreateQuestionSchema = createInsertSchema(question);

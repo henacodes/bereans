@@ -1,4 +1,4 @@
-import type { BibleBook, Translation } from "@/types/bible";
+import type { BibleBook, Translation } from "@web/types/bible";
 
 export const bibleBooks: BibleBook[] = [
   {

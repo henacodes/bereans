@@ -1,11 +1,10 @@
-/*
 import type { inferProcedureOutput } from "@trpc/server";
-import type { AppRouter } from "../../../server/src/routers";
+import type { AppRouter } from "@server/routers";
 
- export type Question = inferProcedureOutput<
+export type Question = inferProcedureOutput<
   AppRouter["question"]["getQuestionById"]
 >;
- */
+
 export type VoteType = "upvote" | "downvote" | "retract";
 
 export type Citation = {

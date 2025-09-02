@@ -1,4 +1,4 @@
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Alert, AlertDescription, AlertTitle } from "@web/components/ui/alert";
 import { Terminal } from "lucide-react";
 
 export default function AlertCard({

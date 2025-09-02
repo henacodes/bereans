@@ -1,7 +1,7 @@
 "use client";
-import { authClient } from "@/lib/auth-client";
+import { authClient } from "@web/lib/auth-client";
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { trpc } from "@/utils/trpc";
+import { trpc } from "@web/utils/trpc";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 

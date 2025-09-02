@@ -3,7 +3,7 @@
 import {
   GridPatternCard,
   GridPatternCardBody,
-} from "@/components/ui/card-with-grid-ellipsis-pattern";
+} from "@web/components/ui/card-with-grid-ellipsis-pattern";
 
 export default function GridPatternCardDemo() {
   return (

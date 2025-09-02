@@ -5,12 +5,12 @@ import {
   MessageSquare,
   ExternalLink,
 } from "lucide-react";
-import { Card } from "@/components/ui/card";
+import { Card } from "@web/components/ui/card";
 import { Button } from "../ui/button";
 import { Avatar, AvatarFallback } from "../ui/avatar";
 import { Badge } from "../ui/badge";
-import { objToQueryString } from "@/lib/utils";
-import { formatTimestamp, parseSQLiteDate } from "@/utils/misc";
+import { objToQueryString } from "@web/lib/utils";
+import { formatTimestamp, parseSQLiteDate } from "@web/utils/misc";
 
 interface QuestionCardProps {
   id: string;

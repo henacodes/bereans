@@ -1,12 +1,12 @@
 "use client";
 
-import { Card, CardHeader, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
+import { Card, CardHeader, CardContent } from "@web/components/ui/card";
+import { Button } from "@web/components/ui/button";
+import { Textarea } from "@web/components/ui/textarea";
+import { Label } from "@web/components/ui/label";
 import { useState } from "react";
-import { trpc } from "@/utils/trpc";
-import { useTRPCMutation } from "@/hooks/useTRPCMutation";
+import { trpc } from "@web/utils/trpc";
+import { useTRPCMutation } from "@web/hooks/useTRPCMutation";
 import { CitationForm, type CitationInput } from "./CitationForm";
 
 export function AnswerForm({ questionId }: { questionId: string }) {

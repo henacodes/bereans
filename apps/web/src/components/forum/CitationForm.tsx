@@ -1,14 +1,14 @@
 "use client";
 
-import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
+import { Label } from "@web/components/ui/label";
+import { Button } from "@web/components/ui/button";
 import {
   Select,
   SelectTrigger,
   SelectValue,
   SelectContent,
   SelectItem,
-} from "@/components/ui/select";
+} from "@web/components/ui/select";
 
 export type CitationInput = {
   title: string;

@@ -1,16 +1,16 @@
 "use client";
 
-import { CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { CardContent } from "@web/components/ui/card";
+import { Button } from "@web/components/ui/button";
 import {
   CheckCircle,
   LoaderCircle,
   ChevronUp,
   ChevronDown,
 } from "lucide-react";
-import { trpc } from "@/utils/trpc";
-import { useTRPCMutation } from "@/hooks/useTRPCMutation";
-import type { Citation, VoteType } from "@/types/forum";
+import { trpc } from "@web/utils/trpc";
+import { useTRPCMutation } from "@web/hooks/useTRPCMutation";
+import type { Citation, VoteType } from "@web/types/forum";
 import { CitedComponent } from "./CitedComponent";
 import { useState } from "react";
 

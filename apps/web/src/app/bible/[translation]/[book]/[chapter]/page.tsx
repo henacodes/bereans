@@ -1,8 +1,8 @@
-import { CoolBackground } from "@/components/background";
-import ChapterSelector from "@/components/bible/ChapterSelector";
-import { VerseDialog } from "@/components/bible/VerseDialogue";
-import { VersesList } from "@/components/bible/Verses";
-import { bibleBooks } from "@/data/bible";
+import { CoolBackground } from "@web/components/background";
+import ChapterSelector from "@web/components/bible/ChapterSelector";
+import { VerseDialog } from "@web/components/bible/VerseDialogue";
+import { VersesList } from "@web/components/bible/Verses";
+import { bibleBooks } from "@web/data/bible";
 
 type Verse = {
   pk: number;
@@ -27,7 +27,7 @@ async function fetchPassage(
 export default async function BiblePage({
   params,
 }: {
-  params: { translation?: string; book?: string; chapter?: string };
+  params: Promise<{ translation?: string; book?: string; chapter?: string }>;
 }) {
   let { translation, book, chapter } = await params;
 

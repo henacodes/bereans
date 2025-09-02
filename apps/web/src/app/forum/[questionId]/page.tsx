@@ -1,15 +1,15 @@
-import { fetchPassage } from "@/lib/passage";
-import type { PassageSearchParams, Verse } from "@/types/bible";
-import QuestionDetails from "@/components/forum/QuestionDetails";
-import ExcerptCard from "@/components/bible/ExcerptCard";
-import { CoolBackground } from "@/components/background";
+import { fetchPassage } from "@web/lib/passage";
+import type { PassageSearchParams, Verse } from "@web/types/bible";
+import QuestionDetails from "@web/components/forum/QuestionDetails";
+import ExcerptCard from "@web/components/bible/ExcerptCard";
+import { CoolBackground } from "@web/components/background";
 
 export default async function DiscussionPage({
   params,
   searchParams,
 }: {
-  params: { questionId: string };
-  searchParams: PassageSearchParams;
+  params: Promise<{ questionId: string }>;
+  searchParams: Promise<PassageSearchParams>;
 }) {
   const { questionId } = await params;
   const searchQuery = await searchParams;

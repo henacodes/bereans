@@ -1,10 +1,10 @@
 "use client";
 
-import { CoolBackground } from "@/components/background";
-import QuestionCard from "@/components/forum/QuestionCard";
-import { SkeletonCard } from "@/components/Skeleton";
-import { useTRPCQuery } from "@/hooks/useTRPCQuery";
-import { trpc } from "@/utils/trpc";
+import { CoolBackground } from "@web/components/background";
+import QuestionCard from "@web/components/forum/QuestionCard";
+import { SkeletonCard } from "@web/components/Skeleton";
+import { useTRPCQuery } from "@web/hooks/useTRPCQuery";
+import { trpc } from "@web/utils/trpc";
 
 export default function QuestionsPage() {
   const questionsQuery = useTRPCQuery(trpc.question.fetchRecent, {});

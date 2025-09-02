@@ -1,8 +1,11 @@
-import { db } from "@/db";
-import { answer, answerVote, citation } from "@/db/schema";
-import { protectedProcedure, publicProcedure, router } from "@/lib/trpc";
-import { CreateAnswerSchema, CreateCitationSchema } from "@/lib/validation";
-import { handleVote } from "@/utils/vote";
+import { db } from "@server/db";
+import { answer, answerVote, citation } from "@server/db/schema";
+import { protectedProcedure, publicProcedure, router } from "@server/lib/trpc";
+import {
+  CreateAnswerSchema,
+  CreateCitationSchema,
+} from "@server/lib/validation";
+import { handleVote } from "@server/utils/vote";
 import { and, eq, sql } from "drizzle-orm";
 import z from "zod";
 

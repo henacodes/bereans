@@ -1,11 +1,11 @@
-import { protectedProcedure, publicProcedure, router } from "@/lib/trpc";
+import { protectedProcedure, publicProcedure, router } from "@server/lib/trpc";
 import { z } from "zod";
-import { question } from "@/db/schema/question";
-import { db } from "@/db/index";
+import { question } from "@server/db/schema/question";
+import { db } from "@server/db/index";
 import { and, count, desc, eq, gte, lte, sql } from "drizzle-orm";
-import { CreateQuestionSchema } from "@/lib/validation";
-import { handleVote } from "@/utils/vote";
-import { answer, savedQuestions, user } from "@/db/schema";
+import { CreateQuestionSchema } from "@server/lib/validation";
+import { handleVote } from "@server/utils/vote";
+import { answer, savedQuestions, user } from "@server/db/schema";
 
 export const questionRouter = router({
   createQuestion: protectedProcedure

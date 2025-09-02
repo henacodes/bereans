@@ -1,5 +1,5 @@
 // stores/useVerseDialog.ts
-import type { SelectedPassage } from "@/types/bible";
+import type { SelectedPassage } from "@web/types/bible";
 import { create } from "zustand";
 
 type State = {

@@ -1,4 +1,4 @@
-import type { PassageSearchParams } from "@/types/bible";
+import type { PassageSearchParams } from "@server/types/bible";
 
 export async function fetchPassage(params: PassageSearchParams) {
   const body = {

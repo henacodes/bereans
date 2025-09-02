@@ -2,8 +2,8 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { bibleBooks, getBibleBook } from "@/data/bible";
-import { supportedTranslations } from "@/data/bible";
+import { bibleBooks, getBibleBook } from "@web/data/bible";
+import { supportedTranslations } from "@web/data/bible";
 import { Loader, LoaderCircle } from "lucide-react";
 
 import {
@@ -14,7 +14,7 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from "@web/components/ui/select";
 
 interface ChapterSelectorProps {
   currentTranslation: string;

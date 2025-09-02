@@ -1,6 +1,6 @@
 "use client";
 
-import { useVerseDialog } from "@/stores/useVerseDialog";
+import { useVerseDialog } from "@web/stores/useVerseDialog";
 import { useEffect, useState } from "react";
 
 type Verse = {

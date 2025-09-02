@@ -1,16 +1,16 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@web/components/ui/button";
+import { Card, CardContent } from "@web/components/ui/card";
 import { Book, LoaderCircle } from "lucide-react";
-import { defaultTranslation, getBibleBook } from "@/data/bible";
-import type { PassageSearchParams, Verse } from "@/types/bible";
+import { defaultTranslation, getBibleBook } from "@web/data/bible";
+import type { PassageSearchParams, Verse } from "@web/types/bible";
 import { useState } from "react";
 import AlertCard from "../Alert";
-import { useQuestionDetail } from "@/stores/useQuestionDetail";
-import { trpc } from "@/utils/trpc";
+import { useQuestionDetail } from "@web/stores/useQuestionDetail";
+import { trpc } from "@web/utils/trpc";
 
-import { useTRPCMutation } from "@/hooks/useTRPCMutation";
+import { useTRPCMutation } from "@web/hooks/useTRPCMutation";
 
 export default function ExcerptCard({
   searchParams,

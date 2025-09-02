@@ -20,7 +20,8 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]
+      "@web/*": ["./src/*"],
+      "@server/*": ["../server/src/*"]
     }
   },
   "include": [

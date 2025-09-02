@@ -21,7 +21,7 @@ import {
   Undo,
   Redo,
 } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn } from "@web/lib/utils";
 
 interface MinimalTiptapProps {
   content?: string;

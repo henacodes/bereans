@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { useVerseDialog } from "@/stores/useVerseDialog";
-import { getBibleBook } from "@/data/bible";
+import { useVerseDialog } from "@web/stores/useVerseDialog";
+import { getBibleBook } from "@web/data/bible";
 
-import { trpc } from "@/utils/trpc";
-import { useTRPCMutation } from "@/hooks/useTRPCMutation";
+import { trpc } from "@web/utils/trpc";
+import { useTRPCMutation } from "@web/hooks/useTRPCMutation";
 import { Button } from "../ui/button";
 
 import TagInput from "../TagInput";

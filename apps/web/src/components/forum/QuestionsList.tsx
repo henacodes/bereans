@@ -10,15 +10,15 @@ import {
   MessageSquare,
   ExternalLink,
 } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
-import { trpc } from "@/utils/trpc";
-import { useTRPCQuery } from "@/hooks/useTRPCQuery";
+import { Card, CardContent } from "@web/components/ui/card";
+import { Badge } from "@web/components/ui/badge";
+import { Avatar, AvatarFallback } from "@web/components/ui/avatar";
+import { Button } from "@web/components/ui/button";
+import { trpc } from "@web/utils/trpc";
+import { useTRPCQuery } from "@web/hooks/useTRPCQuery";
 import { SkeletonCard } from "../Skeleton";
-import type { PassageSearchParams } from "@/types/bible";
-import { objToQueryString } from "@/lib/utils";
+import type { PassageSearchParams } from "@web/types/bible";
+import { objToQueryString } from "@web/lib/utils";
 import QuestionCard from "./QuestionCard";
 
 export default function QuestionsList({

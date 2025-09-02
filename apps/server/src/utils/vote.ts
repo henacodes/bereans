@@ -1,5 +1,5 @@
-import { db } from "@/db";
-import { answer, answerVote, question, questionVote } from "@/db/schema";
+import { db } from "@server/db";
+import { answer, answerVote, question, questionVote } from "@server/db/schema";
 import { and, eq, sql } from "drizzle-orm";
 
 type VoteTarget = "answer" | "question";

@@ -8,19 +8,19 @@ import {
   MessageSquare,
   ExternalLink,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import type { PassageSearchParams, Verse } from "@/types/bible";
-import { getBibleBook } from "@/data/bible";
-import { fetchPassage } from "@/lib/passage";
-import QuestionsList from "@/components/forum/QuestionsList";
+import { Button } from "@web/components/ui/button";
+import { Card, CardContent } from "@web/components/ui/card";
+import { Badge } from "@web/components/ui/badge";
+import { Avatar, AvatarFallback } from "@web/components/ui/avatar";
+import type { PassageSearchParams, Verse } from "@web/types/bible";
+import { getBibleBook } from "@web/data/bible";
+import { fetchPassage } from "@web/lib/passage";
+import QuestionsList from "@web/components/forum/QuestionsList";
 
 export default async function Passage({
   searchParams,
 }: {
-  searchParams: PassageSearchParams;
+  searchParams: Promise<PassageSearchParams>;
 }) {
   const params = await searchParams;
 

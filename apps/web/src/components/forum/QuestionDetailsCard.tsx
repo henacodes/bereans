@@ -1,6 +1,11 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@web/components/ui/card";
+import { Badge } from "@web/components/ui/badge";
+import { Button } from "@web/components/ui/button";
 import {
   Bookmark,
   MessageSquare,
@@ -9,10 +14,10 @@ import {
   ArrowBigDown,
   BookmarkX,
 } from "lucide-react";
-import { trpc } from "@/utils/trpc";
-import { useTRPCMutation } from "@/hooks/useTRPCMutation";
+import { trpc } from "@web/utils/trpc";
+import { useTRPCMutation } from "@web/hooks/useTRPCMutation";
 import { useState } from "react";
-import type { VoteType } from "@/types/forum";
+import type { VoteType } from "@web/types/forum";
 
 type QuestionCardProps = {
   id: string;

@@ -1,7 +1,7 @@
 // server/routers/bible.ts
 import { z } from "zod";
-import { publicProcedure, router } from "@/lib/trpc";
-import { fetchPassage } from "@/lib/passage";
+import { publicProcedure, router } from "@server/lib/trpc";
+import { fetchPassage } from "@server/lib/passage";
 
 export const bibleRouter = router({
   getPassage: publicProcedure

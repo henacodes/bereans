@@ -1,15 +1,15 @@
 "use client";
 
-import { useTRPCQuery } from "@/hooks/useTRPCQuery";
-import { trpc } from "@/utils/trpc";
+import { useTRPCQuery } from "@web/hooks/useTRPCQuery";
+import { trpc } from "@web/utils/trpc";
 import { SkeletonCard } from "../Skeleton";
 import AlertCard from "../Alert";
 import { AnswerForm } from "./AnswerForm";
-import { useQuestionDetail } from "@/stores/useQuestionDetail";
+import { useQuestionDetail } from "@web/stores/useQuestionDetail";
 import { useEffect, useState } from "react";
 import QuestionDetailsCard from "./QuestionDetailsCard";
 import { AnswerCard } from "./AnswerCard";
-import { authClient } from "@/lib/auth-client";
+import { authClient } from "@web/lib/auth-client";
 
 export default function QuestionDetails({
   questionId,

@@ -9,8 +9,8 @@ import {
   ExternalLink,
   Github,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { Button } from "@web/components/ui/button";
+import { cn } from "@web/lib/utils";
 
 export default function GradientHero() {
   return (
