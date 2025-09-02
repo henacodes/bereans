@@ -1,5 +1,5 @@
 import type { inferProcedureOutput } from "@trpc/server";
-import type { AppRouter } from "@server/routers";
+import type { AppRouter } from "../../../server/src/routers";
 
 export type Question = inferProcedureOutput<
   AppRouter["question"]["getQuestionById"]

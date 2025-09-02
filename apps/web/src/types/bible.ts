@@ -1,1 +1,1 @@
-export type * from "@server/types/bible";
+export type * from "../../../server/src/types/bible";
