@@ -20,8 +20,9 @@
       }
     ],
     "paths": {
-      "@web/*": ["./src/*"],
-      "@server/*": ["../server/src/*"]
+      "@web/*": ["./src/*", "../server/src/*"],
+      "@server/*": ["../server/src/*"],
+      "@bereans/types": ["../packages/types/*"]
     }
   },
   "include": [
