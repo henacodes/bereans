@@ -7,7 +7,7 @@ import SignUpForm from "@/components/sign-up-form";
 
 import { useQuery } from "@tanstack/react-query";
 
-export default async function LoginPage() {
+export default function LoginPage() {
   const [showSignIn, setShowSignIn] = useState(false);
 
   return showSignIn ? (

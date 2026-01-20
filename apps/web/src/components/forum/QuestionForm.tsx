@@ -100,7 +100,11 @@ export function QuestionForm() {
 
       {error && <p className="text-red-500">{error}</p>}
 
-      <Button type="submit" variant="default" className="cursor-pointer">
+      <Button
+        type="submit"
+        variant="default"
+        className="cursor-pointer rounded-md "
+      >
         {questionMutation.isPending ? "Posting..." : "Post Question"}
       </Button>
     </form>

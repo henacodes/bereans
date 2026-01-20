@@ -41,7 +41,7 @@ export function VerseDialog({ isLoggedIn }: { isLoggedIn: boolean }) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       {session?.user ? (
-        <DialogContent className=" ">
+        <DialogContent className="sm:max-w-175 lg:max-w-225 w-[95vw] max-h-[90vh] overflow-y-auto rounded-lg  ">
           <DialogHeader>
             <DialogTitle className="text-xl font-semibold">
               Verses {selectedPassage?.verseStart}–{selectedPassage?.verseEnd}
@@ -64,8 +64,8 @@ export function VerseDialog({ isLoggedIn }: { isLoggedIn: boolean }) {
 
             <div className="mt-6 flex justify-between">
               <a href={`/excerpt?${queryString}`}>
-                <Button variant="outline" className="cursor-pointer">
-                  Previous Questions <ChevronRight />
+                <Button variant="outline" className="cursor-pointer ">
+                  Already Asked Questions <ChevronRight />
                 </Button>
               </a>
               <DialogClose>

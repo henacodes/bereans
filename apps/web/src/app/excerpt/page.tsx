@@ -6,6 +6,7 @@ import type { PassageSearchParams, Verse } from "@bereans/api/types/bible";
 import { getBibleBook } from "@/data/bible";
 import { fetchPassage } from "@bereans/api/third-party/passage";
 import QuestionsList from "@/components/forum/QuestionsList";
+import ExcerptCard from "@/components/bible/ExcerptCard";
 
 export default async function Passage({
   searchParams,
@@ -52,7 +53,7 @@ export default async function Passage({
           </div>
 
           {/* Verse Context (Compact) */}
-          <Card className="mb-6 border-0 shadow-sm bg-gradient-to-r from-blue-50 to-indigo-50">
+          {/* <Card className="mb-6 border-0 shadow-sm bg-gradient-to-r from-blue-50 to-indigo-50">
             <CardContent className="p-4">
               <div className="flex items-center gap-2 text-sm text-slate-600 mb-2">
                 <Book className="h-4 w-4" />
@@ -71,7 +72,17 @@ export default async function Passage({
                 ))}
               </blockquote>
             </CardContent>
-          </Card>
+          </Card> */}
+
+          <ExcerptCard searchParams={params} serverFetchedPassage={passage} />
+
+          <div className="mt-16 mb-8 flex items-center gap-4">
+            <div className="flex-1 h-[1px] bg-border/60" />
+            <h2 className="font-playfair italic text-2xl font-medium text-foreground/80 whitespace-nowrap px-2">
+              Inquiries related to this passage
+            </h2>
+            <div className="flex-1 h-[1px] bg-border/60" />
+          </div>
 
           <QuestionsList {...params} />
         </div>

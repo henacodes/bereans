@@ -133,6 +133,12 @@ export const questionRouter = router({
       ].filter(Boolean);
 
       const result = await db.query.question.findMany({
+        extras: {
+          totalAnswers:
+            sql`(select count(*) from "answer" where "answer"."question_id" = "question"."id")`.as(
+              "totalAnswers",
+            ),
+        },
         where: and(...filters),
         with: {
           user: true,

@@ -1,10 +1,4 @@
-import {
-  ChevronUp,
-  ChevronDown,
-  Calendar,
-  MessageSquare,
-  ExternalLink,
-} from "lucide-react";
+import { ChevronUp, ChevronDown, Calendar, MessageSquare } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "../ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -46,35 +40,35 @@ export default function QuestionCard({
   totalAnswers,
 }: QuestionCardProps) {
   return (
-    <Card className="p-5 border-none bg-card shadow-sm hover:bg-accent/40 transition-colors">
-      <div className="flex gap-4">
-        {/* Vote Section: Stacked vertically on the left */}
-        <div className="flex flex-col items-center gap-0.5">
+    <Card className="p-6 border border-border/40 bg-card/50 hover:bg-accent/5 transition-all duration-300 rounded-[2rem] shadow-none">
+      <div className="flex gap-6">
+        {/* Left Side: Clean Vote Section */}
+        <div className="flex flex-col items-center justify-start pt-1 gap-1">
           <Button
             disabled={true}
             variant="ghost"
-            size="sm"
-            className="h-6 w-6 p-0"
+            size="icon"
+            className="h-7 w-7 p-0 text-muted-foreground/50"
           >
-            <ChevronUp className="h-4 w-4 text-muted-foreground" />
+            <ChevronUp className="h-5 w-5" />
           </Button>
-          <span className="text-sm font-bold text-foreground">
+          <span className="text-sm font-bold tabular-nums text-foreground/80">
             {upvotes - downvotes}
           </span>
           <Button
             disabled={true}
             variant="ghost"
-            size="sm"
-            className="h-6 w-6 p-0"
+            size="icon"
+            className="h-7 w-7 p-0 text-muted-foreground/50"
           >
-            <ChevronDown className="h-4 w-4 text-muted-foreground" />
+            <ChevronDown className="h-5 w-5" />
           </Button>
         </div>
 
-        {/* Question Content */}
-        <div className="flex-1 space-y-3">
-          <div className="flex items-start justify-between gap-2">
-            <h3 className="text-lg font-semibold leading-tight">
+        {/* Right Side: Content Area */}
+        <div className="flex-1">
+          <div className="space-y-1 mb-4">
+            <h3 className="text-xl font-bold tracking-tight uppercase">
               <a
                 href={`/forum/${id}?${objToQueryString(
                   {
@@ -97,42 +91,37 @@ export default function QuestionCard({
                 {title}
               </a>
             </h3>
+            <p className="text-muted-foreground text-sm leading-relaxed line-clamp-2 italic ">
+              {text}
+            </p>
           </div>
 
-          <p className="text-muted-foreground text-sm line-clamp-2 leading-relaxed">
-            {text}
-          </p>
-
-          <hr className=" my-5  " />
-
-          <div className="flex items-center justify-between pt-1">
+          <div className="flex items-center justify-between pt-4 border-t border-border/40">
             <div className="flex items-center gap-4">
-              {/* User Section */}
+              {/* User Identity - Green-tinted theme */}
               <div className="flex items-center gap-2">
-                <Avatar className="h-6 w-6">
-                  <AvatarFallback className="text-[10px] bg-secondary  text-white dark:text-secondary-foreground">
+                <Avatar className="h-7 w-7 border-2 border-background">
+                  <AvatarFallback className="text-[10px] bg-[#82C3A1] text-[#1E3A2B] font-bold">
                     {user.name.charAt(0).toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
-                <span className="text-xs font-medium text-muted-foreground">
+                <span className="text-xs font-semibold text-muted-foreground/80 uppercase tracking-wide">
                   {user.name}
                 </span>
               </div>
 
-              {/* Timestamp Section */}
-              <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+              <div className="flex items-center gap-1.5 text-xs text-muted-foreground/60">
                 <Calendar className="h-3.5 w-3.5" />
-                {formatTimestamp(createdAt.toString())}
+                <span>{formatTimestamp(createdAt.toString())}</span>
               </div>
             </div>
 
-            {/* Answer Badge */}
-            <Badge
-              variant="secondary"
-              className="rounded-md px-2 py-0.5 flex items-center gap-1.5 font-medium text-white dark:text-primary"
-            >
-              <MessageSquare className="h-3.5 w-3.5" />
-              {`${totalAnswers}` || "0"}
+            {/* Answer Badge - Green background like the excerpt card */}
+            <Badge className="rounded-lg px-3 py-1 bg-[#82C3A1] hover:bg-[#82C3A1]/90 text-[#1E3A2B] border-none flex items-center gap-2 shadow-sm">
+              <MessageSquare className="h-3.5 w-3.5 fill-current" />
+              <span className="font-bold text-xs">
+                {`${totalAnswers}` || "0"}
+              </span>
             </Badge>
           </div>
         </div>
