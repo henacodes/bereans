@@ -9,32 +9,38 @@ import { trpc } from "@/utils/trpc";
 export default function QuestionsPage() {
   const questionsQuery = useTRPCQuery(trpc.question.fetchRecent, {});
 
-  if (questionsQuery.isSuccess) {
-    return (
-      <div className=" mt-10  px-32  relative z-0  ">
-        <CoolBackground />
-        <small className=" my-4 ">
-          Here are some of the most recent quuestions
-        </small>
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2   2xl:grid-cols-3 my-5">
+  return (
+    <div className="mt-10 px-32 relative z-0">
+      <CoolBackground />
+
+      {/* This header section will show in all states */}
+      <div className="mb-6">
+        <h1 className="text-3xl font-bold tracking-tight">
+          Welcome back Scholar
+        </h1>
+        <p className="text-muted-foreground mt-1">
+          Here are some of the most recent questions
+        </p>
+      </div>
+
+      {questionsQuery.isSuccess && (
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 2xl:grid-cols-3 my-5">
           {questionsQuery.data.map((q) => (
             <QuestionCard key={q.id} {...q} />
           ))}
         </div>
-      </div>
-    );
-  }
-  if (questionsQuery.isPending) {
-    return (
-      <div className="mt-10  px-32   relative z-0">
-        <CoolBackground />
-        <SkeletonCard />
-        <SkeletonCard />
-        <SkeletonCard />
-        <SkeletonCard />
-        <SkeletonCard />
-      </div>
-    );
-  }
-  return;
+      )}
+
+      {questionsQuery.isPending && (
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 2xl:grid-cols-3 my-5">
+          <SkeletonCard />
+          <SkeletonCard />
+          <SkeletonCard />
+          <SkeletonCard />
+          <SkeletonCard />
+          <SkeletonCard />
+        </div>
+      )}
+    </div>
+  );
 }

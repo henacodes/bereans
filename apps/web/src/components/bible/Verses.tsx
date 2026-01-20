@@ -83,29 +83,41 @@ export function VersesList({
   }, [isSelecting]);
 
   return (
-    <article className="prose max-w-none  h-[84vh] overflow-auto  scrollbar-hide      ">
-      {verses.map((v) => {
-        const isSelected =
-          firstSelectedVerse !== null &&
-          mouseHoveredVerse !== null &&
-          v.verse >= Math.min(firstSelectedVerse, mouseHoveredVerse) &&
-          v.verse <= Math.max(firstSelectedVerse, mouseHoveredVerse);
-        return (
-          <p
-            key={v.pk}
-            className={
-              "cursor-pointer my-1 rounded transition  p-1   " +
-              ((isSelected || v.verse == firstSelectedVerse) &&
-                " bg-primary/40  ")
-            }
-            onClick={() => handleVerseClick(v)}
-            onMouseEnter={() => handleMouseHover(v)}
-            dangerouslySetInnerHTML={{
-              __html: `<strong>${v.verse}.</strong> ${v.text}`,
-            }}
-          />
-        );
-      })}
+    <article className="prose max-w-none h-[84vh] overflow-auto scrollbar-hide font-playfair text-[1.15rem] leading-[2.2rem] text-foreground/90 antialiased">
+      <div className="inline">
+        {verses.map((v) => {
+          const isSelected =
+            firstSelectedVerse !== null &&
+            mouseHoveredVerse !== null &&
+            v.verse >= Math.min(firstSelectedVerse, mouseHoveredVerse) &&
+            v.verse <= Math.max(firstSelectedVerse, mouseHoveredVerse);
+
+          return (
+            <span
+              key={v.pk}
+              onClick={() => handleVerseClick(v)}
+              onMouseEnter={() => handleMouseHover(v)}
+              className={
+                "inline cursor-pointer transition-all duration-150 px-1 py-1 mx-0.5 rounded-sm " +
+                (isSelected || v.verse === firstSelectedVerse
+                  ? "bg-primary/30 ring-4 ring-primary/10 " // Slight ring adds 'air' around selection
+                  : "hover:bg-muted/50 ")
+              }
+            >
+              <sup className="text-[11px] font-medium mr-1.5 select-none opacity-60 italic">
+                {v.verse}
+              </sup>
+              <span
+                className="inline"
+                dangerouslySetInnerHTML={{
+                  // Added a non-breaking space after the text for breathing room
+                  __html: v.text.trim() + "&nbsp; ",
+                }}
+              />
+            </span>
+          );
+        })}
+      </div>
     </article>
   );
 }

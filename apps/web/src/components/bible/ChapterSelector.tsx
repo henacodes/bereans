@@ -81,12 +81,15 @@ export default function ChapterSelector({
       className={"mb-6 flex flex-wrap gap-4 items-center  "}
     >
       {loading && (
-        <div className=" w-[100vw] h-[100vh] fixed top-0 left-0 bg-black/80 z-30  flex items-center justify-center">
+        <div className=" w-screen h-screen fixed top-0 left-0 bg-black/80 z-30  flex items-center justify-center">
           <Loader className=" animate-spin  text-primary" size={50} />
         </div>
       )}
-      <Select value={translation} onValueChange={(val) => setTranslation(val)}>
-        <SelectTrigger className="w-[240px]">
+      <Select
+        value={translation}
+        onValueChange={(val) => setTranslation(val || "ESV")}
+      >
+        <SelectTrigger className="w-60">
           <SelectValue placeholder="Select translation" />
         </SelectTrigger>
         <SelectContent>
@@ -103,10 +106,15 @@ export default function ChapterSelector({
 
       <Select
         value={String(selectedBook)}
-        onValueChange={(val) => setSelectedBook(parseInt(val, 10))}
+        onValueChange={(val) => setSelectedBook(parseInt(val || "1", 10))}
       >
-        <SelectTrigger className="w-[200px]">
-          <SelectValue placeholder="Select book" />
+        <SelectTrigger className="w-50">
+          <SelectValue placeholder="Select book">
+            <SelectValue>
+              {/* Explicitly finding the name ensures it shows even during state transitions */}
+              {filteredBooks.find((b) => b.bookId === selectedBook)?.name}
+            </SelectValue>
+          </SelectValue>
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
@@ -122,9 +130,9 @@ export default function ChapterSelector({
 
       <Select
         value={String(selectedChapter)}
-        onValueChange={(val) => setSelectedChapter(parseInt(val, 10))}
+        onValueChange={(val) => setSelectedChapter(parseInt(val || "1", 10))}
       >
-        <SelectTrigger className="w-[100px]">
+        <SelectTrigger className="w-25">
           <SelectValue placeholder="Select chapter" />
         </SelectTrigger>
         <SelectContent>

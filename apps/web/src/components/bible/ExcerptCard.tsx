@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Book, LoaderCircle } from "lucide-react";
+import { Book, BookOpenText, LoaderCircle } from "lucide-react";
 import { defaultTranslation, getBibleBook } from "@/data/bible";
 import type { PassageSearchParams, Verse } from "@bereans/api/types/bible";
 import { useState } from "react";
@@ -60,10 +60,10 @@ export default function ExcerptCard({
   if (params.bookId && passage.length) {
     return (
       <>
-        <Card className="mb-6 border-0 shadow-sm bg-primary ">
+        <Card className="mb-6 border-0  shadow-sm bg-primary rounded-2xl ">
           <CardContent className="p-4">
             <div className="flex items-center gap-2 text-sm text-slate-600 mb-2">
-              <Book className="h-4 w-4" />
+              <BookOpenText className="h-4 w-4" />
               <span>
                 {getBibleBook(parseInt(params.bookId))?.name} {params.chapter}:
                 {params.verseStart}
@@ -73,7 +73,7 @@ export default function ExcerptCard({
             </div>
             <blockquote className="text-base text-slate-800 font-medium">
               {passage[0].map((v: Verse) => (
-                <span key={v.pk}>
+                <span key={v.pk} className=" font-playfair text-2xl   ">
                   <b className=" text-lg ">{v.verse}</b> {v.text}
                 </span>
               ))}

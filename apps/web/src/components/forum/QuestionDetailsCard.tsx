@@ -103,21 +103,29 @@ export default function QuestionDetailsCard({
   };
 
   return (
-    <Card className="w-full mx-auto shadow-md rounded-2xl border  dark:bg-secondary/20">
+    <Card className="w-full mx-auto shadow-none rounded-2xl    dark:bg-secondary/20">
       <CardHeader className="pb-2">
-        <CardTitle className="text-xl font-semibold ">{title}</CardTitle>
+        <CardTitle className=" font-semibold text-secondary text-5xl font-playfair dark:text-primary ">
+          {title}
+        </CardTitle>
         <div className="flex flex-wrap gap-2 mt-2">
           {tags &&
             tags.map((tag, idx) => (
-              <Badge key={idx} variant="secondary" className=" text-slate-300 ">
-                {tag}
+              <Badge
+                key={idx}
+                variant="secondary"
+                className=" text-secondary rounded-md bg-slate-200 p-3 "
+              >
+                {tag.toUpperCase()}
               </Badge>
             ))}
         </div>
       </CardHeader>
 
       <CardContent>
-        <p className="text-slate-700 dark:text-slate-400  mb-4">{text}</p>
+        <p className="text-slate-700 dark:text-slate-400  mb-4 text-lg  ">
+          {text}
+        </p>
 
         <div className="flex items-center justify-between text-sm ">
           <div className="flex items-center gap-4">
@@ -140,7 +148,7 @@ export default function QuestionDetailsCard({
                     ? "bg-primary text-slate-500 "
                     : userVoted === -1
                       ? "bg-secondary text-slate-200  "
-                      : "bg-slate-200 text-slate-500 ")
+                      : "bg-slate-100 text-slate-500 ")
                 }
               >
                 <button

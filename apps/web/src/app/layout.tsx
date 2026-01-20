@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Playfair_Display, Lexend } from "next/font/google";
 
 import "../index.css";
 import Header from "@/components/header";
@@ -16,6 +16,15 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const playfair = Playfair_Display({
+  variable: "--font-playfair",
+  subsets: ["latin"],
+});
+const lexend = Playfair_Display({
+  variable: "--font-lexend",
+  subsets: ["latin"],
+});
+
 export const metadata: Metadata = {
   title: "bereans",
   description: "bereans",
@@ -28,9 +37,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} {${lexend.variable}} antialiased`}
+      >
         <Providers>
-          <div className="grid grid-rows-[auto_1fr] h-svh">
+          <div className="grid grid-rows-[auto_1fr] h-svh font-lexend ">
             <Header />
             {children}
           </div>
