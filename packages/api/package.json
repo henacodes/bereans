@@ -1,0 +1,27 @@
+{
+  "name": "@bereans/api",
+  "type": "module",
+  "exports": {
+    ".": {
+      "default": "./src/index.ts"
+    },
+    "./*": {
+      "default": "./src/*.ts"
+    }
+  },
+  "scripts": {},
+  "dependencies": {
+    "@bereans/auth": "*",
+    "@bereans/db": "*",
+    "@bereans/env": "*",
+    "@trpc/client": "^11.7.2",
+    "@trpc/server": "^11.7.2",
+    "dotenv": "^17.2.2",
+    "next": "^16.1.1",
+    "zod": "^4.1.13"
+  },
+  "devDependencies": {
+    "@bereans/config": "*",
+    "typescript": "^5"
+  }
+}
