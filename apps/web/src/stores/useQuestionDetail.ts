@@ -1,4 +1,4 @@
-import type { Question } from "@/types/forum";
+import type { Question } from "@bereans/api/types/forum";
 import { create } from "zustand";
 type State = {
   question: Question | null;

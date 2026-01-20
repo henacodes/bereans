@@ -1,4 +1,3 @@
-// stores/useVerseDialog.ts
 import type { SelectedPassage } from "@bereans/api/types/bible";
 import { create } from "zustand";
 

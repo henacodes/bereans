@@ -106,7 +106,9 @@ export function CitationForm({
             <Label className=" mb-2 mt-4 ">Type *</Label>
             <Select
               value={citation.type}
-              onValueChange={(value) => updateCitation(index, "type", value)}
+              onValueChange={(value) =>
+                updateCitation(index, "type", value ?? "book")
+              }
             >
               <SelectTrigger>
                 <SelectValue placeholder="Select type" />
