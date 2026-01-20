@@ -1,6 +1,6 @@
 "use client";
 
-import { useVerseDialog } from "@web/stores/useVerseDialog";
+import { useVerseDialog } from "@/stores/useVerseDialog";
 import { useEffect, useState } from "react";
 
 type Verse = {
@@ -22,14 +22,14 @@ export function VersesList({
 }) {
   const [isSelecting, setIsSelecting] = useState(false);
   const [firstSelectedVerse, setFirstSelectedVerse] = useState<number | null>(
-    null
+    null,
   );
   const [mouseHoveredVerse, setMouseHoveredVerse] = useState<number | null>(
-    null
+    null,
   );
 
   const setSelectedPassage = useVerseDialog(
-    (state) => state.setSelectedPassage
+    (state) => state.setSelectedPassage,
   );
 
   const resetState = () => {

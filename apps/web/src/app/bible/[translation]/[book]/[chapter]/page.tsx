@@ -1,8 +1,8 @@
-import { CoolBackground } from "@web/components/background";
-import ChapterSelector from "@web/components/bible/ChapterSelector";
-import { VerseDialog } from "@web/components/bible/VerseDialogue";
-import { VersesList } from "@web/components/bible/Verses";
-import { bibleBooks } from "@web/data/bible";
+import { CoolBackground } from "@/components/background";
+import ChapterSelector from "@/components/bible/ChapterSelector";
+import { VerseDialog } from "@/components/bible/VerseDialogue";
+import { VersesList } from "@/components/bible/Verses";
+import { bibleBooks } from "@/data/bible";
 
 type Verse = {
   pk: number;
@@ -13,11 +13,11 @@ type Verse = {
 async function fetchPassage(
   translation: string,
   book: number,
-  chapter: number
+  chapter: number,
 ): Promise<Verse[]> {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BIBLE_API}/get-text/${translation}/${book}/${chapter}/`,
-    { cache: "no-store" }
+    { cache: "no-store" },
   );
 
   if (!res.ok) return [];
@@ -38,7 +38,7 @@ export default async function BiblePage({
   const verses = await fetchPassage(
     translation,
     selectedBookId,
-    selectedChapter
+    selectedChapter,
   );
 
   const selectedBook =

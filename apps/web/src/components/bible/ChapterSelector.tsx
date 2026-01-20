@@ -2,8 +2,8 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { bibleBooks, getBibleBook } from "@web/data/bible";
-import { supportedTranslations } from "@web/data/bible";
+import { bibleBooks, getBibleBook } from "@/data/bible";
+import { supportedTranslations } from "@/data/bible";
 import { Loader, LoaderCircle } from "lucide-react";
 
 import {
@@ -14,7 +14,7 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "@web/components/ui/select";
+} from "@/components/ui/select";
 
 interface ChapterSelectorProps {
   currentTranslation: string;
@@ -32,7 +32,7 @@ export default function ChapterSelector({
   const router = useRouter();
 
   const [translation, setTranslation] = useState(
-    currentTranslation.toUpperCase()
+    currentTranslation.toUpperCase(),
   );
   const [selectedBook, setSelectedBook] = useState(currentBookId);
   const [selectedChapter, setSelectedChapter] = useState(currentChapter);
@@ -47,10 +47,10 @@ export default function ChapterSelector({
   }, [translation]);
 
   function getTranslationCanon(
-    shortName: string
+    shortName: string,
   ): "protestant" | "catholic" | "lxx" {
     const translation = supportedTranslations.find(
-      (t) => t.shortName === shortName
+      (t) => t.shortName === shortName,
     );
     return translation?.canon ?? "protestant";
   }
@@ -132,7 +132,7 @@ export default function ChapterSelector({
             <SelectLabel>Chapter</SelectLabel>
             {Array.from(
               { length: selectedBookObj.chapters },
-              (_, i) => i + 1
+              (_, i) => i + 1,
             ).map((c) => (
               <SelectItem key={c} value={String(c)}>
                 {c}

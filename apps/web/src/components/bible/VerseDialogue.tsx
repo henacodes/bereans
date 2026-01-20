@@ -1,7 +1,5 @@
 "use client";
-
-import * as React from "react";
-import { useVerseDialog } from "@web/stores/useVerseDialog";
+import { useVerseDialog } from "@/stores/useVerseDialog";
 
 import {
   Dialog,
@@ -10,12 +8,12 @@ import {
   DialogTitle,
   DialogDescription,
   DialogClose,
-} from "@web/components/ui/dialog";
-import { Button } from "@web/components/ui/button";
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 import { ChevronRight } from "lucide-react";
 import { QuestionForm } from "../forum/QuestionForm";
-import { objToQueryString } from "@web/lib/utils";
-import { authClient } from "@web/lib/auth-client";
+import { objToQueryString } from "@/lib/utils";
+import { authClient } from "@/lib/auth-client";
 
 export function VerseDialog({ isLoggedIn }: { isLoggedIn: boolean }) {
   const { data: session, isPending } = authClient.useSession();
@@ -70,7 +68,7 @@ export function VerseDialog({ isLoggedIn }: { isLoggedIn: boolean }) {
                   Previous Questions <ChevronRight />
                 </Button>
               </a>
-              <DialogClose asChild>
+              <DialogClose>
                 <Button variant="outline">Close</Button>
               </DialogClose>
             </div>
