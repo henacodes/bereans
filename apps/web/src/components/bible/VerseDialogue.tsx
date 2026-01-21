@@ -48,13 +48,13 @@ export function VerseDialog({ isLoggedIn }: { isLoggedIn: boolean }) {
             </DialogTitle>
             <DialogDescription className="mt-2 text-base text-muted-foreground">
               {selectedPassage?.passage && (
-                <div>
+                <span>
                   {selectedPassage.passage
                     .map((v) => v.text)
                     .join(" ")
                     .slice(0, 300)}
                   ...
-                </div>
+                </span>
               )}
             </DialogDescription>
           </DialogHeader>
@@ -69,7 +69,7 @@ export function VerseDialog({ isLoggedIn }: { isLoggedIn: boolean }) {
                 </Button>
               </a>
               <DialogClose>
-                <Button variant="outline">Close</Button>
+                <div>Close</div>
               </DialogClose>
             </div>
           </div>

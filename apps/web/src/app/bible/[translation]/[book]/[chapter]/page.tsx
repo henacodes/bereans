@@ -2,6 +2,7 @@ import { CoolBackground } from "@/components/background";
 import ChapterSelector from "@/components/bible/ChapterSelector";
 import { VerseDialog } from "@/components/bible/VerseDialogue";
 import { VersesList } from "@/components/bible/Verses";
+import EmptyPassageState from "@/components/empty-passage";
 import { bibleBooks } from "@/data/bible";
 
 type Verse = {
@@ -31,12 +32,12 @@ export default async function BiblePage({
 }) {
   let { translation, book, chapter } = await params;
 
-  translation = translation?.toUpperCase() ?? "ESV";
+  translation = translation ?? "ESV";
   let selectedBookId = parseInt(book ?? "1", 10);
   const selectedChapter = parseInt(chapter ?? "1", 10);
 
   const verses = await fetchPassage(
-    translation,
+    translation.toUpperCase(),
     selectedBookId,
     selectedChapter,
   );
@@ -59,7 +60,7 @@ export default async function BiblePage({
       />
 
       {verses.length === 0 ? (
-        <p>No passage found.</p>
+        <EmptyPassageState message="We couldn't find this specific passage. Please check that the book name, chapter number, and translation are correct" />
       ) : (
         <article className="prose max-w-none    ">
           <VersesList

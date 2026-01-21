@@ -7,6 +7,7 @@ import { getBibleBook } from "@/data/bible";
 import { fetchPassage } from "@bereans/api/third-party/passage";
 import QuestionsList from "@/components/forum/QuestionsList";
 import ExcerptCard from "@/components/bible/ExcerptCard";
+import EmptyPassageState from "@/components/empty-passage";
 
 export default async function Passage({
   searchParams,
@@ -21,12 +22,7 @@ export default async function Passage({
     Object.values(params).every((v) => v !== undefined && v !== null);
 
   if (!hasAllProps) {
-    return (
-      <p>
-        Failed to load the page as the required passage parameters were not
-        given
-      </p>
-    );
+    return <EmptyPassageState />;
   }
 
   const passage = await fetchPassage(params);

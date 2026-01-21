@@ -177,7 +177,7 @@ export function AnswerCard({
                 </h4>
                 <ul className="space-y-2 list-disc list-inside text-slate-700 dark:text-slate-300 text-sm">
                   {citations.map((c, i) => (
-                    <CitedComponent citation={c} k={i} />
+                    <CitedComponent citation={c} k={i} key={i} />
                   ))}
                 </ul>
               </div>
