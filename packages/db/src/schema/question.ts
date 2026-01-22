@@ -11,7 +11,7 @@ export const question = sqliteTable("question", {
     .$defaultFn(() => crypto.randomUUID()),
   userId: text("user_id")
     .notNull()
-    .references(() => user.id),
+    .references(() => user.id, { onDelete: "cascade" }),
   bookId: integer("book_id").notNull(),
   chapter: integer("chapter").notNull(),
   verseStart: integer("verse_start").notNull(),
