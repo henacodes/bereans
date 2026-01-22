@@ -64,7 +64,8 @@ export default function ChapterSelector({
   return (
     <div className="mb-6 flex flex-wrap gap-3 items-center">
       {loading && (
-        <div className="w-screen h-screen fixed top-0 left-0 bg-black/40 backdrop-blur-sm z-50 flex items-center justify-center">
+        /* backdrop-blur-sm works well with bg-background/40 for a native feel */
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm">
           <Loader className="animate-spin text-primary" size={50} />
         </div>
       )}
@@ -74,19 +75,19 @@ export default function ChapterSelector({
         value={currentTranslation.toUpperCase()}
         onValueChange={(val) => navigate(val, null, "1")}
       >
-        <SelectTrigger className="w-48 rounded-xl border-white/10 bg-white/5 backdrop-blur-md text-slate-200 focus:ring-primary/50">
+        <SelectTrigger className="w-48 rounded-xl border-input bg-background text-foreground focus:ring-primary/50">
           <SelectValue placeholder="Translation" />
         </SelectTrigger>
-        <SelectContent className="rounded-xl border-white/10 bg-slate-900 text-slate-200">
+        <SelectContent className="rounded-xl border-border bg-popover text-popover-foreground">
           <SelectGroup>
-            <SelectLabel className="text-[10px] uppercase tracking-widest opacity-50">
+            <SelectLabel className="text-[10px] uppercase tracking-widest text-muted-foreground">
               Translation
             </SelectLabel>
             {supportedTranslations.map((t) => (
               <SelectItem
                 key={t.shortName}
                 value={t.shortName}
-                className="rounded-lg"
+                className="rounded-lg focus:bg-accent focus:text-accent-foreground"
               >
                 {t.fullName}
               </SelectItem>
@@ -100,19 +101,19 @@ export default function ChapterSelector({
         value={String(currentBookId)}
         onValueChange={(val) => navigate(null, val, "1")}
       >
-        <SelectTrigger className="w-52 rounded-xl border-white/10 bg-white/5 backdrop-blur-md text-slate-200">
+        <SelectTrigger className="w-52 rounded-xl border-input bg-background text-foreground">
           <SelectValue>{currentBookName}</SelectValue>
         </SelectTrigger>
-        <SelectContent className="rounded-xl border-white/10 bg-slate-900 text-slate-200 max-h-80">
+        <SelectContent className="max-h-80 rounded-xl border-border bg-popover text-popover-foreground">
           <SelectGroup>
-            <SelectLabel className="text-[10px] uppercase tracking-widest opacity-50">
+            <SelectLabel className="text-[10px] uppercase tracking-widest text-muted-foreground">
               Book
             </SelectLabel>
             {filteredBooks.map((b) => (
               <SelectItem
                 key={b.bookId}
                 value={String(b.bookId)}
-                className="rounded-lg"
+                className="rounded-lg focus:bg-accent focus:text-accent-foreground"
               >
                 {b.name}
               </SelectItem>
@@ -126,19 +127,23 @@ export default function ChapterSelector({
         value={String(currentChapter)}
         onValueChange={(val) => navigate(null, null, val)}
       >
-        <SelectTrigger className="w-24 rounded-xl border-white/10 bg-white/5 backdrop-blur-md text-slate-200">
+        <SelectTrigger className="w-24 rounded-xl border-input bg-background text-foreground">
           <SelectValue />
         </SelectTrigger>
-        <SelectContent className="rounded-xl border-white/10 bg-slate-900 text-slate-200 max-h-72">
+        <SelectContent className="max-h-72 rounded-xl border-border bg-popover text-popover-foreground">
           <SelectGroup>
-            <SelectLabel className="text-[10px] uppercase tracking-widest opacity-50">
+            <SelectLabel className="text-[10px] uppercase tracking-widest text-muted-foreground">
               Chapter
             </SelectLabel>
             {Array.from(
               { length: selectedBookObj.chapters },
               (_, i) => i + 1,
             ).map((c) => (
-              <SelectItem key={c} value={String(c)} className="rounded-lg">
+              <SelectItem
+                key={c}
+                value={String(c)}
+                className="rounded-lg focus:bg-accent focus:text-accent-foreground"
+              >
                 {c}
               </SelectItem>
             ))}

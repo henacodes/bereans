@@ -1,85 +1,59 @@
-import {
-  Code,
-  Terminal,
-  Paintbrush,
-  Rocket,
-  Book,
-  PlusCircle,
-  Users,
-  Search,
-  MessageSquare,
-  Layers,
-} from "lucide-react";
+"use client";
+
+import { Target, Quote, MessageSquare } from "lucide-react";
+
 const features = [
   {
-    icon: <Book className="h-6 w-6" />,
-    title: "Critical Study",
-    desc: "Engage with the Bible through historical, linguistic, and cultural perspectives.",
+    icon: <Target className="h-6 w-6" />,
+    title: "Verse-Level Precision",
+    desc: "Every insight and question is anchored directly to specific verses, ensuring strict contextual accuracy.",
   },
   {
-    icon: <Users className="h-6 w-6" />,
-    title: "Community Learning",
-    desc: "Connect with others who share an interest in serious, thoughtful exploration of scripture.",
-  },
-  {
-    icon: <Search className="h-6 w-6" />,
-    title: "Scholarly Resources",
-    desc: "Access curated academic materials, references, and tools for deeper study.",
+    icon: <Quote className="h-6 w-6" />,
+    title: "Academic Citations",
+    desc: "Move beyond opinion with responses backed by historical lexicons, peer-reviewed sources, and primary texts.",
   },
   {
     icon: <MessageSquare className="h-6 w-6" />,
-    title: "Open Discussion",
-    desc: "Ask questions, share insights, and engage in respectful dialogue.",
-  },
-  {
-    icon: <Layers className="h-6 w-6" />,
-    title: "Structured Learning",
-    desc: "Follow guided themes and topics each month to broaden your understanding.",
-  },
-  {
-    icon: <PlusCircle className="h-6 w-6" />,
-    title: "Contribute Content",
-    desc: "Add study notes, essays, or resources and help grow the Bereans knowledge base.",
+    title: "Scholarly Dialogue",
+    desc: "Engage in a rigorous community environment where discourse is evidence-based and respectfully critical.",
   },
 ];
 
 export default function Features() {
   return (
-    <section className="relative py-14">
+    <section className="relative py-16 bg-transparent text-foreground">
       <div className="mx-auto max-w-screen-xl px-4 md:px-8">
-        <div className="relative mx-auto max-w-2xl sm:text-center">
-          <div className="relative z-10">
-            <h3 className="font-geist mt-4 text-3xl font-normal tracking-tighter sm:text-4xl md:text-5xl">
-              Cultivating Discourse
-            </h3>
-            <p className="font-geist text-foreground/60 mt-3">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-              congue, nisl eget molestie varius, enim ex faucibus purus.
-            </p>
-          </div>
-          <div
-            className="absolute inset-0 mx-auto h-44 max-w-xs blur-[118px]"
-            style={{
-              background:
-                "linear-gradient(152.92deg, rgba(143, 183, 143, 0.2) 4.54%, rgba(143, 183, 143, 0.26) 34.2%, rgba(143, 183, 143, 0.1) 77.55%)",
-            }}
-          ></div>
+        <div className="relative mx-auto max-w-2xl text-center">
+          <h3 className="font-geist text-3xl font-bold tracking-tighter sm:text-4xl">
+            A Higher Standard of Study
+          </h3>
+          <p className="mt-4 text-muted-foreground">
+            Built for those who demand depth, transparency, and textual
+            integrity in their exploration of scripture.
+          </p>
         </div>
-        <hr className="bg-foreground/30 mx-auto mt-5 h-px w-1/2" />
-        <div className="relative mt-12">
-          <ul className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+
+        <div className="mt-16">
+          <ul className="grid gap-10 sm:grid-cols-3">
             {features.map((item, idx) => (
               <li
                 key={idx}
-                className="transform-gpu space-y-3 rounded-xl border bg-transparent p-4 [box-shadow:0_-20px_80px_-20px_#8fb78f2f_inset]"
+                className="group relative flex flex-col items-center text-center space-y-4"
               >
-                <div className="text-primary w-fit transform-gpu rounded-full border p-4 [box-shadow:0_-20px_80px_-20px_#8fb78f3f_inset] dark:[box-shadow:0_-20px_80px_-20px_#8fb78f0f_inset]">
+                {/* Icon Container with Theme-Responsive Glow */}
+                <div className="flex h-16 w-16 items-center justify-center rounded-2xl border border-primary/20 bg-primary/5 text-primary shadow-[0_0_20px_rgba(var(--primary),0.1)] transition-colors group-hover:bg-primary/10">
                   {item.icon}
                 </div>
-                <h4 className="font-geist text-lg font-bold tracking-tighter">
-                  {item.title}
-                </h4>
-                <p className="text-gray-500">{item.desc}</p>
+
+                <div className="space-y-2">
+                  <h4 className="font-geist text-xl font-semibold tracking-tight">
+                    {item.title}
+                  </h4>
+                  <p className="text-muted-foreground leading-relaxed">
+                    {item.desc}
+                  </p>
+                </div>
               </li>
             ))}
           </ul>
