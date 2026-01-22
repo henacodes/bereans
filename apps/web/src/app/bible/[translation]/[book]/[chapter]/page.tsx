@@ -48,7 +48,7 @@ export default async function BiblePage({
   let isLoggedIn = false; //session?.user != undefined;
 
   return (
-    <main className=" px-32 relative z-0  ">
+    <main className=" px-4 md:px-16 lg:px-32 relative z-0  ">
       <CoolBackground />
       <h1 className="text-2xl font-bold mb-4">{selectedBook.name}</h1>
 

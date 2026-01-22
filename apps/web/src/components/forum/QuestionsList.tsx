@@ -46,7 +46,7 @@ export default function QuestionsList({
       <div className="  ">
         {questions.map((q) => (
           <div className=" my-6  ">
-            <QuestionCard {...q} />
+            <QuestionCard {...q} key={q.id} />
           </div>
         ))}
       </div>

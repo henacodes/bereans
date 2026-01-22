@@ -24,12 +24,16 @@ export default function QuestionDetails({
     incrementsView: true,
   });
 
-  const savedQuestionQuery = useTRPCQuery(trpc.question.isQuestionSaved, {
-    questionId,
-  });
   const session = authClient.useSession();
 
   const isLoggedIn = session.data?.user != undefined;
+  const savedQuestionQuery = useTRPCQuery(
+    trpc.question.isQuestionSaved,
+    { questionId },
+    {
+      enabled: isLoggedIn, // The request only fires if isLoggedIn is true
+    },
+  );
 
   useEffect(() => {
     if (!questionQuery.data) return;

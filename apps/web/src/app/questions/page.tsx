@@ -10,13 +10,13 @@ export default function QuestionsPage() {
   const questionsQuery = useTRPCQuery(trpc.question.fetchRecent, {});
 
   return (
-    <div className="mt-10 px-32 relative z-0">
+    <div className="mt-10 px-4 md:px-16 lg:px-32 relative z-0">
       <CoolBackground />
 
       {/* This header section will show in all states */}
       <div className="mb-6">
         <h1 className="text-3xl font-bold tracking-tight">
-          Welcome back Scholar
+          Welcome back Berean
         </h1>
         <p className="text-muted-foreground mt-1">
           Here are some of the most recent questions

@@ -24,7 +24,7 @@ export default function Home() {
     <div className="z-0 relative min-h-screen">
       <CoolBackground />
       <MinimalHero />
-      <div className="px-32">
+      <div className="px-4 md:px-16 lg:px-32">
         <Features />
       </div>
 

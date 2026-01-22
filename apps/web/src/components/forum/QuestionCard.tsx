@@ -96,33 +96,37 @@ export default function QuestionCard({
             </p>
           </div>
 
-          <div className="flex items-center justify-between pt-4 border-t border-border/40">
-            <div className="flex items-center gap-4">
-              {/* User Identity - Green-tinted theme */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-4 border-t border-border/40">
+            {/* Left Side: Identity & Date */}
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+              {/* User Identity */}
               <div className="flex items-center gap-2">
-                <Avatar className="h-7 w-7 border-2 border-background">
+                <Avatar className="h-7 w-7 border-2 border-background flex-shrink-0">
                   <AvatarFallback className="text-[10px] bg-[#82C3A1] text-[#1E3A2B] font-bold">
                     {user.name.charAt(0).toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
-                <span className="text-xs font-semibold text-muted-foreground/80 uppercase tracking-wide">
+                <span className="text-xs font-semibold text-muted-foreground/80 uppercase tracking-wide truncate max-w-[120px] xs:max-w-none">
                   {user.name}
                 </span>
               </div>
 
+              {/* Date */}
               <div className="flex items-center gap-1.5 text-xs text-muted-foreground/60">
                 <Calendar className="h-3.5 w-3.5" />
                 <span>{formatTimestamp(createdAt.toString())}</span>
               </div>
             </div>
 
-            {/* Answer Badge - Green background like the excerpt card */}
-            <Badge className="rounded-lg px-3 py-1 bg-[#82C3A1] hover:bg-[#82C3A1]/90 text-[#1E3A2B] border-none flex items-center gap-2 shadow-sm">
-              <MessageSquare className="h-3.5 w-3.5 fill-current" />
-              <span className="font-bold text-xs">
-                {`${totalAnswers}` || "0"}
-              </span>
-            </Badge>
+            {/* Right Side: Answer Badge */}
+            <div className="flex justify-start sm:justify-end">
+              <Badge className="rounded-lg px-3 py-1 bg-[#82C3A1] hover:bg-[#82C3A1]/90 text-[#1E3A2B] border-none flex items-center gap-2 shadow-sm shrink-0">
+                <MessageSquare className="h-3.5 w-3.5 fill-current" />
+                <span className="font-bold text-xs">
+                  {`${totalAnswers}` || "0"}
+                </span>
+              </Badge>
+            </div>
           </div>
         </div>
       </div>

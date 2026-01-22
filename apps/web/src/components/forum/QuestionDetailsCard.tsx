@@ -127,82 +127,86 @@ export default function QuestionDetailsCard({
           {text}
         </p>
 
-        <div className="flex items-center justify-between text-sm ">
-          <div className="flex items-center gap-4">
-            <span>
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 text-sm">
+          {/* Left Side: Metadata */}
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+            <span className="flex items-center">
               Asked by
-              <span className="font-medium text-slate-700 mx-3 ">{author}</span>
+              <span className="font-medium text-slate-700 ml-2 mr-3">
+                {author}
+              </span>
             </span>
-            <span>{new Date(date).toDateString()}</span>
-            <div className="flex items-center gap-1">
-              <Eye className="h-4 w-4" /> <span>{views} views</span>
+            <span className="text-slate-500">
+              {new Date(date).toDateString()}
+            </span>
+            <div className="flex items-center gap-1 text-slate-500">
+              <Eye className="h-4 w-4" />
+              <span>{views} views</span>
             </div>
           </div>
 
-          {
-            <div className="flex gap-2">
-              <div
+          {/* Right Side: Actions (Voting & Saving) */}
+          <div className="flex items-center gap-2">
+            <div
+              className={
+                "flex items-center justify-center rounded-full p-1 " +
+                (userVoted === 1
+                  ? "bg-primary text-slate-500 "
+                  : userVoted === -1
+                    ? "bg-secondary text-slate-200 "
+                    : "bg-slate-100 text-slate-500 ")
+              }
+            >
+              <button
+                disabled={voteMutation.isPending}
+                onClick={() => handleVote("upvote")}
+                className="p-1 relative rounded-full cursor-pointer transition ease-in-out hover:bg-slate-300/50"
+              >
+                <ArrowBigUp
+                  fill="#fff"
+                  fillOpacity={userVoted === 1 ? 1 : 0}
+                  strokeWidth={userVoted !== 1 ? 1 : 0}
+                  size={24} // Reduced slightly for better mobile fit
+                />
+              </button>
+
+              <span className="text-sm font-bold px-1">{totalVotes}</span>
+
+              <button
+                disabled={voteMutation.isPending}
+                onClick={() => handleVote("downvote")}
+                className="p-1 relative rounded-full cursor-pointer transition ease-in-out hover:bg-slate-300/50"
+              >
+                <ArrowBigDown
+                  fill="#fff"
+                  fillOpacity={userVoted === -1 ? 1 : 0}
+                  strokeWidth={userVoted !== -1 ? 1 : 0}
+                  size={24}
+                />
+              </button>
+            </div>
+
+            {isSaved !== undefined && (
+              <Button
+                onClick={handleSave}
+                size="sm"
+                variant="outline"
                 className={
-                  "flex  items-center justify-center  rounded-full  " +
-                  (userVoted === 1
-                    ? "bg-primary text-slate-500 "
-                    : userVoted === -1
-                      ? "bg-secondary text-slate-200  "
-                      : "bg-slate-100 text-slate-500 ")
+                  "rounded-full cursor-pointer " +
+                  (isQuestionSaved ? " bg-slate-200 " : "")
                 }
               >
-                <button
-                  disabled={voteMutation.isPending}
-                  onClick={() => handleVote("upvote")}
-                  className="p-1 relative rounded-full  cursor-pointer transition  ease-in-out hover:bg-slate-300/50 "
-                >
-                  <ArrowBigUp
-                    fill="#fff"
-                    fillOpacity={userVoted === 1 ? 1 : 0}
-                    strokeWidth={userVoted !== 1 ? 1 : 0}
-                    size={28}
-                  />
-                </button>
-
-                <span className="text-sm font-medium">{totalVotes}</span>
-
-                <button
-                  disabled={voteMutation.isPending}
-                  onClick={() => handleVote("downvote")}
-                  className="p-1 relative rounded-full  cursor-pointer transition  ease-in-out hover:bg-slate-300/50 "
-                >
-                  <ArrowBigDown
-                    fill="#fff"
-                    fillOpacity={userVoted === -1 ? 1 : 0}
-                    strokeWidth={userVoted !== -1 ? 1 : 0}
-                    size={28}
-                  />
-                </button>
-              </div>
-
-              {isSaved != undefined && (
-                <Button
-                  onClick={handleSave}
-                  size="sm"
-                  variant="outline"
-                  className={
-                    "rounded-xl cursor-pointer " +
-                    (isQuestionSaved && " bg-slate-300 ")
-                  }
-                >
-                  {isQuestionSaved ? (
-                    <>
-                      <BookmarkX className="h-4 w-4 mr-1" /> Unsave
-                    </>
-                  ) : (
-                    <>
-                      <Bookmark className="h-4 w-4 mr-1" /> Save
-                    </>
-                  )}
-                </Button>
-              )}
-            </div>
-          }
+                {isQuestionSaved ? (
+                  <BookmarkX className="h-4 w-4" />
+                ) : (
+                  <Bookmark className="h-4 w-4" />
+                )}
+                <span className="ml-1">
+                  {isQuestionSaved ? "Unsave" : "Save"}
+                </span>
+              </Button>
+            )}
+          </div>
         </div>
       </CardContent>
     </Card>
