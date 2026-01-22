@@ -86,6 +86,13 @@ export function VerseDialog() {
             </a>{" "}
             to start asking questions
           </p>
+          <div className="mt-6 flex justify-between">
+            <a href={`/excerpt?${queryString}`}>
+              <Button variant="outline" className="cursor-pointer ">
+                Already Asked Questions <ChevronRight />
+              </Button>
+            </a>
+          </div>
         </DialogContent>
       )}
     </Dialog>

@@ -47,7 +47,7 @@ export default async function BiblePage({
     bibleBooks.find((b) => b.bookId === selectedBookId) ?? bibleBooks[0];
 
   return (
-    <main className=" px-4 md:px-16 lg:px-32 relative z-0  ">
+    <main className=" px-4 md:px-16 lg:px-32 relative z-0 mt-10  ">
       <CoolBackground />
       <OnboardingPanel />
       <h1 className="text-2xl font-bold mb-4">{selectedBook.name}</h1>

@@ -10,6 +10,7 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Lock, Mail, User } from "lucide-react";
+import { defaultTranslation } from "@/data/bible";
 
 export default function SignUpForm({
   onSwitchToSignIn,
@@ -34,7 +35,7 @@ export default function SignUpForm({
         },
         {
           onSuccess: () => {
-            router.push("/bible/rsv/1/1");
+            router.push(`/bible/${defaultTranslation}/1/1`);
             toast.success("Sign up successful");
           },
           onError: (error) => {

@@ -16,7 +16,7 @@ export default function Home() {
   useEffect(() => {
     if (!isPending && session?.user) {
       // Using 'as any' to bypass the Typed Routes error we discussed
-      router.push("/dashboard" as any);
+      router.push("/dashboard");
     }
   }, [session, isPending, router]);
 

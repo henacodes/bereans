@@ -538,4 +538,4 @@ export function getBibleBook(bookId: number) {
   return bibleBooks.filter((b) => b.bookId == bookId)[0];
 }
 
-export const defaultTranslation = "ESV";
+export const defaultTranslation = "rsv";

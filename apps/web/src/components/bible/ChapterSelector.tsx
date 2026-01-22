@@ -1,10 +1,9 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { bibleBooks, getBibleBook } from "@/data/bible";
-import { supportedTranslations } from "@/data/bible";
-import { Loader, LoaderCircle } from "lucide-react";
+import { bibleBooks, getBibleBook, supportedTranslations } from "@/data/bible";
+import { Loader } from "lucide-react";
 
 import {
   Select,
@@ -30,73 +29,65 @@ export default function ChapterSelector({
   currentChapter,
 }: ChapterSelectorProps) {
   const router = useRouter();
-
-  const [translation, setTranslation] = useState(
-    currentTranslation.toUpperCase(),
-  );
-  const [selectedBook, setSelectedBook] = useState(currentBookId);
-  const [selectedChapter, setSelectedChapter] = useState(currentChapter);
-
   const [loading, setLoading] = useState(false);
 
-  const selectedBookObj = getBibleBook(selectedBook) ?? bibleBooks[0];
+  // Helper to handle the string | null from Shadcn Select
+  const navigate = (t: string | null, b: string | null, c: string | null) => {
+    // Fallbacks to ensure we never pass 'null' to the router
+    const translation = t || currentTranslation;
+    const bookId = b || String(currentBookId);
+    const chapter = c || "1";
 
-  const filteredBooks = useMemo(() => {
-    const canon = getTranslationCanon(translation);
-    return bibleBooks.filter((b) => b.canons.includes(canon));
-  }, [translation]);
-
-  function getTranslationCanon(
-    shortName: string,
-  ): "protestant" | "catholic" | "lxx" {
-    const translation = supportedTranslations.find(
-      (t) => t.shortName === shortName,
-    );
-    return translation?.canon ?? "protestant";
-  }
-
-  useEffect(() => {
-    if (selectedChapter > selectedBookObj.chapters) {
-      setSelectedChapter(1);
-    }
-  }, [selectedBook, selectedBookObj.chapters, selectedChapter]);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
     if (
-      selectedBook === currentBookId &&
-      selectedChapter === currentChapter &&
-      translation === currentTranslation
+      translation.toUpperCase() === currentTranslation.toUpperCase() &&
+      parseInt(bookId) === currentBookId &&
+      parseInt(chapter) === currentChapter
     ) {
-      console.log("equal");
       return;
     }
+
     setLoading(true);
-    router.push(`/bible/${translation}/${selectedBook}/${selectedChapter}`);
+    router.push(`/bible/${translation.toLowerCase()}/${bookId}/${chapter}`);
   };
 
+  // Memoize books based on the current translation's canon
+  const filteredBooks = useMemo(() => {
+    const translationData = supportedTranslations.find(
+      (t) => t.shortName.toUpperCase() === currentTranslation.toUpperCase(),
+    );
+    const canon = translationData?.canon ?? "protestant";
+    return bibleBooks.filter((b) => b.canons.includes(canon));
+  }, [currentTranslation]);
+
+  const selectedBookObj = getBibleBook(currentBookId) ?? bibleBooks[0];
+
   return (
-    <form
-      onSubmit={handleSubmit}
-      className={"mb-6 flex flex-wrap gap-4 items-center  "}
-    >
+    <div className="mb-6 flex flex-wrap gap-3 items-center">
       {loading && (
-        <div className=" w-screen h-screen fixed top-0 left-0 bg-black/80 z-30  flex items-center justify-center">
-          <Loader className=" animate-spin  text-primary" size={50} />
+        <div className="w-screen h-screen fixed top-0 left-0 bg-black/40 backdrop-blur-sm z-50 flex items-center justify-center">
+          <Loader className="animate-spin text-primary" size={50} />
         </div>
       )}
+
+      {/* Translation Select */}
       <Select
-        value={translation}
-        onValueChange={(val) => setTranslation(val || "ESV")}
+        value={currentTranslation.toUpperCase()}
+        onValueChange={(val) => navigate(val, null, "1")}
       >
-        <SelectTrigger className="w-60">
-          <SelectValue placeholder="Select translation" />
+        <SelectTrigger className="w-48 rounded-xl border-white/10 bg-white/5 backdrop-blur-md text-slate-200 focus:ring-primary/50">
+          <SelectValue placeholder="Translation" />
         </SelectTrigger>
-        <SelectContent>
+        <SelectContent className="rounded-xl border-white/10 bg-slate-900 text-slate-200">
           <SelectGroup>
-            <SelectLabel>Translation</SelectLabel>
+            <SelectLabel className="text-[10px] uppercase tracking-widest opacity-50">
+              Translation
+            </SelectLabel>
             {supportedTranslations.map((t) => (
-              <SelectItem key={t.shortName} value={t.shortName}>
+              <SelectItem
+                key={t.shortName}
+                value={t.shortName}
+                className="rounded-lg"
+              >
                 {t.fullName}
               </SelectItem>
             ))}
@@ -104,23 +95,25 @@ export default function ChapterSelector({
         </SelectContent>
       </Select>
 
+      {/* Book Select */}
       <Select
-        value={String(selectedBook)}
-        onValueChange={(val) => setSelectedBook(parseInt(val || "1", 10))}
+        value={String(currentBookId)}
+        onValueChange={(val) => navigate(null, val, "1")}
       >
-        <SelectTrigger className="w-50">
-          <SelectValue placeholder="Select book">
-            <SelectValue>
-              {/* Explicitly finding the name ensures it shows even during state transitions */}
-              {filteredBooks.find((b) => b.bookId === selectedBook)?.name}
-            </SelectValue>
-          </SelectValue>
+        <SelectTrigger className="w-52 rounded-xl border-white/10 bg-white/5 backdrop-blur-md text-slate-200">
+          <SelectValue>{currentBookName}</SelectValue>
         </SelectTrigger>
-        <SelectContent>
+        <SelectContent className="rounded-xl border-white/10 bg-slate-900 text-slate-200 max-h-80">
           <SelectGroup>
-            <SelectLabel>Book</SelectLabel>
+            <SelectLabel className="text-[10px] uppercase tracking-widest opacity-50">
+              Book
+            </SelectLabel>
             {filteredBooks.map((b) => (
-              <SelectItem key={b.bookId} value={String(b.bookId)}>
+              <SelectItem
+                key={b.bookId}
+                value={String(b.bookId)}
+                className="rounded-lg"
+              >
                 {b.name}
               </SelectItem>
             ))}
@@ -128,35 +121,30 @@ export default function ChapterSelector({
         </SelectContent>
       </Select>
 
+      {/* Chapter Select */}
       <Select
-        value={String(selectedChapter)}
-        onValueChange={(val) => setSelectedChapter(parseInt(val || "1", 10))}
+        value={String(currentChapter)}
+        onValueChange={(val) => navigate(null, null, val)}
       >
-        <SelectTrigger className="w-25">
-          <SelectValue placeholder="Select chapter" />
+        <SelectTrigger className="w-24 rounded-xl border-white/10 bg-white/5 backdrop-blur-md text-slate-200">
+          <SelectValue />
         </SelectTrigger>
-        <SelectContent>
+        <SelectContent className="rounded-xl border-white/10 bg-slate-900 text-slate-200 max-h-72">
           <SelectGroup>
-            <SelectLabel>Chapter</SelectLabel>
+            <SelectLabel className="text-[10px] uppercase tracking-widest opacity-50">
+              Chapter
+            </SelectLabel>
             {Array.from(
               { length: selectedBookObj.chapters },
               (_, i) => i + 1,
             ).map((c) => (
-              <SelectItem key={c} value={String(c)}>
+              <SelectItem key={c} value={String(c)} className="rounded-lg">
                 {c}
               </SelectItem>
             ))}
           </SelectGroup>
         </SelectContent>
       </Select>
-
-      <button
-        disabled={loading}
-        type="submit"
-        className="ml-4 rounded-md bg-primary text-secondary px-8 py-2 cursor-pointer    "
-      >
-        {loading ? <LoaderCircle className="animate-spin" /> : <>Go</>}
-      </button>
-    </form>
+    </div>
   );
 }

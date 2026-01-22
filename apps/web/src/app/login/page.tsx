@@ -5,6 +5,7 @@ import Image from "next/image";
 import SignInForm from "@/components/sign-in-form";
 import SignUpForm from "@/components/sign-up-form";
 import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
 export default function LoginPage() {
   const [showSignIn, setShowSignIn] = useState(false);

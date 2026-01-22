@@ -13,20 +13,30 @@ import { trpc } from "@/utils/trpc";
 import { useTRPCQuery } from "@/hooks/useTRPCQuery";
 import { SkeletonCard } from "@/components/skeleton";
 import AlertCard from "@/components/alert";
-import Link from "next/link";
 import StatsGrid from "@/components/dashboard/stats-grid";
 import UserActivity from "@/components/dashboard/user-activity";
 import ContributionSidebar from "@/components/dashboard/contribution-sidebar";
 import SavedQuestions from "@/components/dashboard/saved-questions";
+import { authClient } from "@/lib/auth-client";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 // --- Main Page ---
 
 export default function DashboardPage() {
+  const router = useRouter();
+
+  const { data: session, isPending } = authClient.useSession();
   const { data, isLoading, isError, error } = useTRPCQuery(
     trpc.dashboard.getSummary,
     undefined,
   );
 
+  useEffect(() => {
+    if (!isPending && !session?.user) {
+      router.push("/login");
+    }
+  }, [session, isPending, router]);
   if (isLoading) {
     return (
       <div className="p-8 space-y-8">
