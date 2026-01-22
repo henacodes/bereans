@@ -24,6 +24,7 @@
     "@trpc/react-query": "^11.8.1",
     "dotenv": "^17.2.2",
     "drizzle-zod": "^0.8.3",
+    "framer-motion": "^12.28.1",
     "superjson": "^2.2.6",
     "zod": "^4.1.13"
   },

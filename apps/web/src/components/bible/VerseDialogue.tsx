@@ -15,7 +15,7 @@ import { QuestionForm } from "../forum/QuestionForm";
 import { objToQueryString } from "@/lib/utils";
 import { authClient } from "@/lib/auth-client";
 
-export function VerseDialog({ isLoggedIn }: { isLoggedIn: boolean }) {
+export function VerseDialog() {
   const { data: session, isPending } = authClient.useSession();
   const { selectedPassage, open, setOpen } = useVerseDialog();
 

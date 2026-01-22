@@ -3,6 +3,7 @@ import ChapterSelector from "@/components/bible/ChapterSelector";
 import { VerseDialog } from "@/components/bible/VerseDialogue";
 import { VersesList } from "@/components/bible/Verses";
 import EmptyPassageState from "@/components/empty-passage";
+import { OnboardingPanel } from "@/components/onboarding-panel";
 import { bibleBooks } from "@/data/bible";
 
 type Verse = {
@@ -45,11 +46,10 @@ export default async function BiblePage({
   const selectedBook =
     bibleBooks.find((b) => b.bookId === selectedBookId) ?? bibleBooks[0];
 
-  let isLoggedIn = false; //session?.user != undefined;
-
   return (
     <main className=" px-4 md:px-16 lg:px-32 relative z-0  ">
       <CoolBackground />
+      <OnboardingPanel />
       <h1 className="text-2xl font-bold mb-4">{selectedBook.name}</h1>
 
       <ChapterSelector
@@ -72,7 +72,7 @@ export default async function BiblePage({
         </article>
       )}
 
-      <VerseDialog isLoggedIn={isLoggedIn} />
+      <VerseDialog />
     </main>
   );
 }

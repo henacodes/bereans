@@ -34,7 +34,7 @@ export default function SignUpForm({
         },
         {
           onSuccess: () => {
-            router.push("/questions");
+            router.push("/bible/rsv/1/1");
             toast.success("Sign up successful");
           },
           onError: (error) => {
