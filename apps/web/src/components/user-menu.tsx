@@ -1,3 +1,5 @@
+"use client"; // Ensure this is at the top for useRouter and useSession
+
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -25,33 +27,40 @@ export default function UserMenu() {
 
   if (!session) {
     return (
-      <Link href="/login">
-        <Button variant="outline">Sign In</Button>
-      </Link>
+      <Button variant="outline" asChild>
+        <Link href="/login">Sign In</Link>
+      </Button>
     );
   }
 
+  const handleSignOut = async () => {
+    await authClient.signOut({
+      fetchOptions: {
+        onSuccess: () => {
+          router.push("/login"); // Redirect to login after sign out
+          router.refresh(); // Refresh the server state
+        },
+      },
+    });
+  };
+
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger render={<Button variant="outline" />}>
-        {session.user.name}
+      <DropdownMenuTrigger asChild>
+        <Button variant="outline">{session.user.name}</Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="bg-card">
+
+      <DropdownMenuContent className="w-56" align="end">
+        <DropdownMenuLabel>My Account</DropdownMenuLabel>
+        <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuLabel>My Account</DropdownMenuLabel>
+          <DropdownMenuItem className="text-muted-foreground">
+            {session.user.email}
+          </DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>{session.user.email}</DropdownMenuItem>
           <DropdownMenuItem
-            variant="destructive"
-            onClick={() => {
-              authClient.signOut({
-                fetchOptions: {
-                  onSuccess: () => {
-                    router.push("/");
-                  },
-                },
-              });
-            }}
+            className="text-destructive focus:text-destructive"
+            onClick={handleSignOut}
           >
             Sign Out
           </DropdownMenuItem>

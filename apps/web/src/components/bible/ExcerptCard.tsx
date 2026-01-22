@@ -25,6 +25,8 @@ export default function ExcerptCard({
   const [loading, setLoading] = useState(false);
   const { question } = useQuestionDetail();
 
+  console.log("paaaaaaaaaaaaaasafw", passage);
+
   const passageMutation = useTRPCMutation(trpc.bible.getPassage);
 
   const handleRetry = async () => {
